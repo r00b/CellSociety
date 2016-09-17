@@ -4,6 +4,8 @@ Robert Steilberg | rhs16
 Sam Curtis | sjc43
 Aaron Chang | amc120
 
+**NOTE**: GitLab has uploaded our images in incorrect orientations (i.e. upside-down). We apologize for this inconvenience, but we don't know how to fix this problem.
+
 Introduction
 ---------------------
 We intend for our program to implement a 2D grid cellular automata simulation through JavaFX. We will implement a simulation where the state information of each cell is updated each step based on rules applied to their state and those of their neighbors. Simulations will be able to run indefinitely.
