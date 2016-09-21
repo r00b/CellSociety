@@ -11,8 +11,8 @@ public class Animation {
 		return TITLE;
 	}
 	
-	private void drawVisuals() {
-		
+	private void drawVisuals(Visual visuals) {
+		visuals.createComboBox();
 	}
 	
 	/**
@@ -24,7 +24,8 @@ public class Animation {
 	 */
 	public Scene init(int width, int height) {
 		Scene simulation = new Scene(new Group(), width, height, Color.GRAY);
-		drawVisuals();
+		Visual visuals = new Visual();
+		drawVisuals(visuals);
 		return simulation;
 	}
 }
