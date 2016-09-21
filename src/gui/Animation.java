@@ -5,7 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 
 public class Animation {
+	private static final String TITLE = "CellSociety";
 	
+	public String getTitle() {
+		return TITLE;
+	}
+	
+	private void drawVisuals() {
+		
+	}
 	
 	/**
 	 * Initialize simulation stage
@@ -15,7 +23,8 @@ public class Animation {
 	 * @return the scene
 	 */
 	public Scene init(int width, int height) {
-		Scene simulation = new Scene(new Group(), width, height, Color.WHITE);
+		Scene simulation = new Scene(new Group(), width, height, Color.GRAY);
+		drawVisuals();
 		return simulation;
 	}
 }

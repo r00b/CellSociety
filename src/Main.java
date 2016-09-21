@@ -14,12 +14,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage s) {
 		s.setResizable(false);
-		
-		
-		s.setResizable(false);
-		s.setTitle("TEST");
-		
 		Animation a = new Animation();
+		s.setTitle(a.getTitle());
 		Scene simulation = a.init(WIDTH,HEIGHT);
 	//	intro.setOnKeyPressed(e -> handleInput(e, s));
 		s.setScene(simulation);
