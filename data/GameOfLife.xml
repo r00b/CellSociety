@@ -1,0 +1,13 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Game of Life</type>
+		<title>Life Simulation</title>
+		<author>Group 8</author>
+	</info>
+	<parameters>
+		<gridWidth>50</gridWidth>
+		<gridHeight>50</gridHeight>
+		<probCellAlive>50</probCellAlive>
+	</parameters>
+</Simulation>
