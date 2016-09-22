@@ -17,18 +17,6 @@ public class Animation {
 		return TITLE;
 	}
 	
-	
-//	private void drawVisuals(Visual visuals, Group root) {
-//		
-//		
-//		ComboBox<String> cb = visuals.createComboBox();
-//		cb.setTranslateX(20);
-//		cb.setTranslateY(20);
-//		cb.setMinWidth(400);
-//
-//		root.getChildren().add(cb);
-//	}
-	
 	/**
 	 * Initialize simulation stage
 	 * 
@@ -37,10 +25,9 @@ public class Animation {
 	 * @return the scene
 	 */
 	public Scene init(int width, int height) {
-		Group root = new Group();
-		Scene simulation = new Scene(root, width, height, Color.GRAY);
 		Controls controllers = new Controls();
-		simulation.setRoot(controllers.getControlPane());
+		Pane root = controllers.getControlPane();
+		Scene simulation = new Scene(root, width, height, Color.GRAY);
 		return simulation;
 	}
 }

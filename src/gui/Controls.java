@@ -5,22 +5,45 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 
 public class Controls extends Group {
 
 	/**
+	 * Create a slider to specify the speed of the simulation step
+	 * 
+	 * @return the slider
+	 */
+	private Slider createSlider() {
+		Slider speedSlider = new Slider();
+		speedSlider.setMin(0);
+		speedSlider.setMax(100);
+		speedSlider.setValue(50);
+		speedSlider.setShowTickLabels(true);
+		speedSlider.setShowTickMarks(true);
+		speedSlider.setMajorTickUnit(50);
+		speedSlider.setMinorTickCount(5);
+		speedSlider.setBlockIncrement(10);
+		speedSlider.setLayoutX(600);
+		speedSlider.setLayoutY(450);
+		return speedSlider;
+	}
+
+	/**
 	 * Create a button to signal some simulation change
 	 * 
 	 * @param text
-	 *            is the String to be displayed on the button
+	 *            The String to be displayed on the button
+	 * @param y
+	 *            The y-coordinate of the button
 	 * @return the button
 	 */
 	private Button createButton(String text, double y) {
 		Button playButton = new Button(text);
-		playButton.setMinWidth(90);
-		playButton.setLayoutX(621); // x-coordinate
-		playButton.setLayoutY(y); // y-coordinate
+		playButton.setMinWidth(110);
+		playButton.setLayoutX(612);
+		playButton.setLayoutY(y);
 		return playButton;
 	}
 
@@ -40,11 +63,15 @@ public class Controls extends Group {
 		return comboBox;
 	}
 
+	/**
+	 * Create the pane containing all of the simulation controls
+	 * 
+	 * @return the control pane
+	 */
 	public Pane getControlPane() {
 		Pane controls = new Pane();
-		controls.getChildren().addAll(createComboBox(), createButton("PLAY", 180), createButton("STOP", 220),
-				createButton("STEP", 260));
+		controls.getChildren().addAll(createComboBox(), createButton("PLAY", 180), createButton("STEP", 220),
+				createButton("PAUSE", 260), createButton("STOP & RESET", 300), createSlider());
 		return controls;
 	}
-
 }
