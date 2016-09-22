@@ -70,6 +70,7 @@ public class Controls extends Group {
 	 */
 	public Pane getControlPane() {
 		Pane controls = new Pane();
+		controls.setStyle("-fx-background-color: #98a2c5");
 		controls.getChildren().addAll(createComboBox(), createButton("PLAY", 180), createButton("STEP", 220),
 				createButton("PAUSE", 260), createButton("STOP & RESET", 300), createSlider());
 		return controls;
