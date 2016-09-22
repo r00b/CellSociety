@@ -1,7 +1,10 @@
 package gui;
 
+import java.util.HashMap;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -99,14 +102,13 @@ public class Animation {
 	public Scene init() {
 		Controls controllers = new Controls();
 		Pane root = controllers.getControlPane();
+		HashMap<String,Node> nodes = controllers.getControls(root);
 		Scene simulation = new Scene(root, WIDTH, HEIGHT, Color.GRAY);
 		Timeline t = initStep();
-		//TODO not sure if there's a better way to get a child
-		//System.out.println(root.getChildren());
-		root.getChildren().get(1).setOnMouseClicked(e -> handlePlay(e,t));
-		root.getChildren().get(2).setOnMouseClicked(e -> handleStep(e,t));
-		root.getChildren().get(3).setOnMouseClicked(e -> handlePause(e,t));
-		root.getChildren().get(4).setOnMouseClicked(e -> handleStop(e,t));
+		nodes.get("PLAY").setOnMouseClicked(e -> handlePlay(e,t));
+		nodes.get("STEP").setOnMouseClicked(e -> handleStep(e,t));
+		nodes.get("PAUSE").setOnMouseClicked(e -> handlePause(e,t));
+		nodes.get("STOP & RESET").setOnMouseClicked(e -> handleStop(e,t));
 		return simulation;
 	}
 }

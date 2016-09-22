@@ -1,8 +1,11 @@
 package gui;
 
+import java.util.HashMap;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
@@ -17,6 +20,7 @@ public class Controls extends Group {
 	 */
 	private Slider createSlider() {
 		Slider speedSlider = new Slider();
+		speedSlider.setId("slider");
 		speedSlider.setMin(0);
 		speedSlider.setMax(100);
 		speedSlider.setValue(50);
@@ -40,11 +44,12 @@ public class Controls extends Group {
 	 * @return the button
 	 */
 	private Button createButton(String text, double y) {
-		Button playButton = new Button(text);
-		playButton.setMinWidth(110);
-		playButton.setLayoutX(612);
-		playButton.setLayoutY(y);
-		return playButton;
+		Button b = new Button(text);
+		b.setId(text);
+		b.setMinWidth(110);
+		b.setLayoutX(612);
+		b.setLayoutY(y);
+		return b;
 	}
 
 	/**
@@ -56,11 +61,27 @@ public class Controls extends Group {
 		ObservableList<String> options = FXCollections.observableArrayList("Segregation", "Predator-prey", "Fire",
 				"Game ofLife");
 		ComboBox<String> comboBox = new ComboBox<String>(options);
+		comboBox.setId("simChoice");
 		comboBox.setValue("Segregation"); // set default value
 		comboBox.setMinWidth(100);
 		comboBox.setLayoutX(600); // x-coordinate
 		comboBox.setLayoutY(100); // y-coordinate
 		return comboBox;
+	}
+
+	/**
+	 * Put all child nodes in a map so that we can access them later
+	 * 
+	 * @param p
+	 *            is the pane containing the child nodes
+	 * @return the map containing the nodes' IDs mapped to the nodes
+	 */
+	public HashMap<String, Node> getControls(Pane p) {
+		HashMap<String, Node> nodes = new HashMap<String, Node>();
+		for (Node n : p.getChildren()) {
+			nodes.put(n.getId(), n);
+		}
+		return nodes;
 	}
 
 	/**
