@@ -50,11 +50,11 @@ public class XMLParser {
 	}
 	
 	/**
-	 * This method should take the name of a tag and return the element
+	 * This method should take the name of a tag and return the node
 	 * The Simulation classes will call this method to get necessary game parameters
 	 * It assumes that the Simulation class knows the tag names
 	 * @param String - tagName: name of tag in XML file
-	 * @return String value of the element in XML file
+	 * @return String value of the node in XML file
 	 */
 	public String getTextValueByTagName(String tagName) {
 		NodeList nodeList = ROOT.getElementsByTagName(tagName);
@@ -63,8 +63,19 @@ public class XMLParser {
 		}
 		else {
 			//need to implement a more robust else case (if can't find tag name)
-			return "";
+			throw new NullPointerException("The tag " + tagName + " does not exist");
 		}
+	}
+	
+	/**
+	 * This method returns takes the name of an xml tag and returns the int value of the node
+	 * Used by Simulation objects to retrieve data from xml files
+	 * Depends on getTextValueByTagname
+	 * @param String - tagName
+	 * @return int value of node
+	 */
+	public int getIntValueByTagName(String tagName) {
+		return Integer.parseInt(getTextValueByTagName(tagName));
 	}
 	
 	
