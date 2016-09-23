@@ -19,20 +19,10 @@ public class GameOfLife implements Simulation {
 		myParser = new GameOfLifeXMLParser("../data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
 		possibleStates = new ArrayList<String>();
-		myGrid = new Grid(getGridWidth(),getGridHeight());
+		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setInitialGridState();
 	}
 	
-	
-	private int getGridWidth() {
-		Integer.parseInt(myParser.getTextValueByTagName("gridWidth"));
-		return 0;
-	}
-
-
-	private int getGridHeight(){
-		return Integer.parseInt(myParser.getTextValueByTagName("gridHeight"));
-	}
 	
 	private void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
@@ -87,7 +77,7 @@ public class GameOfLife implements Simulation {
 	private void setRandomInitialState(int prob_Cell_Alive, Cell currCell) {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
-		if(randNum < 50){
+		if(randNum < prob_Cell_Alive){
 			currCell.setCurrState(possibleStates.get(0));
 		}
 		else{
