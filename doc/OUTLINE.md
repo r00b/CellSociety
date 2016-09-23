@@ -1,4 +1,3 @@
-
 #Cell Society Outline
 
 ###Animation.java
