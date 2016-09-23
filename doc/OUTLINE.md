@@ -1,6 +1,7 @@
 
 
-##Cell Society Outline
+#Cell Society Outline
+
 Note: this outline just gives a high level understanding of how classes interact with each other
 
 ###Animation.java
