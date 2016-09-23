@@ -1,10 +1,10 @@
 package simulations;
-
+import XML.GameOfLifeXMLParser;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import xml.GameOfLifeXMLParser;;
+import XML.GameOfLifeXMLParser;;
 
 public class GameOfLife {
 	private Grid myGrid;
@@ -19,20 +19,10 @@ public class GameOfLife {
 		myParser = new GameOfLifeXMLParser("../data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
 		possibleStates = new ArrayList<String>();
-		myGrid = new Grid(getGridWidth(),getGridHeight());
+		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setInitialGridState();
 	}
 	
-	
-	private int getGridWidth() {
-		Integer.parseInt(myParser.getTextValueByTagName("gridWidth"));
-		return 0;
-	}
-
-
-	private int getGridHeight(){
-		return Integer.parseInt(myParser.getTextValueByTagName("gridHeight"));
-	}
 	
 	private void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
@@ -87,7 +77,7 @@ public class GameOfLife {
 	private void setRandomInitialState(int prob_Cell_Alive, Cell currCell) {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
-		if(randNum < 50){
+		if(randNum < prob_Cell_Alive){
 			currCell.setCurrState(possibleStates.get(0));
 		}
 		else{
@@ -95,7 +85,7 @@ public class GameOfLife {
 		}
 		
 	}
-
+	//might not need this
 	private void setPossibleStates(Cell currCell) {
 		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		possibleStates.add(resources.getString("Dead"));

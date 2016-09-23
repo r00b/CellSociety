@@ -1,4 +1,4 @@
-package xml;
+package XML;
 /**
  * The XMLParserException class extends RuntimeExceptions
  * It is used by XMLParser objects

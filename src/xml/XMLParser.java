@@ -1,4 +1,4 @@
-package xml;
+package XML;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;

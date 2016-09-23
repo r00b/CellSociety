@@ -1,4 +1,4 @@
-package xml;
+package XML;
 /**
  * GameOfLifeXMLParser is an XMLParser used specifically for game of life simulations
  * It has methods to retrieve attributes specific to game of life simulations (eg. probCellAlive)
