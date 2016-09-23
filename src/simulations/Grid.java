@@ -13,7 +13,7 @@ public class Grid {
 		grid = new Cell[SIZE][SIZE];
 		for(int i = 0; i < SIZE; i++){
 			for(int j = 0; j < SIZE; j++){
-				Cell currCell = new Cell();
+				Cell currCell = new Cell(i,j);
 				grid[i][j] = currCell;
 			}
 		}
