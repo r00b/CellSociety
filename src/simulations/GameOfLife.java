@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import xml.GameOfLifeXMLParser;;
 
-public class GameOfLife {
+public class GameOfLife implements Simulation {
 	private Grid myGrid;
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;
