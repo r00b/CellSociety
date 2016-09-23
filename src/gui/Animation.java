@@ -7,11 +7,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import simulations.Grid;
 
 public class Animation {
 	private static final String TITLE = "CellSociety";
@@ -22,7 +24,9 @@ public class Animation {
 	private double DEFAULT_FPS = 5;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
 	private double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
-	int myTest = 1;
+//	private Simulation mySimulation;
+	private Grid myGrid;
+	ResourceBundle myResources;
 
 	/**
 	 * Get the window title for the scene
@@ -34,8 +38,8 @@ public class Animation {
 	}
 
 	/**
-	 * Handle user inputs to the speed slider and change the simulation
-	 * step speed
+	 * Handle user inputs to the speed slider and change the simulation step
+	 * speed
 	 * 
 	 * @param e
 	 *            the MouseEvent registering the click
@@ -106,9 +110,31 @@ public class Animation {
 	}
 
 	/**
+	 * Set the simulation to a specified choice
+	 * 
+	 * @param sim a String corresponding to the desired simulation
+	 */
+	private void setSimulation(String sim) {
+		if (sim.equals(myResources.getString("GameOfLifeSim"))) {
+//			mySimulation = new gameOfLifeSimulation();
+		}
+		if (sim.equals(myResources.getString("SegregationSim"))) {
+//			mySimulation = new segregationSimulation();
+		}
+		if (sim.equals(myResources.getString("PredatorPreySim"))) {
+//			mySimulation = new predatorPreySimulation();
+		}
+		if (sim.equals(myResources.getString("FireSim"))) {
+//			mySimulation = new fireSimulation();
+		}
+//		myGrid = mySimulation.getGrid();
+	}
+
+	/**
 	 * Set up variables for the step function
 	 */
 	private Timeline initStep() {
+		setSimulation(myResources.getString("GameOfLifeSim"));
 		Timeline t = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
 		t = new Timeline();
@@ -123,6 +149,7 @@ public class Animation {
 	 * @param elapsedTime
 	 */
 	private void step(double elapsedTime) {
+//		mySimulation.updateGrid();
 	}
 
 	/**
@@ -135,18 +162,23 @@ public class Animation {
 	 * @return the scene
 	 */
 	public Scene init() {
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		Controls controllers = new Controls();
 		Pane root = controllers.getControlPane();
 		HashMap<String, Node> nodes = controllers.getControls(root);
 		Scene simulation = new Scene(root, WIDTH, HEIGHT, Color.GRAY);
 		Timeline t = initStep();
-		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		nodes.get(resources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
-		nodes.get(resources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
-		nodes.get(resources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
-		nodes.get(resources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
+		nodes.get(myResources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
+		nodes.get(myResources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
+		nodes.get(myResources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
+		nodes.get(myResources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
 		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
 		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
+		@SuppressWarnings("unchecked")
+		// TODO ask about this
+		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice");
+		cb.valueProperty().addListener(e -> setSimulation(cb.getValue()));
+
 		return simulation;
 	}
 }
