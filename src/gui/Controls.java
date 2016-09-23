@@ -1,14 +1,18 @@
 package gui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 
 public class Controls extends Group {
+	//TODO don't have these here?
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private static final String LANGUAGE = "English";
 
 	/**
 	 * Create a slider to specify the speed of the simulation step
@@ -17,6 +21,7 @@ public class Controls extends Group {
 	 */
 	private Slider createSlider() {
 		Slider speedSlider = new Slider();
+		speedSlider.setId("slider");
 		speedSlider.setMin(0);
 		speedSlider.setMax(100);
 		speedSlider.setValue(50);
@@ -40,27 +45,46 @@ public class Controls extends Group {
 	 * @return the button
 	 */
 	private Button createButton(String text, double y) {
-		Button playButton = new Button(text);
-		playButton.setMinWidth(110);
-		playButton.setLayoutX(612);
-		playButton.setLayoutY(y);
-		return playButton;
+		Button b = new Button(text);
+		b.setId(text);
+		b.setMinWidth(110);
+		b.setLayoutX(612);
+		b.setLayoutY(y);
+		return b;
 	}
 
 	/**
 	 * Create the ComboBox to display and change simulations
 	 * 
+	 * @param resources
+	 *            the ResourceBundle containing the properties file
 	 * @return the ComboBox with preset simulation choices
 	 */
-	private ComboBox<String> createComboBox() {
-		ObservableList<String> options = FXCollections.observableArrayList("Segregation", "Predator-prey", "Fire",
-				"Game ofLife");
-		ComboBox<String> comboBox = new ComboBox<String>(options);
-		comboBox.setValue("Segregation"); // set default value
+	private ComboBox<String> createComboBox(ResourceBundle resources) {
+		ComboBox<String> comboBox = new ComboBox<String>();
+		comboBox.getItems().addAll(resources.getString("GameOfLifeSim"), resources.getString("SegregationSim"),
+				resources.getString("PredatorPreySim"), resources.getString("FireSim"));
+		comboBox.setId("simChoice");
+		comboBox.setValue(resources.getString("GameOfLifeSim")); // set default
 		comboBox.setMinWidth(100);
-		comboBox.setLayoutX(600); // x-coordinate
-		comboBox.setLayoutY(100); // y-coordinate
+		comboBox.setLayoutX(600);
+		comboBox.setLayoutY(100);
 		return comboBox;
+	}
+
+	/**
+	 * Put all child nodes in a map so that we can access them later
+	 * 
+	 * @param p
+	 *            is the pane containing the child nodes
+	 * @return the map containing the nodes' IDs mapped to the nodes
+	 */
+	public HashMap<String, Node> getControls(Pane p) {
+		HashMap<String, Node> nodes = new HashMap<String, Node>();
+		for (Node n : p.getChildren()) {
+			nodes.put(n.getId(), n);
+		}
+		return nodes;
 	}
 
 	/**
@@ -71,8 +95,14 @@ public class Controls extends Group {
 	public Pane getControlPane() {
 		Pane controls = new Pane();
 		controls.setStyle("-fx-background-color: #98a2c5");
-		controls.getChildren().addAll(createComboBox(), createButton("PLAY", 180), createButton("STEP", 220),
-				createButton("PAUSE", 260), createButton("STOP & RESET", 300), createSlider());
+		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+		controls.getChildren().add(createComboBox(resources));
+		controls.getChildren().add(createButton(resources.getString("PlayButton"), 180));
+		controls.getChildren().add(createButton(resources.getString("StepButton"), 220));
+		controls.getChildren().add(createButton(resources.getString("PauseButton"), 260));
+		controls.getChildren().add(createButton(resources.getString("StopButton"), 300));
+		controls.getChildren().add(createSlider());
+	//	myFavorites.valueProperty().addListener(e -> showFavorite(myFavorites.getValue()));
 		return controls;
 	}
 }
