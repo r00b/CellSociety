@@ -29,6 +29,7 @@ public class Animation {
 
 	private Pane myRoot;
 	private Timeline myTimeline;
+	private Simulation mySimulation;
 	ResourceBundle myResources;
 
 	/**
@@ -63,17 +64,16 @@ public class Animation {
 	 *            a String corresponding to the desired simulation
 	 */
 	private void setSimulation(String simulation) {
-//		Simulation currentSimulation;
 //		if (simulation.equals(myResources.getString("GameOfLifeSim")))
-//			currentSimulation = new GameOfLife();
+//			mySimulation = new GameOfLife();
 //		if (simulation.equals(myResources.getString("SegregationSim")))
-//			currentSimulation = new Segregation();
+//			mySimulation = new Segregation();
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
-//			currentSimulation = new PredatorPrey();
+//			mySimulation = new PredatorPrey();
 //		if (simulation.equals(myResources.getString("FireSim")))
-//			currentSimulation = new Fire();
-//		Grid cellGrid = currentSimulation.initGrid();
-//		int gridSize = currentSimulation.getGridSize();
+//			mySimulation = new Fire();
+//		Grid cellGrid = mySimulation.initGrid();
+//		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
 
 		Grid newGrid = new Grid(10, 10); // testing purposes
@@ -110,7 +110,7 @@ public class Animation {
 	 *            the height of the window
 	 * @return the scene
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") // QUESTION ask TA if this is okay
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		ControlElements controlElements = new ControlElements();

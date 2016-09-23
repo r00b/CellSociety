@@ -96,9 +96,12 @@ public class FlowControls extends Animation {
 		nodes.get(resources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
 		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
 		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
-		// TODO ask about this
-		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice");
-	    cb.valueProperty().addListener(e -> super.initStep(cb.getValue()));
+		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice"); // QUESTION
+																			// ask
+																			// about
+																			// this
+
+		cb.valueProperty().addListener(e -> super.initStep(cb.getValue()));
 	}
 
 }
