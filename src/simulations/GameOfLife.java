@@ -2,8 +2,11 @@ package simulations;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import javafx.scene.paint.Color;
 import xml.GameOfLifeXMLParser;;
 
 /**
@@ -15,13 +18,13 @@ import xml.GameOfLifeXMLParser;;
  *
  */
 public class GameOfLife implements Simulation {
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	public static final String LANGUAGE = "English";
 	private Grid myGrid;
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;
-	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	public static final String LANGUAGE = "English";
 	private final ArrayList<String> possibleStates;
-	
+	private final HashMap<String, Color> stateToColorMap;
 	
 	/**
 	 * Reads in the data for probCellAlive and the grid dimensions using the GameOfLifeXMLParser object. 
@@ -31,11 +34,18 @@ public class GameOfLife implements Simulation {
 		myParser = new GameOfLifeXMLParser("../data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
 		possibleStates = new ArrayList<String>();
+		stateToColorMap = new HashMap<>();
 		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setPossibleStates();
+		mapStatesToColors();
 		setInitialGridState();
 	}
 	
+	private void mapStatesToColors() {
+		stateToColorMap.put(possibleStates.get(0),Color.RED);
+		stateToColorMap.put(possibleStates.get(1), Color.BLUE);
+	}
+
 	/**
 	 * Updates the next state for every cell so that cells are not computing their states
 	 * based on neighbors in different generations.
@@ -91,10 +101,10 @@ public class GameOfLife implements Simulation {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
 		if(randNum < prob_Cell_Alive){
-			currCell.setCurrState(possibleStates.get(0));
+			currCell.setCurrState(possibleStates.get(0),stateToColorMap.get(possibleStates.get(0)));
 		}
 		else{
-			currCell.setCurrState(possibleStates.get(1));
+			currCell.setCurrState(possibleStates.get(1),stateToColorMap.get(possibleStates.get(1)));
 		}
 		
 	}
@@ -143,7 +153,7 @@ public class GameOfLife implements Simulation {
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j<myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
-				currCell.commitState();
+				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
 			}
 		}
 	}
@@ -165,7 +175,6 @@ public class GameOfLife implements Simulation {
 				
 			}
 		}
-		
 	}
 	
 	/**
