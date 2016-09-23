@@ -1,12 +1,14 @@
 package simulations;
-import XML.GameOfLifeXMLParser;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import XML.GameOfLifeXMLParser;;
 
-public class GameOfLife {
+import xml.GameOfLifeXMLParser;;
+
+
+public class GameOfLife implements Simulation {
+
 	private Grid myGrid;
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;
@@ -24,6 +26,7 @@ public class GameOfLife {
 	}
 	
 	
+
 	private void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j < myGrid.getWidth(); j++){
@@ -77,7 +80,9 @@ public class GameOfLife {
 	private void setRandomInitialState(int prob_Cell_Alive, Cell currCell) {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
+
 		if(randNum < prob_Cell_Alive){
+
 			currCell.setCurrState(possibleStates.get(0));
 		}
 		else{
@@ -85,7 +90,7 @@ public class GameOfLife {
 		}
 		
 	}
-	//might not need this
+
 	private void setPossibleStates(Cell currCell) {
 		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		possibleStates.add(resources.getString("Dead"));
