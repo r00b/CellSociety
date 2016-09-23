@@ -1,4 +1,4 @@
-package xml;
+package XML;
 /**
  * The XMLParserException class extends RuntimeExceptions
  * It is used by XMLParser objects
@@ -6,7 +6,7 @@ package xml;
  *
  */
 public class XMLParserException extends RuntimeException{
-	
+
 	public XMLParserException(Throwable cause) {
 		super(cause);
 	}
