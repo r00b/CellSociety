@@ -9,7 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 
-public class Controls extends Group {
+public class ControlElements extends Group {
 	//TODO don't have these here?
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String LANGUAGE = "English";

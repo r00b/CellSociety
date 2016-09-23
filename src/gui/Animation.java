@@ -1,21 +1,16 @@
 package gui;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import simulations.Cell;
 import simulations.GameOfLife;
 import simulations.Grid;
 import simulations.Simulation;
@@ -28,11 +23,12 @@ public class Animation {
 	private static final int HEIGHT = 600;
 	private double DEFAULT_FPS = 5;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
-	private double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
+	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
 	private int GRID_OFFSET = 60;
-	private Simulation mySimulation;
+
 	private Pane myRoot;
+	private Timeline myTimeline;
 	ResourceBundle myResources;
 
 	/**
@@ -42,78 +38,6 @@ public class Animation {
 	 */
 	public String getTitle() {
 		return TITLE;
-	}
-
-	/**
-	 * Handle user inputs to the speed slider and change the simulation step
-	 * speed
-	 * 
-	 * @param e
-	 *            the MouseEvent registering the click
-	 * @param t
-	 *            the Timeline that is running through the step function
-	 */
-	private void handleSlider(Node n, Timeline t) {
-		t.stop(); // stop the current run
-		t.getKeyFrames().clear(); // clear out the old Timeline with old speed
-		Slider speedSlider = (Slider) n;
-		double framesPerSecond = speedSlider.getValue() / 5;
-		double millisecondDelay = 1000 / framesPerSecond;
-		double secondDelay = 1.0 / framesPerSecond;
-		KeyFrame k = new KeyFrame(Duration.millis(millisecondDelay), e -> step(secondDelay));
-		t.getKeyFrames().add(k);
-		t.play(); // resume simulation
-	}
-
-	/**
-	 * Handle click to pause button by pausing the simulation
-	 * 
-	 * @param e
-	 *            the MouseEvent registering the click
-	 * @param t
-	 *            the Timeline that is running through the step function
-	 */
-	private void handlePause(MouseEvent e, Timeline t) {
-		t.pause();
-	}
-
-	/**
-	 * Handle click to stop button by stopping the simulation
-	 * 
-	 * @param e
-	 *            the MouseEvent registering the click
-	 * @param t
-	 *            the Timeline that is running through the step function
-	 */
-	private void handleStop(MouseEvent e, Timeline t) {
-		t.stop();
-	}
-
-	/**
-	 * Handle click to step button by stepping through one cycle of the
-	 * simulation
-	 * 
-	 * @param e
-	 *            the MouseEvent registering the click
-	 * @param t
-	 *            the Timeline that is running through the step function
-	 */
-	private void handleStep(MouseEvent e, Timeline t) {
-		t.pause(); // in case we are already playing
-		t.play();
-		t.pause();
-	}
-
-	/**
-	 * Handle click to play button by starting the simulation
-	 * 
-	 * @param e
-	 *            the MouseEvent registering the click
-	 * @param t
-	 *            the Timeline that is running through the step function
-	 */
-	private void handlePlay(MouseEvent e, Timeline t) {
-		t.play();
 	}
 
 	/**
@@ -138,29 +62,34 @@ public class Animation {
 	 * @param sim
 	 *            a String corresponding to the desired simulation
 	 */
-	private void setSimulation(Simulation sim) {
+	private void setSimulation(String simulation) {
+//		Simulation currentSimulation;
+//		if (simulation.equals(myResources.getString("GameOfLifeSim")))
+//			currentSimulation = new GameOfLife();
+//		if (simulation.equals(myResources.getString("SegregationSim")))
+//			currentSimulation = new Segregation();
+//		if (simulation.equals(myResources.getString("PredatorPreySim")))
+//			currentSimulation = new PredatorPrey();
+//		if (simulation.equals(myResources.getString("FireSim")))
+//			currentSimulation = new Fire();
+//		Grid cellGrid = currentSimulation.initGrid();
+//		int gridSize = currentSimulation.getGridSize();
+//		drawGrid(cellGrid);
 
-//		Grid cellGrid = sim.getGrid();
-//		int size = sim.getGridSize();
-//		drawGrid(cellGrid,size);
-		
-		
-		Grid newGrid = new Grid(10, 10);
-		drawGrid(newGrid, 10);
-
+		Grid newGrid = new Grid(10, 10); // testing purposes
+		drawGrid(newGrid, 10); // testing purposes
 	}
 
 	/**
 	 * Set up variables for the step function
 	 */
-	private Timeline initStep() {
-		// setSimulation(new GameOfLife());
-		Timeline t = new Timeline();
+	protected void initStep(String simulation) {
+		setSimulation(simulation);
+		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
-		t = new Timeline();
-		t.setCycleCount(Timeline.INDEFINITE);
-		t.getKeyFrames().add(frame);
-		return t;
+		myTimeline = new Timeline();
+		myTimeline.setCycleCount(Timeline.INDEFINITE);
+		myTimeline.getKeyFrames().add(frame);
 	}
 
 	/**
@@ -168,21 +97,8 @@ public class Animation {
 	 * 
 	 * @param elapsedTime
 	 */
-	private void step(double elapsedTime) {
+	protected void step(double elapsedTime) {
 		// drawGrid(mySimulation.updateGrid());
-	}
-
-	private void setEventHandlers(Map<String, Node> nodes, Timeline t) {
-		nodes.get(myResources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
-		nodes.get(myResources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
-		nodes.get(myResources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
-		nodes.get(myResources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
-		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
-		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
-		@SuppressWarnings("unchecked")
-		// TODO ask about this
-		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice");
-		// cb.valueProperty().addListener(e -> setSimulation(cb.getValue()));
 	}
 
 	/**
@@ -194,14 +110,16 @@ public class Animation {
 	 *            the height of the window
 	 * @return the scene
 	 */
+	@SuppressWarnings("unchecked")
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		Controls controllers = new Controls();
-		myRoot = controllers.getControlPane();
-		HashMap<String, Node> nodes = controllers.getControls(myRoot);
+		ControlElements controlElements = new ControlElements();
+		myRoot = controlElements.getControlPane();
+		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
+		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
+		FlowControls f = new FlowControls();
+		f.setEventHandlers(myResources, nodes, myTimeline);
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
-		Timeline t = initStep();
-		setEventHandlers(nodes,t);
 		return simulation;
 	}
 }
