@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,6 +15,8 @@ import javafx.util.Duration;
 
 public class Animation {
 	private static final String TITLE = "CellSociety";
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	public static final String LANGUAGE = "English";
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
 	private double DEFAULT_FPS = 5;
@@ -137,10 +140,11 @@ public class Animation {
 		HashMap<String, Node> nodes = controllers.getControls(root);
 		Scene simulation = new Scene(root, WIDTH, HEIGHT, Color.GRAY);
 		Timeline t = initStep();
-		nodes.get("PLAY").setOnMouseClicked(e -> handlePlay(e, t));
-		nodes.get("STEP").setOnMouseClicked(e -> handleStep(e, t));
-		nodes.get("PAUSE").setOnMouseClicked(e -> handlePause(e, t));
-		nodes.get("STOP & RESET").setOnMouseClicked(e -> handleStop(e, t));
+		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+		nodes.get(resources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
+		nodes.get(resources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
+		nodes.get(resources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
+		nodes.get(resources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
 		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
 		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
 		return simulation;
