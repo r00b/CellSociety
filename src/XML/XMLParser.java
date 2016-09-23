@@ -52,6 +52,7 @@ public class XMLParser {
 			return xmlDocument.getDocumentElement();
 		} 
 		catch (SAXException | IOException e) {
+			//print error message (pop up screen)
 			throw new XMLParserException(e);
 		}
 	}
