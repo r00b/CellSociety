@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
@@ -12,8 +13,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import simulations.Cell;
+import simulations.GameOfLife;
 import simulations.Grid;
+import simulations.Simulation;
 
 public class Animation {
 	private static final String TITLE = "CellSociety";
@@ -24,8 +29,10 @@ public class Animation {
 	private double DEFAULT_FPS = 5;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
 	private double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
-//	private Simulation mySimulation;
-	private Grid myGrid;
+	private int GRID_SIZE = 500;
+	private int GRID_OFFSET = 60;
+	private Simulation mySimulation;
+	private Pane myRoot;
 	ResourceBundle myResources;
 
 	/**
@@ -110,31 +117,44 @@ public class Animation {
 	}
 
 	/**
+	 * Draw myGrid to the canvas
+	 */
+	private void drawGrid(Grid grid, double simSize) {
+		double cellSize = GRID_SIZE / simSize;
+		for (int i = 0; i < simSize; i++) {
+			for (int j = 0; j < simSize; j++) {
+				Rectangle a = new Rectangle(GRID_OFFSET + i * cellSize, GRID_OFFSET + j * cellSize, cellSize, cellSize);
+				// TODO: get curr state from cell for color
+				a.setFill(Color.RED);
+				a.setStroke(Color.BLACK);
+				myRoot.getChildren().add(a);
+			}
+		}
+	}
+
+	/**
 	 * Set the simulation to a specified choice
 	 * 
-	 * @param sim a String corresponding to the desired simulation
+	 * @param sim
+	 *            a String corresponding to the desired simulation
 	 */
-	private void setSimulation(String sim) {
-		if (sim.equals(myResources.getString("GameOfLifeSim"))) {
-//			mySimulation = new gameOfLifeSimulation();
-		}
-		if (sim.equals(myResources.getString("SegregationSim"))) {
-//			mySimulation = new segregationSimulation();
-		}
-		if (sim.equals(myResources.getString("PredatorPreySim"))) {
-//			mySimulation = new predatorPreySimulation();
-		}
-		if (sim.equals(myResources.getString("FireSim"))) {
-//			mySimulation = new fireSimulation();
-		}
-//		myGrid = mySimulation.getGrid();
+	private void setSimulation(Simulation sim) {
+
+//		Grid cellGrid = sim.getGrid();
+//		int size = sim.getGridSize();
+//		drawGrid(cellGrid,size);
+		
+		
+		Grid newGrid = new Grid(10, 10);
+		drawGrid(newGrid, 10);
+
 	}
 
 	/**
 	 * Set up variables for the step function
 	 */
 	private Timeline initStep() {
-		setSimulation(myResources.getString("GameOfLifeSim"));
+		// setSimulation(new GameOfLife());
 		Timeline t = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
 		t = new Timeline();
@@ -149,7 +169,20 @@ public class Animation {
 	 * @param elapsedTime
 	 */
 	private void step(double elapsedTime) {
-//		mySimulation.updateGrid();
+		// drawGrid(mySimulation.updateGrid());
+	}
+
+	private void setEventHandlers(Map<String, Node> nodes, Timeline t) {
+		nodes.get(myResources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
+		nodes.get(myResources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
+		nodes.get(myResources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
+		nodes.get(myResources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
+		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
+		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
+		@SuppressWarnings("unchecked")
+		// TODO ask about this
+		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice");
+		// cb.valueProperty().addListener(e -> setSimulation(cb.getValue()));
 	}
 
 	/**
@@ -164,21 +197,11 @@ public class Animation {
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		Controls controllers = new Controls();
-		Pane root = controllers.getControlPane();
-		HashMap<String, Node> nodes = controllers.getControls(root);
-		Scene simulation = new Scene(root, WIDTH, HEIGHT, Color.GRAY);
+		myRoot = controllers.getControlPane();
+		HashMap<String, Node> nodes = controllers.getControls(myRoot);
+		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		Timeline t = initStep();
-		nodes.get(myResources.getString("PlayButton")).setOnMouseClicked(e -> handlePlay(e, t));
-		nodes.get(myResources.getString("StepButton")).setOnMouseClicked(e -> handleStep(e, t));
-		nodes.get(myResources.getString("PauseButton")).setOnMouseClicked(e -> handlePause(e, t));
-		nodes.get(myResources.getString("StopButton")).setOnMouseClicked(e -> handleStop(e, t));
-		nodes.get("slider").setOnMouseDragged(e -> handleSlider(nodes.get("slider"), t));
-		nodes.get("slider").setOnKeyPressed(e -> handleSlider(nodes.get("slider"), t));
-		@SuppressWarnings("unchecked")
-		// TODO ask about this
-		ComboBox<String> cb = (ComboBox<String>) nodes.get("simChoice");
-		cb.valueProperty().addListener(e -> setSimulation(cb.getValue()));
-
+		setEventHandlers(nodes,t);
 		return simulation;
 	}
 }
