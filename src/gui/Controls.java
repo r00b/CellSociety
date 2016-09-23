@@ -102,6 +102,7 @@ public class Controls extends Group {
 		controls.getChildren().add(createButton(resources.getString("PauseButton"), 260));
 		controls.getChildren().add(createButton(resources.getString("StopButton"), 300));
 		controls.getChildren().add(createSlider());
+	//	myFavorites.valueProperty().addListener(e -> showFavorite(myFavorites.getValue()));
 		return controls;
 	}
 }
