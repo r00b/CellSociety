@@ -16,7 +16,7 @@ public class GameOfLife implements Simulation {
 	
 	
 	public GameOfLife() {
-		myParser = new GameOfLifeXMLParser("../data/GameOfLife.xml");
+		myParser = new GameOfLifeXMLParser("/data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
 		possibleStates = new ArrayList<String>();
 		myGrid = new Grid(getGridWidth(),getGridHeight());

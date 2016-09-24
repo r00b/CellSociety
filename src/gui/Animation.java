@@ -64,8 +64,8 @@ public class Animation {
 	 *            a String corresponding to the desired simulation
 	 */
 	private void setSimulation(String simulation) {
-//		if (simulation.equals(myResources.getString("GameOfLifeSim")))
-//			mySimulation = new GameOfLife();
+		if (simulation.equals(myResources.getString("GameOfLifeSim")))
+			mySimulation = new GameOfLife();
 //		if (simulation.equals(myResources.getString("SegregationSim")))
 //			mySimulation = new Segregation();
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
