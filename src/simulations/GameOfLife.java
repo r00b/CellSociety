@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
-
-<<<<<<< HEAD
-=======
 import javafx.scene.paint.Color;
->>>>>>> master
 import xml.GameOfLifeXMLParser;;
 
 
@@ -78,7 +74,7 @@ public class GameOfLife extends Simulation {
 	 * Since there are only two possible states for cells in this simulation mode,
 	 * this method adds both possible states to the arraylist of possible states.
 	 */
-	private void setPossibleStates() {
+	protected void setPossibleStates() {
 		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		possibleStates.add(resources.getString("Dead"));
 		possibleStates.add(resources.getString("Alive"));
@@ -88,7 +84,7 @@ public class GameOfLife extends Simulation {
 	/**
 	 * For each cell in the grid, a random initial state is set, and its neighbors are calculated.
 	 */
-	private void setInitialGridState(){
+	protected void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j < myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
@@ -123,7 +119,7 @@ public class GameOfLife extends Simulation {
 	 * Goes through each cell in the grid and calculates what its next state will be 
 	 * based on the Game of Life rules.
 	 */
-	private void updateNextStates(){
+	protected void updateNextStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j<myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
@@ -156,7 +152,7 @@ public class GameOfLife extends Simulation {
 	 * Goes through every cell in the grid and finalizes their updated state after the correct
 	 * next state has been calculated for all cells. 
 	 */
-	private void commitStates(){
+	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j<myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
@@ -172,7 +168,7 @@ public class GameOfLife extends Simulation {
 	 * This method calls two helper methods, getNeighborIPosition and getNeighborJposition,
 	 * which assist in the logic of calculating the neighbors of edge cells. 
 	 */
-	private void addNeighbors(Cell currCell) {
+	protected void addNeighbors(Cell currCell) {
 		Tuple position = currCell.getPosition();
 		for(int k = -1; k<2; k++){
 			for(int g = -1; g<2; g++){
