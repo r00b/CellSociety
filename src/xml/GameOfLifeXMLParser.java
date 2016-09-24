@@ -8,14 +8,14 @@ package xml;
  */
 public class GameOfLifeXMLParser extends XMLParser{
 	private static final String PROB_CELL_ALIVE_TAG = "probCellAlive";
-
+	
 	public GameOfLifeXMLParser(String xmlFilename) {
 		super(xmlFilename);
 	}
 	
 	/**
 	 * returns probability of each cell being alive at start of simulation
-	 * @return int - percentage probability of cell being alive
+	 * @return int - percentage probability (out of 100) of cell being alive 
 	 */
 	public int getProbOfCellAlive() {
 		return getIntValueByTagName(PROB_CELL_ALIVE_TAG);

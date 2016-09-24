@@ -39,6 +39,7 @@ public class XMLParser {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		} 
 		catch (ParserConfigurationException e) {
+			//print error message (pop up screen)
 			throw new XMLParserException(e);
 		}
 		
