@@ -1,0 +1,17 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Wator</type>
+		<title>Wa-Tor World Simulation</title>
+		<author>Group 8</author>
+	</info>
+	<parameters>
+		<gridWidth>200</gridWidth>
+		<gridHeight>200</gridHeight>
+		<fishBreedTime>3</fishBreedTime>
+		<sharkBreedTime>5</sharkBreedTime>
+		<sharkStarveTime>45</sharkStarveTime>
+		<percentShark>30</percentShark>
+		<percentFish>55</percentFish>
+	</parameters>
+</Simulation>
