@@ -1,13 +1,16 @@
 package simulations;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+<<<<<<< HEAD
+=======
 import javafx.scene.paint.Color;
+>>>>>>> master
 import xml.GameOfLifeXMLParser;;
+
 
 /**
  * @author samuelcurtis
@@ -17,9 +20,13 @@ import xml.GameOfLifeXMLParser;;
  * that an Animation object can get the grid and continually update it to allow for the visualization of the simulation.
  *
  */
-public class GameOfLife implements Simulation {
+
+public class GameOfLife extends Simulation {
+
+
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	public static final String LANGUAGE = "English";
+
 	private Grid myGrid;
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;

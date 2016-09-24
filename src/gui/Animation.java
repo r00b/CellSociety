@@ -1,5 +1,4 @@
 package gui;
-
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
@@ -14,7 +13,6 @@ import javafx.util.Duration;
 import simulations.GameOfLife;
 import simulations.Grid;
 import simulations.Simulation;
-
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
@@ -26,12 +24,10 @@ public class Animation {
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
 	private int GRID_OFFSET = 60;
-
 	private Pane myRoot;
 	private Timeline myTimeline;
 	private Simulation mySimulation;
 	ResourceBundle myResources;
-
 	/**
 	 * Get the window title for the scene
 	 * 
@@ -40,7 +36,6 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
-
 	/**
 	 * Draw myGrid to the canvas
 	 */
@@ -56,7 +51,6 @@ public class Animation {
 			}
 		}
 	}
-
 	/**
 	 * Set the simulation to a specified choice
 	 * 
@@ -75,11 +69,9 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-
 		Grid newGrid = new Grid(10, 10); // testing purposes
 		drawGrid(newGrid, 10); // testing purposes
 	}
-
 	/**
 	 * Set up variables for the step function
 	 */
@@ -91,7 +83,6 @@ public class Animation {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
-
 	/**
 	 * Step through the gameplay
 	 * 
@@ -100,7 +91,6 @@ public class Animation {
 	protected void step(double elapsedTime) {
 		// drawGrid(mySimulation.updateGrid());
 	}
-
 	/**
 	 * Initialize simulation stage
 	 * 
