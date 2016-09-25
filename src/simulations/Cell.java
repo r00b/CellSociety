@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
 public class Cell {
 	private final ArrayList<Cell> neighbors;
 	private final Tuple myPosition;
-	private String currentState;
-	private String nextState;
+	private int currentState;
+	private int nextState;
 	private Color stateColor;
 	
 	/**
@@ -28,7 +28,7 @@ public class Cell {
 	/**
 	 * @param next - the State that this cell will be in in the next generation
 	 */
-	public void setNextState(String next){
+	public void setNextState(int next){
 		nextState = next;
 	}
 	 
@@ -44,7 +44,7 @@ public class Cell {
 	/**
 	 * @return the current state of this cell
 	 */
-	public String getCurrState(){
+	public int getCurrState(){
 		return currentState;
 	}
 	
@@ -67,7 +67,7 @@ public class Cell {
 	 * @param state is the state the cell will be set to next 
 	 * @param color is the color associated with that state 
 	 */
-	public void setCurrState(String state, Color color){
+	public void setCurrState(int state, Color color){
 		currentState = state;
 		stateColor = color;
 	}
@@ -75,7 +75,7 @@ public class Cell {
 	/**
 	 * @return the state the cell will be in next generation 
 	 */
-	public String getNextState(){
+	public int getNextState(){
 		return nextState;
 	}
 	
@@ -92,6 +92,7 @@ public class Cell {
 	public ArrayList<Cell> getNeighbors(){
 		return neighbors;
 	}
+	
 	
 	
 	
