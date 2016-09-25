@@ -35,7 +35,8 @@ public class Fire extends Simulation {
 	 * Sets each possible state to a different int, so that the rest of the program doesn't need to worry 
 	 * about what the values are and can just reference the state variables. Uses a parser object to obtain
 	 * the sizes for the grid, the probability of a tree catching fire if one of its neighbors is on fire,
-	 * and the number of generations a tree burns for. 
+	 * and the number of generations a tree burns for. Calls methods to map states to colors and initialize 
+	 * the grid properly.
 	 */
 	public Fire(){
 		EMPTY = 0;
@@ -51,6 +52,9 @@ public class Fire extends Simulation {
 	}
 
 
+	/**
+	 * Maps each possible state of a cell to an appropriate color.
+	 */
 	private void mapStatesToColors() {
 		stateToColorMap.put(EMPTY, Color.GRAY);
 		stateToColorMap.put(BURNING, Color.RED);
@@ -58,7 +62,9 @@ public class Fire extends Simulation {
 	}
 
 	/**
-	 * For each cell in the grid, a random initial state is set, and its neighbors are calculated.
+	 * All cells on the edge of the grid are initialized to be empty. 
+	 * Cell in the very middle of the grid is the only one burning at first.
+	 * All other cells set to TREE.
 	 */
 	protected void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
@@ -81,6 +87,10 @@ public class Fire extends Simulation {
 	
 
 
+	/**
+	 * @param currCell the cell for which we would like to determine if it is an edge cell or not 
+	 * @return boolean -> true if cell is on the edge of the grid, false if it is not 
+	 */
 	private boolean isEdgeCell(Cell currCell) {
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
@@ -90,6 +100,14 @@ public class Fire extends Simulation {
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see simulations.Simulation#addNeighbors(simulations.Cell)
+	 *
+	 *Edge cells can never catch fire, so we do not care about their neighbors. 
+	 *For other cells, their neighbors are cells that are above, below, left, and right of the current cell.
+	 *No need to worry about bounds checking because every cell that is not an edge cell is guaranteed to 
+	 *have all four of these neighbors be valid positions. 
+	 */
 	protected void addNeighbors(Cell currCell){
 		if(isEdgeCell(currCell)){
 			return;
@@ -105,6 +123,13 @@ public class Fire extends Simulation {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see simulations.Simulation#updateNextStates()
+	 * 
+	 * Cell that is empty always stays empty.
+	 * Cell that is burning burns down to be empty.
+	 * Cell that is a tree either remains a tree or catches on fire.
+	 */
 	@Override
 	protected void updateNextStates() {
 		for(int i = 0; i < myGrid.getHeight(); i++){
@@ -137,6 +162,10 @@ public class Fire extends Simulation {
 	
 	
 	
+	/**
+	 * @return randomly returns true or false based on value of probCatchFire
+	 * Used to see if a cell that has a tree in it catches fire if one if its neighboring cells is on fire
+	 */
 	private boolean doesTreeCatchFire() {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
@@ -147,6 +176,10 @@ public class Fire extends Simulation {
 	}
 
 
+	/**
+	 * @param currCell - the cell for which we want to see if any of its neighbors are burning
+	 * @return boolean -> true if any of currCells neighbor are in the state BURNING, false otherwise 
+	 */
 	private boolean isNeighborBurning(Cell currCell) {
 		for(Cell neighbor : currCell.getNeighbors()){
 			if(neighbor.getCurrState() == BURNING){
