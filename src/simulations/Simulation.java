@@ -16,8 +16,6 @@ public abstract class Simulation {
 		 commitStates();
 	 }
 	 
-	 
-	 
 	
 	 /**
 	  * Initializes the state of cells in the Grid

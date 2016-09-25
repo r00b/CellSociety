@@ -26,8 +26,9 @@ public class GameOfLife extends Simulation {
 	private Grid myGrid;
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;
-	private final ArrayList<String> possibleStates;
-	private final HashMap<String, Color> stateToColorMap;
+	private final int DEAD = 0;
+	private final int ALIVE = 1;
+	private final HashMap<Integer, Color> stateToColorMap;
 	
 	/**
 	 * Reads in the data for probCellAlive and the grid dimensions using the GameOfLifeXMLParser object. 
@@ -36,17 +37,15 @@ public class GameOfLife extends Simulation {
 	public GameOfLife() {
 		myParser = new GameOfLifeXMLParser("data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
-		possibleStates = new ArrayList<String>();
 		stateToColorMap = new HashMap<>();
 		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
-		setPossibleStates();
 		mapStatesToColors();
 		setInitialGridState();
 	}
 	
 	private void mapStatesToColors() {
-		stateToColorMap.put(possibleStates.get(0),Color.RED);
-		stateToColorMap.put(possibleStates.get(1), Color.BLUE);
+		stateToColorMap.put(DEAD,Color.RED);
+		stateToColorMap.put(ALIVE, Color.BLUE);
 	}
 
 	/**
@@ -69,17 +68,6 @@ public class GameOfLife extends Simulation {
 	public Grid getGrid(){
 		return myGrid;
 	}
-	
-	/**
-	 * Since there are only two possible states for cells in this simulation mode,
-	 * this method adds both possible states to the arraylist of possible states.
-	 */
-	protected void setPossibleStates() {
-		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		possibleStates.add(resources.getString("Dead"));
-		possibleStates.add(resources.getString("Alive"));
-	}
-	
 	
 	/**
 	 * For each cell in the grid, a random initial state is set, and its neighbors are calculated.
@@ -106,10 +94,10 @@ public class GameOfLife extends Simulation {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
 		if(randNum > prob_Cell_Alive){
-			currCell.setCurrState(possibleStates.get(0),stateToColorMap.get(possibleStates.get(0)));
+			currCell.setCurrState(DEAD,stateToColorMap.get(DEAD));
 		}
 		else{
-			currCell.setCurrState(possibleStates.get(1),stateToColorMap.get(possibleStates.get(1)));
+			currCell.setCurrState(ALIVE,stateToColorMap.get(ALIVE));
 		}
 		
 	}
@@ -126,23 +114,23 @@ public class GameOfLife extends Simulation {
 			for(int j = 0; j<myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
 				int numNeighborsAlive = calculateNumNeighborsAlive(currCell);
-				if(currCell.getCurrState() == "Dead"){
+				if(currCell.getCurrState() == DEAD){
 					if(numNeighborsAlive == 3){
-						currCell.setNextState("Alive");
+						currCell.setNextState(ALIVE);
 						continue;
 					}
 					else{
-						currCell.setNextState("Dead");
+						currCell.setNextState(DEAD);
 						continue;
 					}
 				}
 				else{
 					if(numNeighborsAlive == 2 || numNeighborsAlive == 3){
-						currCell.setNextState("Alive");
+						currCell.setNextState(ALIVE);
 						continue;
 					}
 					else{
-						currCell.setNextState("Dead");
+						currCell.setNextState(DEAD);
 					}
 				}
 				
@@ -226,7 +214,7 @@ public class GameOfLife extends Simulation {
 	private int calculateNumNeighborsAlive(Cell currCell) {
 		int numAlive = 0;
 		for(Cell neighbor : currCell.getNeighbors()){
-			if(neighbor.getCurrState().equals("Alive")){
+			if(neighbor.getCurrState() == ALIVE){
 				numAlive += 1;
 			}
 		}
