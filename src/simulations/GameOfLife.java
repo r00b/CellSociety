@@ -140,7 +140,8 @@ public class GameOfLife extends Simulation {
 	
 	/**
 	 * Goes through every cell in the grid and finalizes their updated state after the correct
-	 * next state has been calculated for all cells. 
+	 * next state has been calculated for all cells. Also updates the color of the cell to match 
+	 * what its new current state will be.
 	 */
 	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){

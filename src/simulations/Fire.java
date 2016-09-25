@@ -46,9 +46,10 @@ public class Fire extends Simulation {
 		probCatchFire = myParser.getProbCatchFire();
 		burnTime = myParser.getBurnDownTime();
 		stateToColorMap = new HashMap<>();
-		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		mapStatesToColors();
+		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setInitialGridState();
+		
 	}
 
 
@@ -73,7 +74,7 @@ public class Fire extends Simulation {
 				if(isEdgeCell(currCell)){
 					currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
 				}
-				else if(currCell.getPosition().getIPos() == myGrid.getHeight()/2 && currCell.getPosition().getJPos() == myGrid.getWidth()/2 ){
+				else if(isCenterCell(currCell)){
 					currCell.setCurrState(BURNING, stateToColorMap.get(BURNING));
 				}
 				else{
@@ -204,6 +205,11 @@ public class Fire extends Simulation {
 			}
 	}
 		
+	//TODO can be pushed up to simulation 
+	private boolean isCenterCell(Cell currCell){
+		return currCell.getPosition().getIPos() == myGrid.getHeight()/2 && 
+				currCell.getPosition().getJPos() == myGrid.getWidth()/2;
+	}
 
 
 	@Override
