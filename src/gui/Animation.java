@@ -26,7 +26,7 @@ public class Animation {
 	private int GRID_OFFSET = 60;
 	private Pane myRoot;
 	private Timeline myTimeline;
-	private Simulation mySimulation;
+	protected Simulation mySimulation;
 	ResourceBundle myResources;
 	/**
 	 * Get the window title for the scene
@@ -39,13 +39,14 @@ public class Animation {
 	/**
 	 * Draw myGrid to the canvas
 	 */
-	private void drawGrid(Grid grid, double simSize) {
-		double cellSize = GRID_SIZE / simSize;
-		for (int i = 0; i < simSize; i++) {
-			for (int j = 0; j < simSize; j++) {
-				Rectangle a = new Rectangle(GRID_OFFSET + i * cellSize, GRID_OFFSET + j * cellSize, cellSize, cellSize);
+	private void drawGrid(Grid grid) {
+		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
+		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
+		for (int i = 0; i < mySimulation.getGridWidth(); i++) {
+			for (int j = 0; j < mySimulation.getGridHeight(); j++) {
+				Rectangle a = new Rectangle(GRID_OFFSET + i * cellWidth, GRID_OFFSET + j * cellHeight, cellWidth, cellHeight);
 				// TODO: get curr state from cell for color
-				a.setFill(Color.RED);
+				a.setFill(grid.getCell(i, j).getStateColor());
 				a.setStroke(Color.BLACK);
 				myRoot.getChildren().add(a);
 			}
@@ -58,8 +59,9 @@ public class Animation {
 	 *            a String corresponding to the desired simulation
 	 */
 	private void setSimulation(String simulation) {
-//		if (simulation.equals(myResources.getString("GameOfLifeSim")))
-//			mySimulation = new GameOfLife();
+		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
+			mySimulation = new GameOfLife();
+		}
 //		if (simulation.equals(myResources.getString("SegregationSim")))
 //			mySimulation = new Segregation();
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
@@ -69,8 +71,7 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-		Grid newGrid = new Grid(10, 10); // testing purposes
-		drawGrid(newGrid, 10); // testing purposes
+		drawGrid(mySimulation.getGrid()); 
 	}
 	/**
 	 * Set up variables for the step function
@@ -89,7 +90,8 @@ public class Animation {
 	 * @param elapsedTime
 	 */
 	protected void step(double elapsedTime) {
-		// drawGrid(mySimulation.updateGrid());
+		mySimulation.updateGrid();
+		drawGrid(mySimulation.getGrid());
 	}
 	/**
 	 * Initialize simulation stage
@@ -107,7 +109,7 @@ public class Animation {
 		myRoot = controlElements.getControlPane();
 		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
 		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
-		FlowControls f = new FlowControls();
+		FlowControls f = new FlowControls(this);
 		f.setEventHandlers(myResources, nodes, myTimeline);
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		return simulation;
