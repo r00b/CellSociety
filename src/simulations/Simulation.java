@@ -18,11 +18,6 @@ public abstract class Simulation {
 	 
 	 
 	 
-	 /**
-	  * adds possible states to the instance variable possibleStates
-	  * each state represents a state that each cell could possibly have
-	  */
-	 protected abstract void setPossibleStates();
 	
 	 /**
 	  * Initializes the state of cells in the Grid

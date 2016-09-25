@@ -19,7 +19,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * gets the required percent of neighbors that are similar for the agent to be satisfied
 	 * @return int - percent (out of 100) required for agent to be satisfied
 	 */
-	public int getSatisfactionRate() {
+	public int getSatisfactionThreshold() {
 		return getIntValueByTagName(SATISFACTION_TAG);
 	}
 	
