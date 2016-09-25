@@ -77,11 +77,7 @@ public class FlowControls extends Animation {
 	 */
 	private void handleStep(MouseEvent e, Timeline t) {
 		t.pause(); // in case we are already playing
-<<<<<<< HEAD
-		step(DEFAULT_SECOND_DELAY); // QUESTION is this okay?
-=======
 		myAnimation.step(myAnimation.DEFAULT_SECOND_DELAY); // QUESTION is this okay?
->>>>>>> master
 		System.out.println("STEP WORKS");
 	}
 

@@ -60,14 +60,9 @@ public class Animation {
 	 *            a String corresponding to the desired simulation
 	 */
 	private void setSimulation(String simulation) {
-<<<<<<< HEAD
-		if (simulation.equals(myResources.getString("GameOfLifeSim")))
-			mySimulation = new GameOfLife();
-=======
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
 			mySimulation = new GameOfLife();
 		}
->>>>>>> master
 //		if (simulation.equals(myResources.getString("SegregationSim")))
 //			mySimulation = new Segregation();
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
@@ -77,12 +72,7 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-<<<<<<< HEAD
-		Grid newGrid = new Grid(20, 20); // testing purposes
-		drawGrid(newGrid, 20); // testing purposes
-=======
 		drawGrid(mySimulation.getGrid()); 
->>>>>>> master
 	}
 	/**
 	 * Set up variables for the step function
