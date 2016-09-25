@@ -39,7 +39,6 @@ public class GameOfLife extends Simulation {
 		probCellAlive = myParser.getProbOfCellAlive();
 		stateToColorMap = new HashMap<>();
 		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
-		//setPossibleStates();
 		mapStatesToColors();
 		setInitialGridState();
 	}
@@ -69,17 +68,6 @@ public class GameOfLife extends Simulation {
 	public Grid getGrid(){
 		return myGrid;
 	}
-	
-	/**
-	 * Since there are only two possible states for cells in this simulation mode,
-	 * this method adds both possible states to the arraylist of possible states.
-	 *//*
-	protected void setPossibleStates() {
-		ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		possibleStates.add(resources.getString("Dead"));
-		possibleStates.add(resources.getString("Alive"));
-	}
-	*/
 	
 	/**
 	 * For each cell in the grid, a random initial state is set, and its neighbors are calculated.
