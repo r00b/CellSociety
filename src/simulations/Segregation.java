@@ -1,5 +1,6 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -14,6 +15,7 @@ public class Segregation extends Simulation{
 	private Grid myGrid;
 	private SegregationXMLParser myParser;
 	private HashMap<Integer, Color> stateToColorMap;
+	private ArrayList<Cell> myVacantList; //updated in real time
 	private int satisfactionThreshold;
 	private int percentAgentOne;
 	private int percentAgentTwo;
@@ -29,8 +31,6 @@ public class Segregation extends Simulation{
 		stateToColorMap = new HashMap<Integer, Color>();
 		mapStatesToColors();
 		setInitialGridState();
-		
-		
 	}
 	
 
@@ -62,6 +62,7 @@ public class Segregation extends Simulation{
 		}
 		else {
 			currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
+			myVacantList.add(currCell);
 		}
 	}
 
@@ -70,17 +71,41 @@ public class Segregation extends Simulation{
 		for (int row = 0; row < myGrid.getHeight(); row++) {
 			for (int col = 0; col < myGrid.getWidth(); col++) {
 				Cell currCell = myGrid.getCell(row, col);
-				int numNeighborsAlike = 0;
-				
+				if (currCell.getCurrState() == EMPTY) {
+					continue;
+				}
+				//these lines only execute if cell is not empty
+				boolean isSatisfied = calculateIfSatisfied(currCell);
+				if (isSatisfied == false) {
+					//moving current cell to first spot in the vacant list (make random?)
+					myVacantList.get(0).setNextState(currCell.getCurrState());
+					currCell.setNextState(EMPTY);
+					myVacantList.remove(0);
+					myVacantList.add(currCell);
+				}
 			}
 		}
-		
 	}
 	
-	private int calculateNumNeighborsAlike(Cell curCell) {
+	private boolean calculateIfSatisfied(Cell curCell) {
 		int numAlike = 0;
+		int numEmpty = 0;
 		for (Cell neighbor : curCell.getNeighbors()) {
-			if (neighbor.getCurrState().eq)
+			if (neighbor.getCurrState() == curCell.getCurrState()) {
+				numAlike += 1;
+			}
+			else if (neighbor.getCurrState() == EMPTY){
+				numEmpty += 1;
+			}
+			else {
+			}
+		}
+		double percentAlike = (double) (numAlike/(curCell.getNeighbors().size() - numEmpty));
+		if (percentAlike*100 < satisfactionThreshold) {
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
@@ -92,7 +117,6 @@ public class Segregation extends Simulation{
 				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
 			}
 		}
-		
 	}
 
 	@Override
