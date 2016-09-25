@@ -35,7 +35,7 @@ public class Grid {
 	}
 	
 	/**
-	 * @param i - the row number of the cell dsired
+	 * @param i - the row number of the cell desired
 	 * @param j - the column number of the cell desired
 	 * @return the cell at position (i,j)
 	 */

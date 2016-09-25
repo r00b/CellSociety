@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class FlowControls extends Animation {
-
+	
 	/**
 	 * Handle user inputs to the speed slider and change the simulation step
 	 * speed
@@ -21,6 +21,12 @@ public class FlowControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
+	private Animation myAnimation;
+	
+	public FlowControls(Animation animation) {
+		myAnimation = animation;
+	}
+	
 	private void handleSlider(Node n, Timeline t) {
 		t.stop(); // stop the current run
 		t.getKeyFrames().clear(); // clear out the old Timeline with old speed
@@ -71,7 +77,11 @@ public class FlowControls extends Animation {
 	 */
 	private void handleStep(MouseEvent e, Timeline t) {
 		t.pause(); // in case we are already playing
+<<<<<<< HEAD
 		step(DEFAULT_SECOND_DELAY); // QUESTION is this okay?
+=======
+		myAnimation.step(myAnimation.DEFAULT_SECOND_DELAY); // QUESTION is this okay?
+>>>>>>> master
 		System.out.println("STEP WORKS");
 	}
 

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import xml.XMLParser;
 
 public abstract class Simulation {
-	
-	
 	 
 	 /**
 	  * calculates the next state for each cell and updates the current state
@@ -55,6 +53,10 @@ public abstract class Simulation {
 	  * @return the Grid of the Simulation
 	  */
 	 public abstract Grid getGrid();
+	 
+	 public abstract int getGridWidth();
+	 
+	 public abstract int getGridHeight();
 	 
 	 
 }

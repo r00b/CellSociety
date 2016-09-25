@@ -92,6 +92,8 @@ public class GameOfLife extends Simulation {
 				addNeighbors(currCell);
 			}
 		}
+		
+
 	}
 	
 
@@ -103,7 +105,7 @@ public class GameOfLife extends Simulation {
 	private void setRandomInitialState(int prob_Cell_Alive, Cell currCell) {
 		Random random = new Random();
 		int randNum = random.nextInt(101);
-		if(randNum < prob_Cell_Alive){
+		if(randNum > prob_Cell_Alive){
 			currCell.setCurrState(possibleStates.get(0),stateToColorMap.get(possibleStates.get(0)));
 		}
 		else{
@@ -174,8 +176,9 @@ public class GameOfLife extends Simulation {
 			for(int g = -1; g<2; g++){
 				int i = getNeighborIPosition(position.getIPos(), k);
 				int j = getNeighborJPosition(position.getJPos(), g);
-				currCell.addNeighbor(myGrid.getCell(i, j));
-				
+				if (!(i == position.getIPos() && j == position.getJPos())) {
+					currCell.addNeighbor(myGrid.getCell(i, j));
+				}
 			}
 		}
 	}
@@ -189,10 +192,10 @@ public class GameOfLife extends Simulation {
 	private int getNeighborJPosition(int j, int g) {
 		int jPos = j + g;
 		if(jPos < 0){
-			jPos = myGrid.getWidth();
+			jPos = myGrid.getHeight()-1;
 		}
 		
-		if(jPos > 0){
+		if(jPos > myGrid.getHeight()-1){
 			jPos = 0;
 		}
 		return jPos;
@@ -207,10 +210,10 @@ public class GameOfLife extends Simulation {
 	private int getNeighborIPosition(int i, int k){
 		int iPos = i + k;
 		if(iPos < 0){
-			iPos = myGrid.getHeight();
+			iPos = myGrid.getWidth()-1;
 		}
 		
-		if(iPos > 0){
+		if(iPos > myGrid.getWidth()-1){
 			iPos = 0;
 		}
 		return iPos;
@@ -223,11 +226,26 @@ public class GameOfLife extends Simulation {
 	private int calculateNumNeighborsAlive(Cell currCell) {
 		int numAlive = 0;
 		for(Cell neighbor : currCell.getNeighbors()){
-			if(neighbor.getCurrState() == "Alive"){
+			if(neighbor.getCurrState().equals("Alive")){
 				numAlive += 1;
 			}
 		}
 		return numAlive;
+	}
+	
+	/**
+	 * returns the number of columns in the grid
+	 */
+	public int getGridWidth() {
+		return myParser.getGridWidth();
+	}
+	
+	/**
+	 * returns the number of rows in the grid
+	 * @return
+	 */
+	public int getGridHeight() {
+		return myParser.getGridHeight();
 	}
 	
 	

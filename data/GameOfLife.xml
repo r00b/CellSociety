@@ -8,6 +8,6 @@
 	<parameters>
 		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight>
-		<probCellAlive>50</probCellAlive>
+		<probCellAlive>55</probCellAlive>
 	</parameters>
 </Simulation>
