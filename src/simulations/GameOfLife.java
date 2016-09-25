@@ -34,7 +34,7 @@ public class GameOfLife extends Simulation {
 	 * Initializes the grid. 
 	 */
 	public GameOfLife() {
-		myParser = new GameOfLifeXMLParser("/data/GameOfLife.xml");
+		myParser = new GameOfLifeXMLParser("data/GameOfLife.xml");
 		probCellAlive = myParser.getProbOfCellAlive();
 		possibleStates = new ArrayList<String>();
 		stateToColorMap = new HashMap<>();

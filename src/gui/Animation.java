@@ -24,6 +24,7 @@ public class Animation {
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
 	private int GRID_OFFSET = 60;
+	
 	private Pane myRoot;
 	private Timeline myTimeline;
 	private Simulation mySimulation;
@@ -69,8 +70,8 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-		Grid newGrid = new Grid(10, 10); // testing purposes
-		drawGrid(newGrid, 10); // testing purposes
+		Grid newGrid = new Grid(20, 20); // testing purposes
+		drawGrid(newGrid, 20); // testing purposes
 	}
 	/**
 	 * Set up variables for the step function
@@ -105,6 +106,8 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		ControlElements controlElements = new ControlElements();
 		myRoot = controlElements.getControlPane();
+		
+		
 		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
 		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
 		FlowControls f = new FlowControls();

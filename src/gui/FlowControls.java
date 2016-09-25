@@ -28,7 +28,7 @@ public class FlowControls extends Animation {
 		double framesPerSecond = speedSlider.getValue() / 5;
 		double millisecondDelay = 1000 / framesPerSecond;
 		double secondDelay = 1.0 / framesPerSecond;
-		KeyFrame k = new KeyFrame(Duration.millis(millisecondDelay), e -> super.step(secondDelay));
+		KeyFrame k = new KeyFrame(Duration.millis(millisecondDelay), e -> step(secondDelay));
 		t.getKeyFrames().add(k);
 		t.play(); // resume simulation
 		System.out.println("SLIDER WORKS");
@@ -71,7 +71,7 @@ public class FlowControls extends Animation {
 	 */
 	private void handleStep(MouseEvent e, Timeline t) {
 		t.pause(); // in case we are already playing
-		super.step(super.DEFAULT_SECOND_DELAY); // QUESTION is this okay?
+		step(DEFAULT_SECOND_DELAY); // QUESTION is this okay?
 		System.out.println("STEP WORKS");
 	}
 
