@@ -131,17 +131,16 @@ public class Fire extends Simulation {
 					}
 				}
 				else{
+					currCell.setNextState(TREE);
 					if(isNeighborBurning(currCell)){
 						if(doesTreeCatchFire()){
 							currCell.setNextState(BURNING);
 							burnTimeMap.put(currCell, burnTime);
 						}
-						else{
-							currCell.setNextState(TREE);
-						}
 					}
 				}
 			}
+			
 		}
 	}
 
