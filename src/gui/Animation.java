@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import simulations.*;
+
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
@@ -29,6 +30,8 @@ public class Animation {
 
 	private Pane myRoot;
 	private Timeline myTimeline;
+	private Grid myGrid;
+	public ComboBox<String> myComboBox;
 	protected Simulation mySimulation;
 	ResourceBundle myResources;
 
@@ -40,17 +43,36 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
+	
+	protected void resetSimulation() {
+		clearGrid();
+		initStep(myComboBox.getValue());
+	}
 
-	private void updateGrid(Grid grid) {
+	/**
+	 * Clear the grid and re-initialize the simulation
+	 */
+	private void clearGrid() {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
-				Node toDelete = myRoot.lookup("#"+id);
+				Node toDelete = myRoot.lookup("#" + id);
 				myRoot.getChildren().remove(toDelete);
+			}
+		}
+	}
+
+	/**
+	 * Redraw the grid each for each step through the simulation
+	 */
+	private void redrawGrid() {
+		clearGrid();
+		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
+			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -59,7 +81,7 @@ public class Animation {
 	/**
 	 * Draw myGrid to the canvas for the first time
 	 */
-	private void initGrid(Grid grid) {
+	private void drawNewGrid() {
 		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
 		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
 		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
@@ -67,7 +89,9 @@ public class Animation {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
+				String id = Integer.toString(i) + Integer.toString(j);
+				cell.setId(id);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -86,14 +110,11 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-//		if (simulation.equals(myResources.getString("PredatorPreySim")))
-//			mySimulation = new PredatorPrey();
-//		if (simulation.equals(myResources.getString("FireSim")))
-//			mySimulation = new Fire();
-//		Grid cellGrid = mySimulation.initGrid();
-//		int gridSize = mySimulation.getGridSize();
-//		drawGrid(cellGrid);
-		updateGrid(mySimulation.getGrid()); 
+		// if (simulation.equals(myResources.getString("PredatorPreySim")))
+		// mySimulation = new PredatorPrey();
+		if (simulation.equals(myResources.getString("FireSim")))
+			mySimulation = new Fire();
+		myGrid = mySimulation.getGrid();
 	}
 
 	/**
@@ -101,9 +122,9 @@ public class Animation {
 	 */
 	protected void initStep(String simulation) {
 		setSimulation(simulation);
+		drawNewGrid();
 		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
-		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
@@ -115,7 +136,7 @@ public class Animation {
 	 */
 	protected void step(double elapsedTime) {
 		mySimulation.updateGrid();
-		updateGrid(mySimulation.getGrid());
+		redrawGrid();
 	}
 
 	/**
@@ -127,16 +148,13 @@ public class Animation {
 	 *            the height of the window
 	 * @return the scene
 	 */
-	@SuppressWarnings("unchecked") // QUESTION ask TA if this is okay
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		ControlElements controlElements = new ControlElements();
-		myRoot = controlElements.getControlPane();
+		myRoot = new Pane();
+		initStep(myResources.getString("DefaultSimulation"));
+		SimControls controllers = new SimControls(this, myTimeline);
+		controllers.addControls(myRoot);
 
-		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
-		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
-		FlowControls f = new FlowControls(this);
-		f.setEventHandlers(myResources, nodes, myTimeline);
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		return simulation;
 	}

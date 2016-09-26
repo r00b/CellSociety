@@ -1,15 +1,21 @@
 package simulations;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
 import xml.XMLParser;
+import gui.Animation;
 
 public abstract class Simulation {
+	
+	
+	protected ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	protected static final String LANGUAGE = "English";
 	protected Grid myGrid;
 	protected HashMap<Integer, Color> stateToColorMap;
+	public String title;
 	/**
 	 * calculates the next state for each cell and updates the current state
 	 * this method is like a step method
@@ -54,7 +60,7 @@ public abstract class Simulation {
 	protected boolean isEdgeCell(Cell currCell) {
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
-		if(i == 0 || j == 0 || i == getGridHeight() || j == getGridWidth()){
+		if(i == 0 || j == 0 || i == (getGridHeight() - 1) || j == (getGridWidth() - 1)){
 			return true;
 		}
 		return false;
@@ -67,7 +73,7 @@ public abstract class Simulation {
 	 */
 	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
-			for(int j = 0; j<myGrid.getWidth(); j++){
+			for(int j = 0; j < myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
 				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
 			}

@@ -19,6 +19,9 @@ import xml.GameOfLifeXMLParser;;
  */
 
 public class GameOfLife extends Simulation {
+
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	public static final String LANGUAGE = "English";
 	private final GameOfLifeXMLParser myParser;
 	private final int probCellAlive;
 	private final int DEAD = 0;
@@ -29,7 +32,7 @@ public class GameOfLife extends Simulation {
 	 * GameOfLifeXMLParser object. Initializes the grid.
 	 */
 	public GameOfLife() {
-		myParser = (GameOfLifeXMLParser) new GameOfLifeXMLParser("data/GameOfLife.xml");
+		myParser = new GameOfLifeXMLParser(myResources.getString("DefaultGameOfLifeFile"));
 		probCellAlive = myParser.getProbOfCellAlive();
 		stateToColorMap = new HashMap<>();
 		myGrid = new Grid(myParser.getGridWidth(), myParser.getGridHeight());

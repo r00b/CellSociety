@@ -28,7 +28,7 @@ public class Segregation extends Simulation{
 	private int percentAgentTwo;
 	
 	public Segregation() {
-		myParser = new SegregationXMLParser("data/Segregation.xml");
+		myParser = new SegregationXMLParser(myResources.getString("DefaultSegregationFile"));
 		satisfactionThreshold = myParser.getSatisfactionThreshold();
 		percentAgentOne = myParser.getPercentOfAgentOne();
 		percentAgentTwo = myParser.getPercentOfAgentTwo();

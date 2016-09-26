@@ -23,9 +23,10 @@ public class Fire extends Simulation {
 	private final FireXMLParser myParser;
 	private final int probCatchFire;
 	private final int burnTime;
-	private final int EMPTY;
-	private final int BURNING;
-	private final int TREE;
+	private final int EMPTY = 0;
+	private final int BURNING = 1;
+	private final int TREE = 2;
+	private final HashMap<Cell, Integer> burnTimeMap;
 
 
 	/**
@@ -36,14 +37,12 @@ public class Fire extends Simulation {
 	 * the grid properly.
 	 */
 	public Fire(){
-		EMPTY = 0;
-		BURNING = 1;
-		TREE = 2;
-		myParser = new FireXMLParser("data/Fire.xml");
+		myParser = new FireXMLParser(myResources.getString("DefaultFireFile"));
 		probCatchFire = myParser.getProbCatchFire();
 		burnTime = myParser.getBurnDownTime();
 		stateToColorMap = new HashMap<>();
 		mapStatesToColors();
+		burnTimeMap = new HashMap<>();
 		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setInitialGridState();
 		
@@ -74,6 +73,7 @@ public class Fire extends Simulation {
 				}
 				else if(isCenterCell(currCell)){
 					currCell.setCurrState(BURNING, stateToColorMap.get(BURNING));
+					burnTimeMap.put(currCell, burnTime);
 				}
 				else{
 					currCell.setCurrState(TREE, stateToColorMap.get(TREE));
@@ -121,25 +121,52 @@ public class Fire extends Simulation {
 				if(currCell.getCurrState() == EMPTY){
 					currCell.setNextState(EMPTY);
 				}
-				//TODO adjust this for burning time 
 				else if(currCell.getCurrState() == BURNING){
-					currCell.setNextState(EMPTY);
+					updateBurnTime(currCell);
+					if(isDoneBurning(currCell)){
+						currCell.setNextState(EMPTY);
+					}
+					else{
+						currCell.setNextState(BURNING);
+					}
 				}
 				else{
+					currCell.setNextState(TREE);
 					if(isNeighborBurning(currCell)){
 						if(doesTreeCatchFire()){
 							currCell.setNextState(BURNING);
-						}
-						else{
-							currCell.setNextState(TREE);
+							burnTimeMap.put(currCell, burnTime);
 						}
 					}
 				}
 			}
+			
 		}
 	}
 
 	
+	/**
+	 * @param currCell the cell for which we want to check if it is done burning
+	 * @return A boolean value representing whether or not the cell has finished burning down
+	 */
+	private boolean isDoneBurning(Cell currCell) {
+		return burnTimeMap.get(currCell) == 0;
+	}
+
+
+	/**
+	 * @param currCell - a cell that is burning at the start of a generation
+	 * Makes sure that a cell is noted as having burned for a previous turn
+	 * 
+	 */
+	private void updateBurnTime(Cell currCell) {
+		if(burnTimeMap.get(currCell) <= 0){
+			burnTimeMap.remove(currCell);
+		}
+		burnTimeMap.put(currCell, burnTimeMap.get(currCell) - 1);
+	}
+
+
 	/**
 	 * @return randomly returns true or false based on value of probCatchFire
 	 * Used to see if a cell that has a tree in it catches fire if one if its neighboring cells is on fire

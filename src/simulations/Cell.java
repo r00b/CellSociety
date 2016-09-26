@@ -1,7 +1,8 @@
 package simulations;
 
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.Iterator;
 import javafx.scene.paint.Color;
 
 /**
@@ -9,7 +10,7 @@ import javafx.scene.paint.Color;
  *
  *Cells all have a position, currentState, nextState, neighbors, and stateColor. Cells used to populate grids.
  */
-public class Cell {
+public class Cell{
 	private final ArrayList<Cell> neighbors;
 	private final Tuple myPosition;
 	private int currentState;
@@ -92,8 +93,4 @@ public class Cell {
 	public ArrayList<Cell> getNeighbors(){
 		return neighbors;
 	}
-	
-	
-	
-	
 }
