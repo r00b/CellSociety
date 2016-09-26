@@ -182,10 +182,11 @@ public class GameOfLife extends Simulation {
 	 */
 	private int getNeighborJPosition(int j, int g) {
 		int jPos = j + g;
-		if (jPos < 0) {
-			jPos = myGrid.getHeight() - 1;
+		if(jPos < 0){
+			jPos = myGrid.getWidth()-1;
 		}
-		if (jPos > myGrid.getHeight() - 1) {
+		
+		if(jPos > myGrid.getWidth() -1){
 			jPos = 0;
 		}
 		return jPos;
@@ -204,10 +205,11 @@ public class GameOfLife extends Simulation {
 	 */
 	private int getNeighborIPosition(int i, int k) {
 		int iPos = i + k;
-		if (iPos < 0) {
-			iPos = myGrid.getWidth() - 1;
+		if(iPos < 0){
+			iPos = myGrid.getHeight()-1;
 		}
-		if (iPos > myGrid.getWidth() - 1) {
+		
+		if(iPos > myGrid.getHeight()-1){
 			iPos = 0;
 		}
 		return iPos;
