@@ -88,13 +88,14 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-		// if (simulation.equals(myResources.getString("PredatorPreySim")))
-		// mySimulation = new PredatorPrey();
-		// if (simulation.equals(myResources.getString("FireSim")))
-		// mySimulation = new Fire();
-		// Grid cellGrid = mySimulation.initGrid();
-		// int gridSize = mySimulation.getGridSize();
-		// drawGrid(cellGrid);
+//		if (simulation.equals(myResources.getString("PredatorPreySim")))
+//			mySimulation = new PredatorPrey();
+//		if (simulation.equals(myResources.getString("FireSim")))
+//			mySimulation = new Fire();
+//		Grid cellGrid = mySimulation.initGrid();
+//		int gridSize = mySimulation.getGridSize();
+//		drawGrid(cellGrid);
+		updateGrid(mySimulation.getGrid()); 
 	}
 
 	/**
@@ -132,14 +133,15 @@ public class Animation {
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		SimControls controllers = new SimControls();
-		myRoot = controllers.getControlPane();
+		
+	//	myRoot = controllers.getControlPane();
 
 		
 		
-		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
-		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
-		FlowControls f = new FlowControls(this);
-		f.setEventHandlers(myResources, nodes, myTimeline);
+	//	HashMap<String, Node> nodes = controlElements.getControls(myRoot);
+//		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
+//		FlowControls f = new FlowControls(this);
+//		f.setEventHandlers(myResources, nodes, myTimeline);
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		return simulation;
 	}

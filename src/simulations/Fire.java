@@ -46,16 +46,17 @@ public class Fire extends Simulation {
 		probCatchFire = myParser.getProbCatchFire();
 		burnTime = myParser.getBurnDownTime();
 		stateToColorMap = new HashMap<>();
-		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		mapStatesToColors();
+		myGrid = new Grid(myParser.getGridWidth(),myParser.getGridHeight());
 		setInitialGridState();
+		
 	}
 
 
 	/**
 	 * Maps each possible state of a cell to an appropriate color.
 	 */
-	private void mapStatesToColors() {
+	protected void mapStatesToColors() {
 		stateToColorMap.put(EMPTY, Color.GRAY);
 		stateToColorMap.put(BURNING, Color.RED);
 		stateToColorMap.put(TREE, Color.GREEN);
@@ -66,6 +67,7 @@ public class Fire extends Simulation {
 	 * Cell in the very middle of the grid is the only one burning at first.
 	 * All other cells set to TREE.
 	 */
+	@Override
 	protected void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j < myGrid.getWidth(); j++){
@@ -73,7 +75,7 @@ public class Fire extends Simulation {
 				if(isEdgeCell(currCell)){
 					currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
 				}
-				else if(currCell.getPosition().getIPos() == myGrid.getHeight()/2 && currCell.getPosition().getJPos() == myGrid.getWidth()/2 ){
+				else if(isCenterCell(currCell)){
 					currCell.setCurrState(BURNING, stateToColorMap.get(BURNING));
 				}
 				else{
@@ -84,22 +86,6 @@ public class Fire extends Simulation {
 		}
 	}
 	
-	
-
-
-	/**
-	 * @param currCell the cell for which we would like to determine if it is an edge cell or not 
-	 * @return boolean -> true if cell is on the edge of the grid, false if it is not 
-	 */
-	private boolean isEdgeCell(Cell currCell) {
-		int i = currCell.getPosition().getIPos();
-		int j = currCell.getPosition().getJPos();
-		if(i == 0 || j == 0 || i == getGridHeight() || j == getGridWidth()){
-			return true;
-		}
-		return false;
-	}
-	
 	/* (non-Javadoc)
 	 * @see simulations.Simulation#addNeighbors(simulations.Cell)
 	 *
@@ -108,6 +94,7 @@ public class Fire extends Simulation {
 	 *No need to worry about bounds checking because every cell that is not an edge cell is guaranteed to 
 	 *have all four of these neighbors be valid positions. 
 	 */
+	@Override
 	protected void addNeighbors(Cell currCell){
 		if(isEdgeCell(currCell)){
 			return;
@@ -130,7 +117,6 @@ public class Fire extends Simulation {
 	 * Cell that is burning burns down to be empty.
 	 * Cell that is a tree either remains a tree or catches on fire.
 	 */
-	@Override
 	protected void updateNextStates() {
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j<myGrid.getWidth(); j++){
@@ -154,13 +140,8 @@ public class Fire extends Simulation {
 				}
 			}
 		}
-		
-		
 	}
 
-	
-	
-	
 	
 	/**
 	 * @return randomly returns true or false based on value of probCatchFire
@@ -188,40 +169,5 @@ public class Fire extends Simulation {
 		}
 		return false;
 	}
-
-
-	/**
-	 * Goes through every cell in the grid and finalizes their updated state after the correct
-	 * next state has been calculated for all cells. 
-	 */
-	@Override
-	protected void commitStates() {
-		for(int i = 0; i < myGrid.getHeight(); i++){
-			for(int j = 0; j<myGrid.getWidth(); j++){
-				Cell currCell = myGrid.getCell(i, j);
-				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
-				}
-			}
-	}
-		
-
-
-	@Override
-	public Grid getGrid() {
-		return myGrid;
-	}
-
-
-	@Override
-	public int getGridWidth() {
-		return myGrid.getWidth();
-	}
-
-
-	@Override
-	public int getGridHeight() {
-		return myGrid.getHeight();
-	}
-
 
 }
