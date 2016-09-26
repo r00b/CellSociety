@@ -30,6 +30,7 @@ public class Animation {
 
 	private Pane myRoot;
 	private Timeline myTimeline;
+	private Grid myGrid;
 	protected Simulation mySimulation;
 	ResourceBundle myResources;
 
@@ -43,7 +44,7 @@ public class Animation {
 	}
 
 
-	private void updateGrid(Grid grid) {
+	private void redrawGrid() {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
@@ -52,7 +53,7 @@ public class Animation {
 				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid, cellSize, GRID_OFFSET, i, j, numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -61,7 +62,7 @@ public class Animation {
 	/**
 	 * Draw myGrid to the canvas for the first time
 	 */
-	private void initGrid(Grid grid) {
+	private void drawNewGrid() {
 		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
 		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
 		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
@@ -69,7 +70,9 @@ public class Animation {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid, cellSize, GRID_OFFSET, i, j, numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
+				String id = Integer.toString(i) + Integer.toString(j);
+				cell.setId(id);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -94,16 +97,15 @@ public class Animation {
 //			mySimulation = new Fire();
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
-//		drawGrid(cellGrid);
-		updateGrid(mySimulation.getGrid()); 
+		myGrid = mySimulation.getGrid();
 	}
-
+	
 	/**
 	 * Set up variables for the step function
 	 */
 	protected void initStep(String simulation) {
 		setSimulation(simulation);
-		initGrid(mySimulation.getGrid());
+		drawNewGrid();
 		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
 		myTimeline = new Timeline();
@@ -117,8 +119,9 @@ public class Animation {
 	 * @param elapsedTime
 	 */
 	protected void step(double elapsedTime) {
+		System.out.println("STEPPING");
 		mySimulation.updateGrid();
-		updateGrid(mySimulation.getGrid());
+		redrawGrid();
 	}
 
 	/**
@@ -132,10 +135,11 @@ public class Animation {
 	 */
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		SimControls controllers = new SimControls();
+		myRoot = new Pane();
+		initStep(myResources.getString("DefaultSimulation"));
+		SimControls controllers = new SimControls(myTimeline);
+		controllers.addControls(myRoot);
 		
-	//	myRoot = controllers.getControlPane();
-
 		
 		
 	//	HashMap<String, Node> nodes = controlElements.getControls(myRoot);
