@@ -93,8 +93,8 @@ public class Animation {
 		}
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
 //			mySimulation = new PredatorPrey();
-//		if (simulation.equals(myResources.getString("FireSim")))
-//			mySimulation = new Fire();
+		if (simulation.equals(myResources.getString("FireSim")))
+			mySimulation = new Fire();
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 		myGrid = mySimulation.getGrid();
