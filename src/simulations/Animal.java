@@ -1,18 +1,18 @@
 package simulations;
 
 public class Animal {
-	protected int myTimeLeftToBreed;
+	protected int myTimeLeftUntilBreed;
 	protected Tuple myPosition;
-	protected final int myInitialTimeToBreed;
+	protected final int myInitialTimeUntilBreed;
 	
-	public Animal(Tuple pos, int timeToBreed) {
+	public Animal(Tuple pos, int timeUntilBreed) {
 		myPosition = pos;
-		myTimeLeftToBreed = timeToBreed;
-		myInitialTimeToBreed = timeToBreed;
+		myTimeLeftUntilBreed = timeUntilBreed;
+		myInitialTimeUntilBreed = timeUntilBreed;
 	}
 	
 	public int getTimeLeftToBreed() {
-		return myTimeLeftToBreed;
+		return myTimeLeftUntilBreed;
 	}
 	public Tuple getPosition() {
 		return myPosition;
@@ -22,6 +22,6 @@ public class Animal {
 	}
 	
 	public void resetTimeToBreed() {
-		myTimeLeftToBreed = myInitialTimeToBreed;
+		myTimeLeftUntilBreed = myInitialTimeUntilBreed;
 	}
 }

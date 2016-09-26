@@ -85,7 +85,7 @@ public class Wator extends Simulation{
 		for (int row = 0; row < myGrid.getHeight(); row++) {
 			for (int col = 0; col < myGrid.getWidth(); col++) {
 				Cell currCell = myGrid.getCell(row, col);
-				if (myFish.containsKey(currCell)) {
+				if (currCell.getCurrState() == FISH) {
 					handleFish(currCell);
 				}
 			}
@@ -95,10 +95,11 @@ public class Wator extends Simulation{
 
 	private void handleFish(Cell currCell) {
 		for (Cell neighbor : makeNeighborList(currCell)) {
-			if (mySharks.containsKey(neighbor)) {
+			if (neighbor.getCurrState() == SHARK) {
 				//shark moves out of cell, into fish's cell
 				neighbor.setNextState(EMPTY);
-				currCell.setNextState(neighbor.getCurrState());
+				currCell.setNextState(SHARK);
+				
 			}
 		}
 	}
