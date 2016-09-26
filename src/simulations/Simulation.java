@@ -72,7 +72,7 @@ public abstract class Simulation {
 	 */
 	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
-			for(int j = 0; j<myGrid.getWidth(); j++){
+			for(int j = 0; j < myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
 				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
 			}
