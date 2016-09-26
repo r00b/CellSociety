@@ -7,6 +7,15 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import xml.SegregationXMLParser;
 
+/**
+ * Segregation class is used to handle the logic of simulating CA model of segregation.
+ * This class's logic depends on the rules of the simulation as described by Schelling's model of segregation.
+ * These rules describe 3 possible cell states (empty, agentOne, or agentTwo)
+ * This class also depends on Grid and Cell to help model the simulation.
+ * It assumes that the SegregationXMLParser has specific methods to return
+ * @author Aaron Chang
+ *
+ */
 public class Segregation extends Simulation{
 	private static final int EMPTY = 0;
 	private static final int ONE = 1;
@@ -19,14 +28,12 @@ public class Segregation extends Simulation{
 	private int satisfactionThreshold;
 	private int percentAgentOne;
 	private int percentAgentTwo;
-	private int percentEmpty;
 	
 	public Segregation() {
 		myParser = new SegregationXMLParser("data/Segregation.xml");
 		satisfactionThreshold = myParser.getSatisfactionThreshold();
 		percentAgentOne = myParser.getPercentOfAgentOne();
 		percentAgentTwo = myParser.getPercentOfAgentTwo();
-		percentEmpty = myParser.getPercentEmpty();
 		myGrid = new Grid(myParser.getGridWidth(), myParser.getGridHeight());
 		stateToColorMap = new HashMap<Integer, Color>();
 		mapStatesToColors();
