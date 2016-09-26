@@ -135,7 +135,6 @@ public class Animation {
 	 * @param elapsedTime
 	 */
 	protected void step(double elapsedTime) {
-		System.out.println("STEPPING");
 		mySimulation.updateGrid();
 		redrawGrid();
 	}
