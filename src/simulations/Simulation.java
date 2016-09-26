@@ -59,7 +59,7 @@ public abstract class Simulation {
 	protected boolean isEdgeCell(Cell currCell) {
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
-		if(i == 0 || j == 0 || i == getGridHeight() || j == getGridWidth()){
+		if(i == 0 || j == 0 || i == getGridHeight() - 1 || j == getGridWidth() - 1){
 			return true;
 		}
 		return false;
@@ -72,7 +72,7 @@ public abstract class Simulation {
 	 */
 	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
-			for(int j = 0; j<myGrid.getWidth(); j++){
+			for(int j = 0; j < myGrid.getWidth(); j++){
 				Cell currCell = myGrid.getCell(i, j);
 				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
 			}

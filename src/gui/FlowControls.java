@@ -50,7 +50,6 @@ public class FlowControls extends Animation {
 	 */
 	private void handlePause(MouseEvent e, Timeline t) {
 		t.pause();
-		System.out.println("PAUSE WORKS");
 	}
 
 	/**
@@ -63,7 +62,7 @@ public class FlowControls extends Animation {
 	 */
 	private void handleStop(MouseEvent e, Timeline t) {
 		t.stop();
-		System.out.println("STOP WORKS");
+		t.getKeyFrames().clear(); // clear out the old Timeline with old speed
 	}
 
 	/**
@@ -78,7 +77,6 @@ public class FlowControls extends Animation {
 	private void handleStep(MouseEvent e, Timeline t) {
 		t.pause(); // in case we are already playing
 		myAnimation.step(myAnimation.DEFAULT_SECOND_DELAY); // QUESTION is this okay?
-		System.out.println("STEP WORKS");
 	}
 
 	/**
@@ -91,7 +89,6 @@ public class FlowControls extends Animation {
 	 */
 	private void handlePlay(MouseEvent e, Timeline t) {
 		t.play();
-		System.out.println("PLAY WORKS");
 	}
 
 	@SuppressWarnings("unchecked")
