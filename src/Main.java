@@ -3,6 +3,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Initialize the GUI which will ultimately start the simulations
+ * Dependencies: Animation.java
+ */
 public class Main extends Application {
 	
 	/**

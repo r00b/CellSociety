@@ -1,11 +1,8 @@
 package simulations;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
-import xml.XMLParser;
-import gui.Animation;
 
 public abstract class Simulation {
 	

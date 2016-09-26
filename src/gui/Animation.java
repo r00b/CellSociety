@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.HashMap;
-
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,31 +7,43 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import simulations.*;
 
+/**
+ * 
+ * @author Robert H. Steilberg II | rhs16
+ * 
+ *         The Animation class handles the GUI for the program. After creating
+ *         the general Scene, the SimControls class is used to populate the
+ *         scene with functional control elements. Then, according to the
+ *         default simulation set in the properties file, the grid is
+ *         initialized via the simulation's initGrid() method to that
+ *         simulation's parameters. The step function is prepared for stepping.
+ *         The simulation begins when the play button is clicked. The step
+ *         function updates the simulation grid on each frame via the
+ *         updateGrid() method, clears the old grid, and then prints the new
+ *         one. Each grid iteration is drawn via the CellNode class that creates
+ *         each cell according to a specified shape and then returns the cell
+ *         with the correct state according to the simulation. The simulation
+ *         continues infinitely, or until it is stopped by the user.
+ * 
+ *         Dependencies: SimControls.java, CellNode.java
+ */
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	public static final String LANGUAGE = "English";
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
-	private double DEFAULT_FPS = 5;
-	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
-	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
-	private int GRID_SIZE = 500;
-	private int GRID_OFFSET = 60;
 
+	private int GRID_SIZE = 500;
+
+	private ResourceBundle myResources;
 	private Pane myRoot;
 	private Timeline myTimeline;
 	private Grid myGrid;
-	public ComboBox<String> myComboBox;
 	protected Simulation mySimulation;
-	ResourceBundle myResources;
+	public ComboBox<String> myComboBox;
 
 	/**
 	 * Get the window title for the scene
@@ -43,8 +53,15 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
-	
-	protected void resetSimulation() {
+
+	/**
+	 * Stop the step function, clear the grid, and prepare for a new simulation
+	 * 
+	 * @param animation
+	 *            the current Timeline
+	 */
+	protected void resetSimulation(Timeline animation) {
+		animation.stop();
 		clearGrid();
 		initStep(myComboBox.getValue());
 	}
@@ -56,6 +73,7 @@ public class Animation {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
+				// get each node via CSS id
 				Node toDelete = myRoot.lookup("#" + id);
 				myRoot.getChildren().remove(toDelete);
 			}
@@ -67,12 +85,13 @@ public class Animation {
 	 */
 	private void redrawGrid() {
 		clearGrid();
+		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
+						i, j, numVertices);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -82,15 +101,15 @@ public class Animation {
 	 * Draw myGrid to the canvas for the first time
 	 */
 	private void drawNewGrid() {
-		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
-		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
 		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				int numVertices = 4;
+				int numVertices = 4; // since we are only implementing squares right now
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(myGrid, cellSize, GRID_OFFSET, i, j, numVertices);
+				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
+						i, j, numVertices);
 				String id = Integer.toString(i) + Integer.toString(j);
+				// set a CSS id so we can get this cell later to remove it from the scene
 				cell.setId(id);
 				myRoot.getChildren().add(cell);
 			}
@@ -121,23 +140,27 @@ public class Animation {
 
 	/**
 	 * Set up variables for the step function
+	 * 
+	 * @param simulation
+	 *            a String specifying which simulation should be loaded
 	 */
 	protected void initStep(String simulation) {
 		setSimulation(simulation);
 		drawNewGrid();
 		myTimeline = new Timeline();
-		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
+		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
+		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
 
 	/**
-	 * Step through the gameplay
+	 * Step through the simulation
 	 * 
 	 * @param elapsedTime
 	 */
 	protected void step(double elapsedTime) {
-		mySimulation.updateGrid();
+		mySimulation.updateGrid(); // calculate new grid
 		redrawGrid();
 	}
 
@@ -154,10 +177,10 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		myRoot = new Pane();
 		initStep(myResources.getString("DefaultSimulation"));
-		SimControls controllers = new SimControls(this, myTimeline);
+		SimControls controllers = new SimControls(this, myTimeline, myResources);
 		controllers.addControls(myRoot);
-
-		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
+		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
+				Integer.parseInt(myResources.getString("WindowHeight")));
 		return simulation;
 	}
 }
