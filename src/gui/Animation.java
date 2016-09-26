@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import simulations.*;
+
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
@@ -41,16 +42,17 @@ public class Animation {
 		return TITLE;
 	}
 
+
 	private void updateGrid(Grid grid) {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
-				Node toDelete = myRoot.lookup("#"+id);
+				Node toDelete = myRoot.lookup("#" + id);
 				myRoot.getChildren().remove(toDelete);
 				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				Polygon cell = node.getCellNode(grid, cellSize, GRID_OFFSET, i, j, numVertices);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -67,7 +69,7 @@ public class Animation {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				int numVertices = 4;
 				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				Polygon cell = node.getCellNode(grid, cellSize, GRID_OFFSET, i, j, numVertices);
 				myRoot.getChildren().add(cell);
 			}
 		}
@@ -86,14 +88,13 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-//		if (simulation.equals(myResources.getString("PredatorPreySim")))
-//			mySimulation = new PredatorPrey();
-//		if (simulation.equals(myResources.getString("FireSim")))
-//			mySimulation = new Fire();
-//		Grid cellGrid = mySimulation.initGrid();
-//		int gridSize = mySimulation.getGridSize();
-//		drawGrid(cellGrid);
-		drawGrid(mySimulation.getGrid()); 
+		// if (simulation.equals(myResources.getString("PredatorPreySim")))
+		// mySimulation = new PredatorPrey();
+		// if (simulation.equals(myResources.getString("FireSim")))
+		// mySimulation = new Fire();
+		// Grid cellGrid = mySimulation.initGrid();
+		// int gridSize = mySimulation.getGridSize();
+		// drawGrid(cellGrid);
 	}
 
 	/**
@@ -101,6 +102,7 @@ public class Animation {
 	 */
 	protected void initStep(String simulation) {
 		setSimulation(simulation);
+		initGrid(mySimulation.getGrid());
 		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
 		myTimeline = new Timeline();
@@ -127,12 +129,13 @@ public class Animation {
 	 *            the height of the window
 	 * @return the scene
 	 */
-	@SuppressWarnings("unchecked") // QUESTION ask TA if this is okay
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		ControlElements controlElements = new ControlElements();
-		myRoot = controlElements.getControlPane();
+		SimControls controllers = new SimControls();
+		myRoot = controllers.getControlPane();
 
+		
+		
 		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
 		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
 		FlowControls f = new FlowControls(this);

@@ -6,7 +6,7 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>100</gridWidth>
+		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight>
 		<probCellAlive>55</probCellAlive>
 	</parameters>
