@@ -6,8 +6,8 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>200</gridWidth>
-		<gridHeight>200</gridHeight>
+		<gridWidth>50</gridWidth>
+		<gridHeight>50</gridHeight>
 		<burnDownTime>2</burnDownTime>
 		<probCatchFire>30</probCatchFire>
 	</parameters>
