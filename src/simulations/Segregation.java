@@ -81,7 +81,10 @@ public class Segregation extends Simulation{
 				}
 				//these lines only execute if cell is not empty
 				boolean isSatisfied = calculateIfSatisfied(currCell);
-				if (isSatisfied == false) {
+				if (isSatisfied) {
+					currCell.setNextState(currCell.getCurrState());
+				}
+				else {
 					//moving current cell to first spot in the vacant list (make random?)
 					myVacantList.get(0).setNextState(currCell.getCurrState());
 					currCell.setNextState(EMPTY);
