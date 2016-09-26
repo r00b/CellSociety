@@ -6,8 +6,8 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>50</gridWidth>
-		<gridHeight>50</gridHeight>
+		<gridWidth>10</gridWidth>
+		<gridHeight>32</gridHeight>
 		<probCellAlive>55</probCellAlive>
 	</parameters>
 </Simulation>
