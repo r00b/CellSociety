@@ -129,8 +129,10 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-		// if (simulation.equals(myResources.getString("PredatorPreySim")))
-		// mySimulation = new PredatorPrey();
+		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
+			mySimulation = new Wator();
+		}
+		
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
 		myGrid = mySimulation.getGrid();

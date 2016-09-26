@@ -1,9 +1,19 @@
 package simulations;
 
 public class Fish extends Animal{
-
-	public Fish(Tuple pos, int timeToBreed) {
-		super(pos, timeToBreed);
+	private boolean hasBeenEaten;
+	
+	public Fish(int timeToBreed) {
+		super(timeToBreed);
+		hasBeenEaten = false;
+	}
+	
+	public void markAsDead() {
+		hasBeenEaten = true;
+	}
+	
+	public boolean getHasBeenEaten() {
+		return hasBeenEaten;
 	}
 	
 	
