@@ -12,9 +12,7 @@ public class Segregation extends Simulation{
 	private static final int ONE = 1;
 	private static final int TWO = 2;
 	
-	private Grid myGrid;
 	private SegregationXMLParser myParser;
-	private HashMap<Integer, Color> stateToColorMap;
 	private ArrayList<Cell> myVacantList; //updated in real time
 	private int satisfactionThreshold;
 	private int percentAgentOne;
@@ -22,7 +20,7 @@ public class Segregation extends Simulation{
 	private int percentEmpty;
 	
 	public Segregation() {
-		myParser = new SegregationXMLParser("data/Segregation.xml");
+		myParser = new SegregationXMLParser(myResources.getString("DefaultSegregationFile"));
 		satisfactionThreshold = myParser.getSatisfactionThreshold();
 		percentAgentOne = myParser.getPercentOfAgentOne();
 		percentAgentTwo = myParser.getPercentOfAgentTwo();
