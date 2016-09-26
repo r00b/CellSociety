@@ -15,6 +15,7 @@ public abstract class Simulation {
 	protected static final String LANGUAGE = "English";
 	protected Grid myGrid;
 	protected HashMap<Integer, Color> stateToColorMap;
+	public String title;
 	/**
 	 * calculates the next state for each cell and updates the current state
 	 * this method is like a step method

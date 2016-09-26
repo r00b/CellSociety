@@ -2,28 +2,58 @@ package gui;
 
 import java.util.ResourceBundle;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class SimControls extends Animation {
 	private Timeline myTimeline;
 	private Animation myAnimation;
 	
-	SimControls(Animation currAnimation, Timeline t) {
+	SimControls(Animation currAnimation, Timeline timeline) {
 		myAnimation = currAnimation;
-		myTimeline = t;
+		myTimeline = timeline;
 	}
 	
+	private void handleSlider(Slider speedSlider) {
+		double DEFAULT_FPS = 5;
+		double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
+		double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
+		
+		myTimeline.pause(); // stop the current run
+		myTimeline.getKeyFrames().clear(); // clear out the old Timeline with old speed
+		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
+		myTimeline.getKeyFrames().add(frame);
+
+		
+//		
+//		double framesPerSecond = speedSlider.getValue() / 5;
+//		double millisecondDelay = 1000 / framesPerSecond;
+//		double secondDelay = 1.0 / framesPerSecond;
+//		KeyFrame k = new KeyFrame(Duration.millis(millisecondDelay), e -> step(secondDelay));
+//		myTimeline.getKeyFrames().add(k);
+//		myTimeline.play(); // resume simulation
+		System.out.println("SLIDER WORKS");
+	}
 	
-	
-	
-	
-	
-	
+	/**
+	 * Handle click to stop button by stopping the simulation
+	 * 
+	 * @param e
+	 *            the MouseEvent registering the click
+	 * @param t
+	 *            the Timeline that is running through the step function
+	 */
+	private void handleStop(Timeline animation) {
+		animation.stop();
+		myAnimation.resetSimulation();
+	}
 	
 	/**
 	 * Handle click to pause button by pausing the simulation
@@ -33,8 +63,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handlePause(MouseEvent e, Timeline t) {
-		t.pause();
+	private void handlePause(Timeline animation) {
+		animation.pause();
 		System.out.println("PAUSE");
 
 	}
@@ -48,8 +78,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handleStep(MouseEvent e, Timeline t) {
-		t.pause(); // in case we are already playing
+	private void handleStep(Timeline animation) {
+		animation.pause(); // in case we are already playing
 		myAnimation.step(DEFAULT_SECOND_DELAY);
 		System.out.println("STEP");
 
@@ -63,8 +93,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handlePlay(MouseEvent e, Timeline t) {
-		t.play();
+	private void handlePlay(Timeline animation) {
+		animation.play();
 		System.out.println("PLAY");
 	}
 	
@@ -79,6 +109,10 @@ public class SimControls extends Animation {
 		speedSlider.setLayoutX(Integer.parseInt(myResources.getString("SliderXPos")));
 		speedSlider.setLayoutY(Integer.parseInt(myResources.getString("SliderYPos")));
 		speedSlider.setValue(Integer.parseInt(myResources.getString("SliderDefaultValue")));
+		
+		speedSlider.setOnMouseDragged(e -> handleSlider(speedSlider));
+		speedSlider.setOnKeyPressed(e -> handleSlider(speedSlider));
+		
 		return speedSlider;
 	}
 
@@ -100,6 +134,8 @@ public class SimControls extends Animation {
 		comboBox.setMinWidth(Integer.parseInt(myResources.getString("ComboBoxMinWidth")));
 		comboBox.setLayoutX(Integer.parseInt(myResources.getString("ComboBoxXPos")));
 		comboBox.setLayoutY(Integer.parseInt(myResources.getString("ComboBoxYPos")));
+		comboBox.valueProperty().addListener(e -> myAnimation.resetSimulation());
+		myAnimation.myComboBox = comboBox;
 		return comboBox;
 	}
 	
@@ -110,16 +146,16 @@ public class SimControls extends Animation {
 	 */
 	private void setButtonEventHandler(Button newButton, String buttonID) {
 		if (buttonID.equals("PlayButton")) {
-			newButton.setOnMouseClicked(e -> handlePlay(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handlePlay(myTimeline));
 		}
 		if (buttonID.equals("StepButton")) {
-			newButton.setOnMouseClicked(e -> handleStep(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handleStep(myTimeline));
 		}
 		if (buttonID.equals("PauseButton")) {
-			newButton.setOnMouseClicked(e -> handlePause(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handlePause(myTimeline));
 		}
 		if (buttonID.equals("StopButton")) {
-//			newButtonm.setOnMouseClicked(e -> handleStop(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handleStop(myTimeline));
 		}
 	}
 

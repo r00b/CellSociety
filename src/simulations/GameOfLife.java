@@ -26,6 +26,7 @@ public class GameOfLife extends Simulation {
 	private final int probCellAlive;
 	private final int DEAD = 0;
 	private final int ALIVE = 1;
+	protected String title = "Game of Life";
 
 	/**
 	 * Reads in the data for probCellAlive and the grid dimensions using the
