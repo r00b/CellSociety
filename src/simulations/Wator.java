@@ -13,8 +13,10 @@ public class Wator extends Simulation{
 	private static final int FISH = 2;
 	
 	private WatorXMLParser myParser;
-	private HashMap<Cell, Fish> myFish;
-	private HashMap<Cell, Shark> mySharks;
+	private HashMap<Cell, Fish> myFish = new HashMap<Cell, Fish>();
+	private HashMap<Cell, Shark> mySharks = new HashMap<Cell, Shark>();
+	private HashMap<Cell, Fish> tempFishMap = new HashMap<Cell, Fish>();
+	private HashMap<Cell, Shark> tempSharkMap = new HashMap<Cell, Shark>();
 	private final int myFishBreedTime;
 	private final int mySharkBreedTime;
 	private final int mySharkStarveTime;
@@ -94,15 +96,32 @@ public class Wator extends Simulation{
 	}
 
 	private void handleFish(Cell currCell) {
-		for (Cell neighbor : makeNeighborList(currCell)) {
-			if (neighbor.getCurrState() == SHARK) {
-				//shark moves out of cell, into fish's cell
-				neighbor.setNextState(EMPTY);
-				currCell.setNextState(SHARK);
+		//check if the fish has been eaten 
+		if(myFish.containsKey(currCell)) {
+			for (Cell neighbor : makeNeighborList(currCell)) {
+				if (mySharks.containsKey(neighbor)) {
+					Shark predator = mySharks.get(neighbor);
+					if (!predator.getHasEaten()) {
+						//shark moves out of cell, into fish's cell
+						neighbor.setNextState(EMPTY);
+						currCell.setNextState(SHARK);
+						predator.markAsFull();
+						myFish.remove(currCell);
+						tempSharkMap.put(currCell, predator);
+						break;
+					}
+				}
+			}
+		}
+		else {
+			
+			if (myFish.get(currCell).getTimeLeftToBreed() == 0) {
 				
 			}
 		}
+		
 	}
+		
 	
 	@Override
 	protected void mapStatesToColors() {

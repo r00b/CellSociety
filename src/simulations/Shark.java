@@ -1,12 +1,13 @@
 package simulations;
 
 public class Shark extends Animal{
-	private Fish myNextMeal; //fish that the shark will eat next
+	private boolean hasEaten; 
 	private int starveThreshold;
 	private int timeUntilStarve;
 	
 	public Shark(Tuple pos, int timeUntilBreed) {
 		super(pos, timeUntilBreed);
+		hasEaten = false;
 	}
 	public Shark (Tuple pos, int timeUntilBreed, int starveCapacity, int timeTilDeath) {
 		super(pos, timeUntilBreed);
@@ -14,12 +15,13 @@ public class Shark extends Animal{
 		timeUntilStarve = timeTilDeath;
 	}
 
-	public Fish getMyNextMeal() {
-		return myNextMeal;
+	public boolean getHasEaten() {
+		return hasEaten;
 	}
 
-	public void setMyNextMeal(Fish myNextMeal) {
-		this.myNextMeal = myNextMeal;
+	public void markAsFull() {
+		hasEaten = true;
+		timeUntilStarve = starveThreshold;
 	}
 	
 	
