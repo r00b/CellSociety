@@ -67,6 +67,7 @@ public class Fire extends Simulation {
 	 * Cell in the very middle of the grid is the only one burning at first.
 	 * All other cells set to TREE.
 	 */
+	@Override
 	protected void setInitialGridState(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			for(int j = 0; j < myGrid.getWidth(); j++){
