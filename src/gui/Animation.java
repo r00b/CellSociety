@@ -93,7 +93,7 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-		drawGrid(mySimulation.getGrid()); 
+		updateGrid(mySimulation.getGrid()); 
 	}
 
 	/**
