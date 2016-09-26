@@ -60,7 +60,7 @@ public abstract class Simulation {
 	protected boolean isEdgeCell(Cell currCell) {
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
-		if(i == 0 || j == 0 || i == getGridHeight() - 1 || j == getGridWidth() - 1){
+		if(i == 0 || j == 0 || i == (getGridHeight() - 1) || j == (getGridWidth() - 1)){
 			return true;
 		}
 		return false;
