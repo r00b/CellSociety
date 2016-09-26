@@ -121,7 +121,6 @@ public class Fire extends Simulation {
 				if(currCell.getCurrState() == EMPTY){
 					currCell.setNextState(EMPTY);
 				}
-				//TODO adjust this for burning time 
 				else if(currCell.getCurrState() == BURNING){
 					updateBurnTime(currCell);
 					if(isDoneBurning(currCell)){
