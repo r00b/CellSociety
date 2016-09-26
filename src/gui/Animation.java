@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
@@ -46,13 +47,13 @@ public class Animation {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
-				Node cell = myRoot.lookup("#"+id);
-				myRoot.getChildren().remove(cell);
-				double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
-				double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
-				SquareCell s = new SquareCell();
-				Node squareCell = s.getCellNode(grid, cellWidth, cellHeight, GRID_OFFSET, i, j);
-				myRoot.getChildren().add(squareCell);
+				Node toDelete = myRoot.lookup("#"+id);
+				myRoot.getChildren().remove(toDelete);
+				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
+				int numVertices = 4;
+				CellNode node = new CellNode();
+				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				myRoot.getChildren().add(cell);
 			}
 		}
 	}
@@ -63,11 +64,13 @@ public class Animation {
 	private void initGrid(Grid grid) {
 		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
 		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
+		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				SquareCell s = new SquareCell();
-				Shape squareCell = s.getCellNode(grid, cellWidth, cellHeight, GRID_OFFSET, i, j);
-				myRoot.getChildren().add(squareCell);
+				int numVertices = 4;
+				CellNode node = new CellNode();
+				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				myRoot.getChildren().add(cell);
 			}
 		}
 	}
