@@ -22,7 +22,7 @@ public class Animation {
 	public static final String LANGUAGE = "English";
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
-	private double DEFAULT_FPS = 10;
+	private double DEFAULT_FPS = 5;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
@@ -31,6 +31,7 @@ public class Animation {
 	private Pane myRoot;
 	private Timeline myTimeline;
 	private Grid myGrid;
+	public ComboBox<String> myComboBox;
 	protected Simulation mySimulation;
 	ResourceBundle myResources;
 
@@ -42,14 +43,32 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
+	
+	protected void resetSimulation() {
+		clearGrid();
+		initStep(myComboBox.getValue());
+	}
 
-
-	private void redrawGrid() {
+	/**
+	 * Clear the grid and re-initialize the simulation
+	 */
+	private void clearGrid() {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
 				Node toDelete = myRoot.lookup("#" + id);
 				myRoot.getChildren().remove(toDelete);
+			}
+		}
+	}
+
+	/**
+	 * Redraw the grid each for each step through the simulation
+	 */
+	private void redrawGrid() {
+		clearGrid();
+		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
+			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
@@ -91,13 +110,13 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-//		if (simulation.equals(myResources.getString("PredatorPreySim")))
-//			mySimulation = new PredatorPrey();
+		// if (simulation.equals(myResources.getString("PredatorPreySim")))
+		// mySimulation = new PredatorPrey();
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
 		myGrid = mySimulation.getGrid();
 	}
-	
+
 	/**
 	 * Set up variables for the step function
 	 */
@@ -106,7 +125,6 @@ public class Animation {
 		drawNewGrid();
 		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
-		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
@@ -135,15 +153,9 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		myRoot = new Pane();
 		initStep(myResources.getString("DefaultSimulation"));
-		SimControls controllers = new SimControls(this,myTimeline);
+		SimControls controllers = new SimControls(this, myTimeline);
 		controllers.addControls(myRoot);
-		
-		
-		
-	//	HashMap<String, Node> nodes = controlElements.getControls(myRoot);
-//		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
-//		FlowControls f = new FlowControls(this);
-//		f.setEventHandlers(myResources, nodes, myTimeline);
+
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		return simulation;
 	}
