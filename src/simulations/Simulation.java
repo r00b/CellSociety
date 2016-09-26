@@ -1,11 +1,16 @@
 package simulations;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
 import xml.XMLParser;
+import gui.Animation;
 
 public abstract class Simulation {
+	
+	
+	protected ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	protected static final String LANGUAGE = "English";
 	protected Grid myGrid;
