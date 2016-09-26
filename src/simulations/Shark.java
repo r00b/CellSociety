@@ -5,23 +5,30 @@ public class Shark extends Animal{
 	private int starveThreshold;
 	private int timeUntilStarve;
 	
-	public Shark(Tuple pos, int timeUntilBreed) {
-		super(pos, timeUntilBreed);
+	public Shark(int timeUntilBreed) {
+		super(timeUntilBreed);
 		hasEaten = false;
 	}
-	public Shark (Tuple pos, int timeUntilBreed, int starveCapacity, int timeTilDeath) {
-		super(pos, timeUntilBreed);
+	public Shark (int timeUntilBreed, int starveCapacity) {
+		super(timeUntilBreed);
 		starveThreshold = starveCapacity;
-		timeUntilStarve = timeTilDeath;
+		timeUntilStarve = starveCapacity;
 	}
 
 	public boolean getHasEaten() {
 		return hasEaten;
 	}
+	
+	public int getTimeUntilStarve() {
+		return timeUntilStarve;
+	}
 
 	public void markAsFull() {
-		hasEaten = true;
 		timeUntilStarve = starveThreshold;
+	}
+	
+	public void decrementTimeUntilStarve() {
+		timeUntilStarve -= 1;
 	}
 	
 	
