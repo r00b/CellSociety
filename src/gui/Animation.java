@@ -1,5 +1,6 @@
 package gui;
 import java.util.HashMap;
+
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,9 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import simulations.GameOfLife;
-import simulations.Grid;
-import simulations.Simulation;
+import simulations.*;
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
@@ -63,8 +62,9 @@ public class Animation {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
 			mySimulation = new GameOfLife();
 		}
-//		if (simulation.equals(myResources.getString("SegregationSim")))
-//			mySimulation = new Segregation();
+		if (simulation.equals(myResources.getString("SegregationSim"))) {
+			mySimulation = new Segregation();
+		}
 //		if (simulation.equals(myResources.getString("PredatorPreySim")))
 //			mySimulation = new PredatorPrey();
 //		if (simulation.equals(myResources.getString("FireSim")))
