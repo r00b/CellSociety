@@ -22,7 +22,7 @@ public class Animation {
 	public static final String LANGUAGE = "English";
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
-	private double DEFAULT_FPS = 10;
+	private double DEFAULT_FPS = 5;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
@@ -31,6 +31,7 @@ public class Animation {
 	private Pane myRoot;
 	private Timeline myTimeline;
 	private Grid myGrid;
+	public ComboBox<String> myComboBox;
 	protected Simulation mySimulation;
 	ResourceBundle myResources;
 
@@ -45,7 +46,7 @@ public class Animation {
 	
 	protected void resetSimulation() {
 		clearGrid();
-		initStep("Game of Life");
+		initStep(myComboBox.getValue());
 	}
 
 	/**
@@ -124,7 +125,6 @@ public class Animation {
 		drawNewGrid();
 		myTimeline = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_MILLISECOND_DELAY), e -> step(DEFAULT_SECOND_DELAY));
-		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
