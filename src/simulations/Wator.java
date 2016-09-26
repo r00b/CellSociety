@@ -6,7 +6,17 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import xml.WatorXMLParser;
-
+/**
+ * The Wator class handles the logic of modeling the Wa-Tor World simulation
+ * This class depends on the Shark and Fish classes to model behavior of the cells
+ * They also depend on WatorXMLParser objects to provide the specific information given in wator xml files
+ * Wator objects are instantiated by Animation.java, which uses these them to visualize the CA simulation
+ * 
+ * NOTE: this class needs a lot of refactoring
+ * I will continue to refactor the code and fix the logic of this simulation
+ * @author Aaron Chang
+ *
+ */
 public class Wator extends Simulation{
 	private static final int EMPTY = 0;
 	private static final int SHARK = 1;
@@ -48,7 +58,12 @@ public class Wator extends Simulation{
 			}
 		}
 	}
-	
+	/**
+	 * sets a random initial state for each cell
+	 * The initial state is determined by the probability assigned to each state
+	 * These probabilities are provided by the xml files
+	 * @param currCell
+	 */
 	private void setRandomInitialState(Cell currCell) {
 		Random randomNumGenerator = new Random();
 		int randNum = randomNumGenerator.nextInt(101);
@@ -72,6 +87,7 @@ public class Wator extends Simulation{
 		}
 	}
 	
+	//returns a list of the four neighbors of each cell 
 	private ArrayList<Cell> makeNeighborList(Cell currCell) {
 		int row = currCell.getPosition().getIPos();
 		int col = currCell.getPosition().getJPos();
@@ -83,6 +99,8 @@ public class Wator extends Simulation{
 		return neighbors;
 	}
 	
+	//commits states of each cell and also commits the new values to mySharks and myFish
+	//tempSharkMap and tempFishMap are cleared so they can be used in the next 'round'
 	@Override
 	protected void commitStates(){
 		for(int i = 0; i < myGrid.getHeight(); i++){
@@ -111,6 +129,7 @@ public class Wator extends Simulation{
 		}
 	}
 
+	//logic when a fish is encountered
 	private void handleFish(Cell currCell) {
 		//check if the fish has been eaten 
 		ArrayList<Cell> neighbors = makeNeighborList(currCell);
@@ -132,13 +151,16 @@ public class Wator extends Simulation{
 		//if the fish still has not been eaten
 		if (myFish.containsKey(currCell)) {
 			Fish currFish = myFish.get(currCell);
+			boolean hasEmptyNeighbor = false;
 			for (Cell neighbor : neighbors) {
 				if (neighbor.getCurrState() == EMPTY) {
+					hasEmptyNeighbor = true;
 					if (currFish.getTimeLeftToBreed() == 0) { //breed new fish in adjacent cell
 						neighbor.setNextState(FISH);
 						tempFishMap.put(neighbor, new Fish(myFishBreedTime));
 						currFish.resetTimeToBreed();
 						tempFishMap.put(currCell, currFish);
+						currCell.setNextState(FISH);
 						break;
 					}
 					else { //move fish to adjacent cell
@@ -146,15 +168,24 @@ public class Wator extends Simulation{
 						neighbor.setNextState(FISH);
 						currFish.decrementBreedTime();
 						tempFishMap.put(neighbor, currFish);
+						break;
 					}
 				}
 			}
+			if (!hasEmptyNeighbor) {
+				currCell.setNextState(FISH);
+				tempFishMap.put(currCell, currFish);
+			}
+		}
+		else {
+			currCell.setNextState(EMPTY);
 		}
 		
 	}
 	
+	//logic for when a shark is encountered
 	private void handleShark(Cell currCell) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = makeNeighborList(currCell);
 		//check if the shark has already eaten a fish this round
 		//we do this by checking if the shark was already added to the tempMap
 		if (tempSharkMap.containsKey(currCell)) {
@@ -167,43 +198,55 @@ public class Wator extends Simulation{
 						tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
 						currShark.resetTimeToBreed();
 						tempSharkMap.put(currCell, currShark);
+						break;
 					}
 				}
 			}
 		}
 		else { //if shark hasn't eaten yet
+			boolean sharkAte = false;
 			Shark currShark = mySharks.get(currCell);
 			for (Cell neighbor : neighbors) {
 				if (myFish.containsKey(neighbor)) { //shark can eat
+					sharkAte = true;
 					currShark.markAsFull();
 					neighbor.setNextState(EMPTY);
 					currCell.setNextState(SHARK);
+					myFish.remove(neighbor);
+					tempSharkMap.put(currCell, currShark);
+					break;
 				}
-				else {//shark doesn't eat
-					currShark.decrementTimeUntilStarve(); 
-					if (currShark.getTimeUntilStarve() == 0) { //shark is dead
-						mySharks.remove(currCell);
-						currCell.setNextState(EMPTY);
-					}
+			}
+			if (!sharkAte) {
+				currShark.decrementTimeUntilStarve(); 
+				if (currShark.getTimeUntilStarve() == 0) { //shark is dead
+					mySharks.remove(currCell);
+					currCell.setNextState(EMPTY);
 				}
 			}
 		}
 		//if shark is still alive
 		if (mySharks.containsKey(currCell)) {
 			Shark currShark = mySharks.get(currCell);
-			currCell.setNextState(SHARK);
-			if (currShark.getTimeLeftToBreed() == 0) {
-				for (Cell neighbor : neighbors) {
-					if (neighbor.getCurrState() == EMPTY) {
+			for (Cell neighbor : neighbors) {
+				if (neighbor.getCurrState() == EMPTY) {
+					if (currShark.getTimeLeftToBreed() == 0){//shark will breed
 						neighbor.setNextState(SHARK);
+						currCell.setNextState(SHARK);
 						tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
 						currShark.resetTimeToBreed();
 						tempSharkMap.put(currCell, currShark);
 					}
+					else {
+						neighbor.setNextState(SHARK);
+						currCell.setNextState(EMPTY);
+						tempSharkMap.put(neighbor, currShark);
+					}
+					break;
 				}
 			}
+				
 		}
-		
 	}
 		
 	
