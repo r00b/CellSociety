@@ -3,7 +3,6 @@ package simulations;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
 import javafx.scene.paint.Color;
 import xml.FireXMLParser;
 import xml.GameOfLifeXMLParser;
@@ -22,10 +21,8 @@ import xml.GameOfLifeXMLParser;
  */
 public class Fire extends Simulation {
 	private final FireXMLParser myParser;
-	private Grid myGrid;
 	private final int probCatchFire;
 	private final int burnTime;
-	private final HashMap<Integer, Color> stateToColorMap;
 	private final int EMPTY;
 	private final int BURNING;
 	private final int TREE;

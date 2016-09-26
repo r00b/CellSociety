@@ -12,9 +12,7 @@ public class Segregation extends Simulation{
 	private static final int ONE = 1;
 	private static final int TWO = 2;
 	
-	private Grid myGrid;
 	private SegregationXMLParser myParser;
-	private HashMap<Integer, Color> stateToColorMap;
 	private ArrayList<Cell> myVacantList; //updated in real time
 	private int satisfactionThreshold;
 	private int percentAgentOne;
