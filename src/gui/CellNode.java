@@ -53,9 +53,11 @@ public class CellNode {
 	 */
 	private Polygon drawSquare(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
 		polygon.getPoints()
-				.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize,
-						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, gridOffset + (x + 1) * cellSize,
-						gridOffset + (y + 1) * cellSize, gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize });
+				.addAll(new Double[] {
+						gridOffset + x * cellSize, gridOffset + y * cellSize, // top left
+						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top right
+						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom right
+						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom left
 		return polygon;
 	}
 
