@@ -13,17 +13,23 @@ public class SimControls extends Animation {
 	private Timeline myTimeline;
 	private Animation myAnimation;
 	
-	SimControls(Animation currAnimation, Timeline t) {
+	SimControls(Animation currAnimation, Timeline timeline) {
 		myAnimation = currAnimation;
-		myTimeline = t;
+		myTimeline = timeline;
 	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Handle click to stop button by stopping the simulation
+	 * 
+	 * @param e
+	 *            the MouseEvent registering the click
+	 * @param t
+	 *            the Timeline that is running through the step function
+	 */
+	private void handleStop(Timeline animation) {
+		animation.stop();
+		myAnimation.resetSimulation();
+	}
 	
 	/**
 	 * Handle click to pause button by pausing the simulation
@@ -33,8 +39,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handlePause(MouseEvent e, Timeline t) {
-		t.pause();
+	private void handlePause(Timeline animation) {
+		animation.pause();
 		System.out.println("PAUSE");
 
 	}
@@ -48,8 +54,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handleStep(MouseEvent e, Timeline t) {
-		t.pause(); // in case we are already playing
+	private void handleStep(Timeline animation) {
+		animation.pause(); // in case we are already playing
 		myAnimation.step(DEFAULT_SECOND_DELAY);
 		System.out.println("STEP");
 
@@ -63,8 +69,8 @@ public class SimControls extends Animation {
 	 * @param t
 	 *            the Timeline that is running through the step function
 	 */
-	private void handlePlay(MouseEvent e, Timeline t) {
-		t.play();
+	private void handlePlay(Timeline animation) {
+		animation.play();
 		System.out.println("PLAY");
 	}
 	
@@ -110,16 +116,16 @@ public class SimControls extends Animation {
 	 */
 	private void setButtonEventHandler(Button newButton, String buttonID) {
 		if (buttonID.equals("PlayButton")) {
-			newButton.setOnMouseClicked(e -> handlePlay(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handlePlay(myTimeline));
 		}
 		if (buttonID.equals("StepButton")) {
-			newButton.setOnMouseClicked(e -> handleStep(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handleStep(myTimeline));
 		}
 		if (buttonID.equals("PauseButton")) {
-			newButton.setOnMouseClicked(e -> handlePause(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handlePause(myTimeline));
 		}
 		if (buttonID.equals("StopButton")) {
-//			newButtonm.setOnMouseClicked(e -> handleStop(e, myTimeline));
+			newButton.setOnMouseClicked(e -> handleStop(myTimeline));
 		}
 	}
 

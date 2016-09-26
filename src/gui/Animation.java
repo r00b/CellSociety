@@ -42,14 +42,32 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
+	
+	protected void resetSimulation() {
+		clearGrid();
+		initStep("Game of Life");
+	}
 
-
-	private void redrawGrid() {
+	/**
+	 * Clear the grid and re-initialize the simulation
+	 */
+	private void clearGrid() {
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				String id = Integer.toString(i) + Integer.toString(j);
 				Node toDelete = myRoot.lookup("#" + id);
 				myRoot.getChildren().remove(toDelete);
+			}
+		}
+	}
+
+	/**
+	 * Redraw the grid each for each step through the simulation
+	 */
+	private void redrawGrid() {
+		clearGrid();
+		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
+			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
 				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
 				int numVertices = 4;
 				CellNode node = new CellNode();
@@ -91,13 +109,13 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
 		}
-//		if (simulation.equals(myResources.getString("PredatorPreySim")))
-//			mySimulation = new PredatorPrey();
+		// if (simulation.equals(myResources.getString("PredatorPreySim")))
+		// mySimulation = new PredatorPrey();
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
 		myGrid = mySimulation.getGrid();
 	}
-	
+
 	/**
 	 * Set up variables for the step function
 	 */
@@ -135,15 +153,9 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		myRoot = new Pane();
 		initStep(myResources.getString("DefaultSimulation"));
-		SimControls controllers = new SimControls(this,myTimeline);
+		SimControls controllers = new SimControls(this, myTimeline);
 		controllers.addControls(myRoot);
-		
-		
-		
-	//	HashMap<String, Node> nodes = controlElements.getControls(myRoot);
-//		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
-//		FlowControls f = new FlowControls(this);
-//		f.setEventHandlers(myResources, nodes, myTimeline);
+
 		Scene simulation = new Scene(myRoot, WIDTH, HEIGHT);
 		return simulation;
 	}
