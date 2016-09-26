@@ -22,7 +22,7 @@ public class Animation {
 	public static final String LANGUAGE = "English";
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
-	private double DEFAULT_FPS = 5;
+	private double DEFAULT_FPS = 10;
 	private double DEFAULT_MILLISECOND_DELAY = 1000 / DEFAULT_FPS;
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
@@ -95,8 +95,6 @@ public class Animation {
 //			mySimulation = new PredatorPrey();
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
-//		Grid cellGrid = mySimulation.initGrid();
-//		int gridSize = mySimulation.getGridSize();
 		myGrid = mySimulation.getGrid();
 	}
 	
@@ -137,7 +135,7 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		myRoot = new Pane();
 		initStep(myResources.getString("DefaultSimulation"));
-		SimControls controllers = new SimControls(myTimeline);
+		SimControls controllers = new SimControls(this,myTimeline);
 		controllers.addControls(myRoot);
 		
 		

@@ -11,8 +11,10 @@ import javafx.scene.layout.Pane;
 
 public class SimControls extends Animation {
 	private Timeline myTimeline;
+	private Animation myAnimation;
 	
-	SimControls(Timeline t) {
+	SimControls(Animation currAnimation, Timeline t) {
+		myAnimation = currAnimation;
 		myTimeline = t;
 	}
 	
@@ -48,7 +50,7 @@ public class SimControls extends Animation {
 	 */
 	private void handleStep(MouseEvent e, Timeline t) {
 		t.pause(); // in case we are already playing
-		step(DEFAULT_SECOND_DELAY); // QUESTION is this okay?
+		myAnimation.step(DEFAULT_SECOND_DELAY);
 		System.out.println("STEP");
 
 	}
@@ -117,7 +119,7 @@ public class SimControls extends Animation {
 			newButton.setOnMouseClicked(e -> handlePause(e, myTimeline));
 		}
 		if (buttonID.equals("StopButton")) {
-		//	newButtonm.setOnMouseClicked(e -> handleStop(e, myTimeline));
+//			newButtonm.setOnMouseClicked(e -> handleStop(e, myTimeline));
 		}
 	}
 
