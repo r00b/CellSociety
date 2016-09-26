@@ -39,7 +39,7 @@ public class Fire extends Simulation {
 		EMPTY = 0;
 		BURNING = 1;
 		TREE = 2;
-		myParser = new FireXMLParser("data/Fire.xml");
+		myParser = new FireXMLParser(myResources.getString("DefaultFireFile"));
 		probCatchFire = myParser.getProbCatchFire();
 		burnTime = myParser.getBurnDownTime();
 		stateToColorMap = new HashMap<>();
