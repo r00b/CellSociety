@@ -1,4 +1,5 @@
 package gui;
+
 import java.util.HashMap;
 
 import java.util.ResourceBundle;
@@ -9,7 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import simulations.*;
 public class Animation {
@@ -23,11 +26,12 @@ public class Animation {
 	public double DEFAULT_SECOND_DELAY = 1.0 / DEFAULT_FPS;
 	private int GRID_SIZE = 500;
 	private int GRID_OFFSET = 60;
-	
+
 	private Pane myRoot;
 	private Timeline myTimeline;
 	protected Simulation mySimulation;
 	ResourceBundle myResources;
+
 	/**
 	 * Get the window title for the scene
 	 * 
@@ -36,22 +40,39 @@ public class Animation {
 	public String getTitle() {
 		return TITLE;
 	}
-	/**
-	 * Draw myGrid to the canvas
-	 */
-	private void drawGrid(Grid grid) {
-		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
-		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
-		for (int i = 0; i < mySimulation.getGridWidth(); i++) {
-			for (int j = 0; j < mySimulation.getGridHeight(); j++) {
-				Rectangle a = new Rectangle(GRID_OFFSET + i * cellWidth, GRID_OFFSET + j * cellHeight, cellWidth, cellHeight);
-				// TODO: get curr state from cell for color
-				a.setFill(grid.getCell(i, j).getStateColor());
-				a.setStroke(Color.BLACK);
-				myRoot.getChildren().add(a);
+
+	private void updateGrid(Grid grid) {
+		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
+			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
+				String id = Integer.toString(i) + Integer.toString(j);
+				Node toDelete = myRoot.lookup("#"+id);
+				myRoot.getChildren().remove(toDelete);
+				double cellSize = GRID_SIZE / mySimulation.getGridWidth();
+				int numVertices = 4;
+				CellNode node = new CellNode();
+				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				myRoot.getChildren().add(cell);
 			}
 		}
 	}
+
+	/**
+	 * Draw myGrid to the canvas for the first time
+	 */
+	private void initGrid(Grid grid) {
+		double cellWidth = GRID_SIZE / mySimulation.getGridWidth();
+		double cellHeight = GRID_SIZE / mySimulation.getGridHeight();
+		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
+		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
+			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
+				int numVertices = 4;
+				CellNode node = new CellNode();
+				Polygon cell = node.getCellNode(grid,cellSize,GRID_OFFSET,i,j,numVertices);
+				myRoot.getChildren().add(cell);
+			}
+		}
+	}
+
 	/**
 	 * Set the simulation to a specified choice
 	 * 
@@ -72,8 +93,9 @@ public class Animation {
 //		Grid cellGrid = mySimulation.initGrid();
 //		int gridSize = mySimulation.getGridSize();
 //		drawGrid(cellGrid);
-		drawGrid(mySimulation.getGrid()); 
+		updateGrid(mySimulation.getGrid()); 
 	}
+
 	/**
 	 * Set up variables for the step function
 	 */
@@ -85,6 +107,7 @@ public class Animation {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
+
 	/**
 	 * Step through the gameplay
 	 * 
@@ -92,8 +115,9 @@ public class Animation {
 	 */
 	protected void step(double elapsedTime) {
 		mySimulation.updateGrid();
-		drawGrid(mySimulation.getGrid());
+		updateGrid(mySimulation.getGrid());
 	}
+
 	/**
 	 * Initialize simulation stage
 	 * 
@@ -108,8 +132,7 @@ public class Animation {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		ControlElements controlElements = new ControlElements();
 		myRoot = controlElements.getControlPane();
-		
-		
+
 		HashMap<String, Node> nodes = controlElements.getControls(myRoot);
 		initStep(((ComboBox<String>) nodes.get("simChoice")).getValue());
 		FlowControls f = new FlowControls(this);

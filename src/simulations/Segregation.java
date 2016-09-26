@@ -21,9 +21,7 @@ public class Segregation extends Simulation{
 	private static final int ONE = 1;
 	private static final int TWO = 2;
 	
-	private Grid myGrid;
 	private SegregationXMLParser myParser;
-	private HashMap<Integer, Color> stateToColorMap;
 	private ArrayList<Cell> myVacantList; //updated in real time
 	private int satisfactionThreshold;
 	private int percentAgentOne;
@@ -115,67 +113,4 @@ public class Segregation extends Simulation{
 			return true;
 		}
 	}
-
-	@Override
-	protected void commitStates() {
-		for(int row = 0; row < myGrid.getHeight(); row++){
-			for(int col = 0; col <myGrid.getWidth(); col++){
-				Cell currCell = myGrid.getCell(row, col);
-				currCell.commitState(stateToColorMap.get(currCell.getNextState()));
-			}
-		}
-	}
-
-	@Override
-	protected void addNeighbors(Cell currCell) {
-		Tuple position = currCell.getPosition();
-		for(int k = -1; k<2; k++){
-			for(int g = -1; g<2; g++){
-				int i = getNeighborIPosition(position.getIPos(), k);
-				int j = getNeighborJPosition(position.getJPos(), g);
-				if (!(i == position.getIPos() && j == position.getJPos())) {
-					currCell.addNeighbor(myGrid.getCell(i, j));
-				}
-			}
-		}
-	}
-	private int getNeighborJPosition(int j, int g) {
-		int jPos = j + g;
-		if(jPos < 0){
-			jPos = myGrid.getHeight()-1;
-		}
-		
-		if(jPos > myGrid.getHeight()-1){
-			jPos = 0;
-		}
-		return jPos;
-	}
-	
-	private int getNeighborIPosition(int i, int k){
-		int iPos = i + k;
-		if(iPos < 0){
-			iPos = myGrid.getWidth()-1;
-		}
-		
-		if(iPos > myGrid.getWidth()-1){
-			iPos = 0;
-		}
-		return iPos;
-	}
-
-	@Override
-	public Grid getGrid() {
-		return myGrid;
-	}
-
-	@Override
-	public int getGridWidth() {
-		return myGrid.getWidth();
-	}
-
-	@Override
-	public int getGridHeight() {
-		return myGrid.getHeight();
-	}
-
 }
