@@ -53,12 +53,10 @@ public class GameOfLife extends Simulation{
 				addNeighbors(currCell);
 			}
 		}
-		
 
 	}
 	
-
-
+	
 	/**
 	 * @param prob_Cell_Alive represents the probability that a cell is alive at the start of the simulation.
 	 * @param currCell is the cell for which we want an initial state to be randomly chosen
