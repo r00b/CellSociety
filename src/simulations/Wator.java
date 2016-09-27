@@ -1,9 +1,7 @@
 package simulations;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
 import javafx.scene.paint.Color;
 import xml.WatorXMLParser;
 /**
@@ -79,7 +77,6 @@ public class Wator extends Simulation{
 			currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
 		}
 	}
-
 	@Override
 	protected void addNeighbors(Cell currCell) {
 		for (Cell neighbor : makeNeighborList(currCell)) {
@@ -128,7 +125,6 @@ public class Wator extends Simulation{
 			}
 		}
 	}
-
 	//logic when a fish is encountered
 	private void handleFish(Cell currCell) {
 		//if fish was already eaten this round, do nothing
@@ -264,5 +260,4 @@ public class Wator extends Simulation{
 	}
 	
 	
-
 }
