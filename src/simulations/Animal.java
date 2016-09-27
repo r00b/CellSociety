@@ -19,5 +19,8 @@ public class Animal {
 	
 	public void decrementBreedTime() {
 		myTimeLeftUntilBreed -= 1;
+		if (myTimeLeftUntilBreed < 0) {
+			myTimeLeftUntilBreed = 0;
+		}
 	}
 }

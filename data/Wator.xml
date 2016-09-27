@@ -6,11 +6,11 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>50</gridWidth>
-		<gridHeight>50</gridHeight>
+		<gridWidth>40</gridWidth>
+		<gridHeight>40</gridHeight>
 		<fishBreedTime>5</fishBreedTime>
-		<sharkBreedTime>8</sharkBreedTime>
-		<sharkStarveTime>7</sharkStarveTime>
+		<sharkBreedTime>5</sharkBreedTime>
+		<sharkStarveTime>8</sharkStarveTime>
 		<percentShark>10</percentShark>
 		<percentFish>80</percentFish>
 	</parameters>
