@@ -131,123 +131,129 @@ public class Wator extends Simulation{
 
 	//logic when a fish is encountered
 	private void handleFish(Cell currCell) {
-		//check if the fish has been eaten 
+		//if fish was already eaten this round, do nothing
+		if (!myFish.containsKey(currCell)) return;
+		//check if neighbors are sharks, and handle scenario if they are
+		boolean hasBeenEaten = false;
 		ArrayList<Cell> neighbors = makeNeighborList(currCell);
-		if(myFish.containsKey(currCell)) {
-			for (Cell neighbor : neighbors) {
-				if (mySharks.containsKey(neighbor)) {
-					if (!tempSharkMap.containsKey(neighbor)) { //this shark has not yet eaten this round
-						Shark predator = mySharks.get(neighbor);
-						currCell.setNextState(EMPTY);
-						predator.markAsFull();
-						myFish.remove(currCell);
-						tempSharkMap.put(neighbor, predator);
-						break;
-					}
-				}
+		for (Cell neighbor : neighbors) {
+			if (neighbor.getCurrState() == SHARK && !tempSharkMap.containsKey(neighbor)) { //if shark hasn't been handled yet
+				//shark eats fish
+				Shark currShark = mySharks.get(neighbor);
+				sharkEatsFish(currShark, neighbor, currCell);
+				hasBeenEaten = true;
+				break;
 			}
 		}
-		
-		//if the fish still has not been eaten
-		if (myFish.containsKey(currCell)) {
+		if (!hasBeenEaten) {
 			Fish currFish = myFish.get(currCell);
-			boolean hasEmptyNeighbor = false;
-			for (Cell neighbor : neighbors) {
-				if (neighbor.getCurrState() == EMPTY) {
-					hasEmptyNeighbor = true;
-					if (currFish.getTimeLeftToBreed() == 0) { //breed new fish in adjacent cell
-						neighbor.setNextState(FISH);
-						tempFishMap.put(neighbor, new Fish(myFishBreedTime));
-						currFish.resetTimeToBreed();
-						tempFishMap.put(currCell, currFish);
-						currCell.setNextState(FISH);
-						break;
-					}
-					else { //move fish to adjacent cell
-						currCell.setNextState(EMPTY);
-						neighbor.setNextState(FISH);
-						currFish.decrementBreedTime();
-						tempFishMap.put(neighbor, currFish);
-						break;
-					}
+			currFish.decrementBreedTime();
+			Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
+			if (neighbor != null) { //if there is an empty adjacent neighbor
+				if (currFish.getTimeLeftToBreed() == 0) { //breed fish
+					currFish.resetTimeToBreed();
+					currCell.setNextState(FISH);
+					neighbor.setNextState(FISH);
+					tempFishMap.put(currCell, currFish);
+					tempFishMap.put(neighbor, new Fish(myFishBreedTime));
+				}
+				else if (currFish.getTimeLeftToBreed() > 0) { //move fish
+					neighbor.setNextState(FISH);
+					currCell.setNextState(EMPTY);
+					tempFishMap.put(neighbor, currFish);
 				}
 			}
-			if (!hasEmptyNeighbor) {
+			else { //no empty adjacent cells, keep cell in place
 				currCell.setNextState(FISH);
 				tempFishMap.put(currCell, currFish);
 			}
 		}
-		else {
-			currCell.setNextState(EMPTY);
-		}
-		
 	}
 	
 	//logic for when a shark is encountered
 	private void handleShark(Cell currCell) {
+		Shark currShark = mySharks.get(currCell);
 		ArrayList<Cell> neighbors = makeNeighborList(currCell);
-		//check if the shark has already eaten a fish this round
-		//we do this by checking if the shark was already added to the tempMap
-		if (tempSharkMap.containsKey(currCell)) {
-			Shark currShark = tempSharkMap.get(currCell);
-			currCell.setNextState(SHARK);
-			if (currShark.getTimeLeftToBreed() == 0) {
-				for (Cell neighbor : neighbors) {
-					if (neighbor.getCurrState() == EMPTY) {
-						neighbor.setNextState(SHARK);
-						tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
-						currShark.resetTimeToBreed();
-						tempSharkMap.put(currCell, currShark);
-						break;
-					}
-				}
-			}
-		}
-		else { //if shark hasn't eaten yet
-			boolean sharkAte = false;
-			Shark currShark = mySharks.get(currCell);
+		if (!tempSharkMap.containsKey(currCell)) { //shark hasn't been handled already this round
+			boolean hasEaten = false;
 			for (Cell neighbor : neighbors) {
-				if (myFish.containsKey(neighbor)) { //shark can eat
-					sharkAte = true;
-					currShark.markAsFull();
-					neighbor.setNextState(EMPTY);
-					currCell.setNextState(SHARK);
-					myFish.remove(neighbor);
-					tempSharkMap.put(currCell, currShark);
+				if (myFish.containsKey(neighbor)) { //found a fish, so shark eats fish
+					sharkEatsFish(currShark, currCell, neighbor);
+					hasEaten = true;
 					break;
 				}
 			}
-			if (!sharkAte) {
-				currShark.decrementTimeUntilStarve(); 
-				if (currShark.getTimeUntilStarve() == 0) { //shark is dead
-					mySharks.remove(currCell);
+			if (!hasEaten) {
+				currShark.decrementTimeUntilStarve();
+				if (currShark.getTimeUntilStarve() == 0) { //if shark dies
 					currCell.setNextState(EMPTY);
+					return;
 				}
-			}
-		}
-		//if shark is still alive
-		if (mySharks.containsKey(currCell)) {
-			Shark currShark = mySharks.get(currCell);
-			for (Cell neighbor : neighbors) {
-				if (neighbor.getCurrState() == EMPTY) {
-					if (currShark.getTimeLeftToBreed() == 0){//shark will breed
-						neighbor.setNextState(SHARK);
-						currCell.setNextState(SHARK);
-						tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
-						currShark.resetTimeToBreed();
-						tempSharkMap.put(currCell, currShark);
-					}
-					else {
+				else {
+					Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
+					if (neighbor != null) { //move shark
 						neighbor.setNextState(SHARK);
 						currCell.setNextState(EMPTY);
+						currShark.decrementBreedTime();
 						tempSharkMap.put(neighbor, currShark);
+						return;
 					}
-					break;
 				}
 			}
-				
+		}
+		//breed
+		currShark.decrementBreedTime();
+		if (currShark.getTimeLeftToBreed() == 0) {
+			Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
+			if (neighbor != null) {
+				currShark.resetTimeToBreed();
+				neighbor.setNextState(SHARK);
+				currCell.setNextState(SHARK);
+				tempSharkMap.put(currCell, currShark);
+				tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
+			}
+		}
+		currCell.setNextState(SHARK);
+		tempSharkMap.put(currCell, currShark);
+		
+	}
+	
+	/**
+	 * helper method
+	 * @param currShark
+	 * @param sharkCell
+	 * @param fishCell
+	 */
+	private void sharkEatsFish(Shark currShark, Cell sharkCell, Cell fishCell) {
+		myFish.remove(fishCell);
+		fishCell.setNextState(EMPTY);
+		sharkCell.setNextState(SHARK);
+		currShark.markAsFull();
+		tempSharkMap.put(sharkCell, currShark);
+	}
+	/**
+	 * this method is a helper method for the handleShark and handleFish methods
+	 * It takes a cell's list of neighbors, filters it by a specified state, and returns a random neighbor of that state
+	 * if there are no neighbors of that state, it returns null
+	 */
+	public Cell getRandomNeighborByState(ArrayList<Cell> neighbors, int state) {
+		ArrayList<Cell> filteredNeighbors = new ArrayList<Cell>();
+		for (Cell neighbor : neighbors) {
+			if (neighbor.getCurrState() == state) {
+				filteredNeighbors.add(neighbor);
+			}
+		}
+		if (filteredNeighbors.size() > 0) {
+			Random randGenerator = new Random();
+			int randIndex = randGenerator.nextInt(filteredNeighbors.size());
+			return filteredNeighbors.get(randIndex);
+		}
+		else {
+			return null;
 		}
 	}
+	
+	
 		
 	
 	@Override
