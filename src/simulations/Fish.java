@@ -6,6 +6,7 @@ public class Fish extends Animal{
 	public Fish(int timeToBreed) {
 		super(timeToBreed);
 		hasBeenEaten = false;
+		myType = Wator.FISH;
 	}
 	
 	public void markAsDead() {
