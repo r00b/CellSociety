@@ -1,26 +1,27 @@
 package simulations;
 
 public class Shark extends Animal{
-	private boolean hasEaten; 
 	private int starveThreshold;
 	private int timeUntilStarve;
 	
 	public Shark(int timeUntilBreed) {
 		super(timeUntilBreed);
-		hasEaten = false;
+		myType = Wator.SHARK;
 	}
 	public Shark (int timeUntilBreed, int starveCapacity) {
 		super(timeUntilBreed);
 		starveThreshold = starveCapacity;
 		timeUntilStarve = starveCapacity;
-	}
-
-	public boolean getHasEaten() {
-		return hasEaten;
+		myType = Wator.SHARK;
 	}
 	
-	public int getTimeUntilStarve() {
-		return timeUntilStarve;
+	public boolean willStarve() {
+		if (timeUntilStarve == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public void markAsFull() {

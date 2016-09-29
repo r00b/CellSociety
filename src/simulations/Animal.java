@@ -1,6 +1,7 @@
 package simulations;
 
 public class Animal {
+	protected int myType;
 	protected int myTimeLeftUntilBreed;
 	protected final int myInitialTimeUntilBreed;
 	
@@ -9,8 +10,13 @@ public class Animal {
 		myInitialTimeUntilBreed = timeUntilBreed;
 	}
 	
-	public int getTimeLeftToBreed() {
-		return myTimeLeftUntilBreed;
+	public boolean canBreed() {
+		if (myTimeLeftUntilBreed == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public void resetTimeToBreed() {
@@ -22,5 +28,9 @@ public class Animal {
 		if (myTimeLeftUntilBreed < 0) {
 			myTimeLeftUntilBreed = 0;
 		}
+	}
+	
+	public int getType() {
+		return myType;
 	}
 }

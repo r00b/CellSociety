@@ -16,9 +16,9 @@ import xml.WatorXMLParser;
  *
  */
 public class Wator extends Simulation{
-	private static final int EMPTY = 0;
-	private static final int SHARK = 1;
-	private static final int FISH = 2;
+	public static final int EMPTY = 0;
+	public static final int SHARK = 1;
+	public static final int FISH = 2;
 	
 	private WatorXMLParser myParser;
 	private HashMap<Cell, Fish> myFish = new HashMap<Cell, Fish>();
@@ -43,9 +43,6 @@ public class Wator extends Simulation{
 		mapStatesToColors();
 		setInitialGridState();
 	}
-	
-	
-	
 	@Override
 	protected void setInitialGridState() {
 		for (int row = 0; row < myGrid.getHeight(); row++) {
@@ -56,26 +53,11 @@ public class Wator extends Simulation{
 			}
 		}
 	}
-	/**
-	 * sets a random initial state for each cell
-	 * The initial state is determined by the probability assigned to each state
-	 * These probabilities are provided by the xml files
-	 * @param currCell
-	 */
-	private void setRandomInitialState(Cell currCell) {
-		Random randomNumGenerator = new Random();
-		int randNum = randomNumGenerator.nextInt(101);
-		if (randNum < myPercentShark) {
-			currCell.setCurrState(SHARK, stateToColorMap.get(SHARK));
-			mySharks.put(currCell, new Shark(mySharkBreedTime, mySharkStarveTime));
-		}
-		else if (randNum >= myPercentShark && randNum < myPercentShark + myPercentFish) {
-			currCell.setCurrState(FISH, stateToColorMap.get(FISH));
-			myFish.put(currCell, new Fish(myFishBreedTime));
-		}
-		else {
-			currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
-		}
+	@Override
+	protected void mapStatesToColors() {
+		stateToColorMap.put(EMPTY, Color.AQUAMARINE);
+		stateToColorMap.put(SHARK, Color.RED);
+		stateToColorMap.put(FISH, Color.GREEN);	
 	}
 	@Override
 	protected void addNeighbors(Cell currCell) {
@@ -83,19 +65,6 @@ public class Wator extends Simulation{
 			currCell.addNeighbor(neighbor);
 		}
 	}
-	
-	//returns a list of the four neighbors of each cell 
-	private ArrayList<Cell> makeNeighborList(Cell currCell) {
-		int row = currCell.getPosition().getIPos();
-		int col = currCell.getPosition().getJPos();
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		neighbors.add(myGrid.getCell(getNeighborIPosition(row, -1), col));
-		neighbors.add(myGrid.getCell(getNeighborIPosition(row, 1), col));
-		neighbors.add(myGrid.getCell(row, getNeighborJPosition(col, -1)));
-		neighbors.add(myGrid.getCell(row, getNeighborJPosition(col, 1)));
-		return neighbors;
-	}
-	
 	//commits states of each cell and also commits the new values to mySharks and myFish
 	//tempSharkMap and tempFishMap are cleared so they can be used in the next 'round'
 	@Override
@@ -125,7 +94,46 @@ public class Wator extends Simulation{
 			}
 		}
 	}
-	//logic when a fish is encountered
+	
+	/**
+	 * sets a random initial state for each cell
+	 * The initial state is determined by the probability assigned to each state
+	 * These probabilities are provided by the xml files
+	 * @param currCell
+	 */
+	private void setRandomInitialState(Cell currCell) {
+		Random randomNumGenerator = new Random();
+		int randNum = randomNumGenerator.nextInt(101);
+		if (randNum < myPercentShark) {
+			currCell.setCurrState(SHARK, stateToColorMap.get(SHARK));
+			mySharks.put(currCell, new Shark(mySharkBreedTime, mySharkStarveTime));
+		}
+		else if (randNum >= myPercentShark && randNum < myPercentShark + myPercentFish) {
+			currCell.setCurrState(FISH, stateToColorMap.get(FISH));
+			myFish.put(currCell, new Fish(myFishBreedTime));
+		}
+		else {
+			currCell.setCurrState(EMPTY, stateToColorMap.get(EMPTY));
+		}
+	}
+	
+	//returns a list of the four neighbors of each cell 
+	private ArrayList<Cell> makeNeighborList(Cell currCell) {
+		int row = currCell.getPosition().getIPos();
+		int col = currCell.getPosition().getJPos();
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		neighbors.add(myGrid.getCell(getNeighborIPosition(row, -1), col));
+		neighbors.add(myGrid.getCell(getNeighborIPosition(row, 1), col));
+		neighbors.add(myGrid.getCell(row, getNeighborJPosition(col, -1)));
+		neighbors.add(myGrid.getCell(row, getNeighborJPosition(col, 1)));
+		return neighbors;
+	}
+	
+	/**
+	 * this method handles the logic for cells with the state FISH
+	 * it is called by updateNextStates when updating the grid
+	 * @param currCell - the current cell that contains a Fish object
+	 */
 	private void handleFish(Cell currCell) {
 		//if fish was already eaten this round, do nothing
 		if (!myFish.containsKey(currCell)) return;
@@ -146,17 +154,11 @@ public class Wator extends Simulation{
 			currFish.decrementBreedTime();
 			Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
 			if (neighbor != null) { //if there is an empty adjacent neighbor
-				if (currFish.getTimeLeftToBreed() == 0) { //breed fish
-					currFish.resetTimeToBreed();
-					currCell.setNextState(FISH);
-					neighbor.setNextState(FISH);
-					tempFishMap.put(currCell, currFish);
-					tempFishMap.put(neighbor, new Fish(myFishBreedTime));
+				if (currFish.canBreed()) { //breed fish
+					breedAnimal(currFish, currCell, neighbor);
 				}
-				else if (currFish.getTimeLeftToBreed() > 0) { //move fish
-					neighbor.setNextState(FISH);
-					currCell.setNextState(EMPTY);
-					tempFishMap.put(neighbor, currFish);
+				else { 
+					moveAnimal(currFish, currCell, neighbor);
 				}
 			}
 			else { //no empty adjacent cells, keep cell in place
@@ -165,10 +167,14 @@ public class Wator extends Simulation{
 			}
 		}
 	}
-	
-	//logic for when a shark is encountered
+	/**
+	 * this method handles the logic for cells with the state SHARK
+	 * it is called by updateNextStates when updating the grid
+	 * @param currCell - the current cell that contains a Shark object
+	 */
 	private void handleShark(Cell currCell) {
 		Shark currShark = mySharks.get(currCell);
+		currShark.decrementBreedTime();
 		ArrayList<Cell> neighbors = makeNeighborList(currCell);
 		if (!tempSharkMap.containsKey(currCell)) { //shark hasn't been handled already this round
 			boolean hasEaten = false;
@@ -181,44 +187,72 @@ public class Wator extends Simulation{
 			}
 			if (!hasEaten) {
 				currShark.decrementTimeUntilStarve();
-				if (currShark.getTimeUntilStarve() == 0) { //if shark dies
+				if (currShark.willStarve()) { //if shark dies
 					currCell.setNextState(EMPTY);
 					return;
 				}
 				else {
 					Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
 					if (neighbor != null) { //move shark
-						neighbor.setNextState(SHARK);
-						currCell.setNextState(EMPTY);
-						currShark.decrementBreedTime();
-						tempSharkMap.put(neighbor, currShark);
+						moveAnimal(currShark, currCell, neighbor);
 						return;
 					}
 				}
 			}
 		}
-		//breed
-		currShark.decrementBreedTime();
-		if (currShark.getTimeLeftToBreed() == 0) {
+		if (currShark.canBreed()) { 
 			Cell neighbor = getRandomNeighborByState(neighbors, EMPTY);
-			if (neighbor != null) {
-				currShark.resetTimeToBreed();
-				neighbor.setNextState(SHARK);
-				currCell.setNextState(SHARK);
-				tempSharkMap.put(currCell, currShark);
-				tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
+			if (neighbor != null) { //found empty adjacent neighbor, so shark can breed
+				breedAnimal(currShark, currCell, neighbor);
 			}
 		}
 		currCell.setNextState(SHARK);
 		tempSharkMap.put(currCell, currShark);
+	}
+	/**
+	 * helper method used by handleShark and handleFish to handle logic for when an animal breeds
+	 * the method signature must be general so both fish and shark can be bred, but specific enough to breed the right animal
+	 * @param currAnimal - Animal that is breeding
+	 * @param currCell - Cell that that the breeding animal is currently on
+	 * @param neighbor - Cell on which the new animal wil appear
+	 */
+	private void breedAnimal(Animal currAnimal, Cell currCell, Cell neighbor) {
+		currAnimal.resetTimeToBreed();
+		if (currAnimal.getType() == SHARK) { //animal is a shark
+			tempSharkMap.put(currCell, (Shark) currAnimal);
+			tempSharkMap.put(neighbor, new Shark(mySharkBreedTime, mySharkStarveTime));
+		}
+		else {
+			tempFishMap.put(currCell, (Fish) currAnimal);
+			tempFishMap.put(neighbor, new Fish(myFishBreedTime));
+		}
+		currCell.setNextState(currAnimal.getType());
+		neighbor.setNextState(currAnimal.getType());
+	}
+	/**
+	 * helper method that is used by handleShark and handleFish to move the animal to a new Cell
+	 * @param currAnimal - animal that is moving
+	 * @param currCell - cell that the animal is currently on
+	 * @param nextCell - cell that the animal will move to
+	 */
+	private void moveAnimal(Animal currAnimal, Cell currCell, Cell nextCell) {
+		if (currAnimal.getType() == SHARK) { //animal is a shark
+			tempSharkMap.put(nextCell, (Shark) currAnimal);
+		}
+		else {
+			tempFishMap.put(nextCell, (Fish) currAnimal);
+		}
+		nextCell.setNextState(currAnimal.getType());
+		currCell.setNextState(EMPTY);
 		
 	}
 	
 	/**
-	 * helper method
-	 * @param currShark
-	 * @param sharkCell
-	 * @param fishCell
+	 * helper method that handles the event that a shark eats a fish
+	 * This is called by handleFish (if a fish's neighbor is a shark) or handleShark (if a shark's neighbor is a fish)
+	 * @param currShark - Shark that is eating
+	 * @param sharkCell - Cell of shark that is eating
+	 * @param fishCell - Cell of fish that is being eaten
 	 */
 	private void sharkEatsFish(Shark currShark, Cell sharkCell, Cell fishCell) {
 		myFish.remove(fishCell);
@@ -232,7 +266,7 @@ public class Wator extends Simulation{
 	 * It takes a cell's list of neighbors, filters it by a specified state, and returns a random neighbor of that state
 	 * if there are no neighbors of that state, it returns null
 	 */
-	public Cell getRandomNeighborByState(ArrayList<Cell> neighbors, int state) {
+	private Cell getRandomNeighborByState(ArrayList<Cell> neighbors, int state) {
 		ArrayList<Cell> filteredNeighbors = new ArrayList<Cell>();
 		for (Cell neighbor : neighbors) {
 			if (neighbor.getCurrState() == state) {
@@ -247,17 +281,5 @@ public class Wator extends Simulation{
 		else {
 			return null;
 		}
-	}
-	
-	
-		
-	
-	@Override
-	protected void mapStatesToColors() {
-		stateToColorMap.put(EMPTY, Color.AQUAMARINE);
-		stateToColorMap.put(SHARK, Color.RED);
-		stateToColorMap.put(FISH, Color.GREEN);	
-	}
-	
-	
+	}	
 }
