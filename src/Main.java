@@ -9,7 +9,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 	
-	/**
+	/**  
 	 * Open the window and initiate simulation screen
 	 */
 	@Override
