@@ -37,7 +37,6 @@ public class Animation {
 	public static final String LANGUAGE = "English";
 
 	private int GRID_SIZE = 500;
-
 	private ResourceBundle myResources;
 	private Pane myRoot;
 	private Timeline myTimeline;
@@ -81,10 +80,16 @@ public class Animation {
 	}
 
 	/**
-	 * Redraw the grid each for each step through the simulation
+	 * Draw the grid to the scene
+	 * 
+	 * @param newGrid
+	 *            true if the grid is being drawn for the first time, false
+	 *            otherwise
 	 */
-	private void redrawGrid() {
-		clearGrid();
+	private void drawGrid(boolean newGrid) {
+		if (!newGrid) {
+			clearGrid();
+		}
 		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
 			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
@@ -92,28 +97,15 @@ public class Animation {
 				CellNode node = new CellNode();
 				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
 						i, j, numVertices);
+				if (newGrid) {
+					String id = Integer.toString(i) + Integer.toString(j);
+					// set a CSS id so we can get this cell later to remove it
+					cell.setId(id);
+				}
 				myRoot.getChildren().add(cell);
 			}
 		}
-	}
 
-	/**
-	 * Draw myGrid to the canvas for the first time
-	 */
-	private void drawNewGrid() {
-		double cellSize = GRID_SIZE / mySimulation.getGridHeight();
-		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
-			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				int numVertices = 4; // since we are only implementing squares right now
-				CellNode node = new CellNode();
-				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
-						i, j, numVertices);
-				String id = Integer.toString(i) + Integer.toString(j);
-				// set a CSS id so we can get this cell later to remove it from the scene
-				cell.setId(id);
-				myRoot.getChildren().add(cell);
-			}
-		}
 	}
 
 	/**
@@ -132,7 +124,6 @@ public class Animation {
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
 			mySimulation = new Wator();
 		}
-		
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
 		myGrid = mySimulation.getGrid();
@@ -146,7 +137,7 @@ public class Animation {
 	 */
 	protected void initStep(String simulation) {
 		setSimulation(simulation);
-		drawNewGrid();
+		drawGrid(true); // pass true because this is a new grid
 		myTimeline = new Timeline();
 		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
 		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
@@ -161,7 +152,7 @@ public class Animation {
 	 */
 	protected void step(double elapsedTime) {
 		mySimulation.updateGrid(); // calculate new grid
-		redrawGrid();
+		drawGrid(false); // pass false because we are updating an old grid
 	}
 
 	/**
