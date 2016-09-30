@@ -6,8 +6,8 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>8</gridWidth>
-		<gridHeight>8</gridHeight>
+		<gridWidth>30</gridWidth>
+		<gridHeight>30</gridHeight>
 		<satisfaction>40</satisfaction>
 		<percentOne>45</percentOne>
 		<percentTwo>45</percentTwo>
