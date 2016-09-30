@@ -1,4 +1,7 @@
 package xml;
+
+import javafx.scene.paint.Color;
+
 /**
  * SegregationXMLParser is an XMLParser used specifically for Segregation simulations
  * It has methods to retrieve attributes specific to Segregation simulations (eg. satisfaction)
@@ -7,9 +10,6 @@ package xml;
  *
  */
 public class SegregationXMLParser extends XMLParser{
-	private static final String SATISFACTION_TAG = "satisfaction";
-	private static final String PERCENT_AGENT_ONE_TAG = "percentOne";
-	private static final String PERCENT_AGENT_TWO_TAG = "percentTwo";
 	
 	public SegregationXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -20,7 +20,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) required for agent to be satisfied
 	 */
 	public int getSatisfactionThreshold() {
-		return getIntValueByTagName(SATISFACTION_TAG);
+		return getIntValueByTagName(myResources.getString("satisfactionTag"));
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) of agent1 types out of all cells in the grid
 	 */
 	public int getPercentOfAgentOne() {
-		return getIntValueByTagName(PERCENT_AGENT_ONE_TAG);
+		return getIntValueByTagName(myResources.getString("percentOneTag"));
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) of agent2 types out of all cells in the grid
 	 */
 	public int getPercentOfAgentTwo() {
-		return getIntValueByTagName(PERCENT_AGENT_TWO_TAG);
+		return getIntValueByTagName(myResources.getString("percentTwoTag"));
 	}
 	
 	/**
@@ -45,5 +45,20 @@ public class SegregationXMLParser extends XMLParser{
 	 */
 	public int getPercentEmpty() {
 		return 100 - (getPercentOfAgentOne() + getPercentOfAgentTwo());
+	}
+	
+	public Color getEmptyColor() {
+		String colorString = getTextValueByTagName(myResources.getString("emptyColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getAgentOneColor() {
+		String colorString = getTextValueByTagName(myResources.getString("agentOneColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getAgentTwoColor() {
+		String colorString = getTextValueByTagName(myResources.getString("agentTwoColorTag"));
+		return Color.valueOf(colorString);
 	}
 }

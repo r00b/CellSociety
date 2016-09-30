@@ -55,9 +55,9 @@ public class Wator extends Simulation{
 	}
 	@Override
 	protected void mapStatesToColors() {
-		stateToColorMap.put(EMPTY, Color.AQUAMARINE);
-		stateToColorMap.put(SHARK, Color.RED);
-		stateToColorMap.put(FISH, Color.GREEN);	
+		stateToColorMap.put(EMPTY, myParser.getEmptyColor());
+		stateToColorMap.put(SHARK, myParser.getSharkColor());
+		stateToColorMap.put(FISH, myParser.getFishColor());	
 	}
 	@Override
 	protected void addNeighbors(Cell currCell) {

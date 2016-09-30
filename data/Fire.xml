@@ -10,5 +10,8 @@
 		<gridHeight>50</gridHeight>
 		<burnDownTime>2</burnDownTime>
 		<probCatchFire>30</probCatchFire>
+		<burningColor>red</burningColor>
+		<emptyColor>gray</emptyColor>
+		<treeColor>green</treeColor>
 	</parameters>
 </Simulation>

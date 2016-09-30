@@ -43,8 +43,8 @@ public class GameOfLife extends Simulation {
 	
 	
 	protected void mapStatesToColors() {
-		stateToColorMap.put(DEAD,Color.RED);
-		stateToColorMap.put(ALIVE, Color.BLUE);
+		stateToColorMap.put(DEAD,myParser.getDeadColor());
+		stateToColorMap.put(ALIVE, myParser.getAliveColor());
 	}
 	
 

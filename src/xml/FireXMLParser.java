@@ -1,4 +1,6 @@
 package xml;
+import javafx.scene.paint.Color;
+
 /**
  * FireXMLParser is an XMLParser used specifically for Fire Spreading simulations
  * It has methods to retrieve attributes specific to Fire simulations (eg. burnDownTime)
@@ -7,8 +9,6 @@ package xml;
  *
  */
 public class FireXMLParser extends XMLParser{
-	private static final String PROB_CATCH_FIRE_TAG = "probCatchFire";
-	private static final String BURNDOWN_TIME_TAG = "burnDownTime";
 	
 	public FireXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -19,7 +19,7 @@ public class FireXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) probability
 	 */
 	public int getProbCatchFire() {
-		return getIntValueByTagName(PROB_CATCH_FIRE_TAG);
+		return getIntValueByTagName(myResources.getString("probCatchFireTag"));
 	}
 	
 	/**
@@ -27,6 +27,20 @@ public class FireXMLParser extends XMLParser{
 	 * @return int - number of rounds after a tree catches fire for it to burn down
 	 */
 	public int getBurnDownTime() {
-		return getIntValueByTagName(BURNDOWN_TIME_TAG);
+		return getIntValueByTagName(myResources.getString("burnDownTimeTag"));
+	}
+	
+	public Color getBurningColor() {
+		String colorString = getTextValueByTagName(myResources.getString("burningColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getEmptyColor() {
+		String colorString = getTextValueByTagName(myResources.getString("emptyColorTag"));
+		return Color.valueOf(colorString);
+	}
+	public Color getTreeColor() {
+		String colorString = getTextValueByTagName(myResources.getString("treeColorTag"));
+		return Color.valueOf(colorString);
 	}
 }
