@@ -3,7 +3,7 @@ Refactoring Discussion
 
 Robert H. Steilberg II | rhs16
 
-The refactoring changes documented in this file are reflected in this [commit]().
+The refactoring changes documented in this file are reflected in this [commit](https://git.cs.duke.edu/CompSci308_2016Fall/cellsociety_team08/commit/4b951896166d498ee277c2465d2cdc4cc6cd05b3).
 
 * I decided to refactor the for loop in the Animation class since it was duplicated between drawNewGrid and updateGrid, as shown by the results from CodePro AnalytiX. I did this by adding a boolean to distinguish whether or not the drawGrid function was drawing the grid for the first time or merely updating the grid (requiring that the previous grid be cleared of the canvas before the updated grid is drawn).
 
