@@ -4,7 +4,6 @@ import javafx.scene.shape.Polygon;
 import simulations.Grid;
 
 /**
- * 
  * @author Robert H. Steilberg II | rhs16
  *
  *         The CellNode class creates a Polygon object for each cell of the
@@ -13,7 +12,7 @@ import simulations.Grid;
  *         via the Animation class. Each Node object is created as a user-
  *         specified shape; the points of the polygon are determined depending
  *         on which shape should be drawn.
- *         
+ * 
  *         Dependencies: Animation.java
  */
 public class CellNode {
@@ -53,11 +52,14 @@ public class CellNode {
 	 */
 	private Polygon drawSquare(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
 		polygon.getPoints()
-				.addAll(new Double[] {
-						gridOffset + x * cellSize, gridOffset + y * cellSize, // top left
-						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top right
-						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom right
-						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom left
+				.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
+																								// left
+						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
+																					// right
+						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
+																							// right
+						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
+																						// left
 		return polygon;
 	}
 
