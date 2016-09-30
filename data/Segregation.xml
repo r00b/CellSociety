@@ -11,5 +11,8 @@
 		<satisfaction>40</satisfaction>
 		<percentOne>45</percentOne>
 		<percentTwo>45</percentTwo>
+		<emptyColor>white</emptyColor>
+		<agentOneColor>blue</agentOneColor>
+		<agentTwoColor>red</agentTwoColor>
 	</parameters>
 </Simulation>

@@ -9,5 +9,7 @@
 		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight>
 		<probCellAlive>55</probCellAlive>
+		<deadColor>red</deadColor>
+		<aliveColor>blue</aliveColor>
 	</parameters>
 </Simulation>

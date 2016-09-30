@@ -1,4 +1,5 @@
 package xml;
+import javafx.scene.paint.Color;
 /**
  * GameOfLifeXMLParser is an XMLParser used specifically for game of life simulations
  * It has methods to retrieve attributes specific to game of life simulations (eg. probCellAlive)
@@ -7,7 +8,6 @@ package xml;
  *
  */
 public class GameOfLifeXMLParser extends XMLParser{
-	private static final String PROB_CELL_ALIVE_TAG = "probCellAlive";
 	
 	public GameOfLifeXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -18,7 +18,16 @@ public class GameOfLifeXMLParser extends XMLParser{
 	 * @return int - percentage probability (out of 100) of cell being alive 
 	 */
 	public int getProbOfCellAlive() {
-		return getIntValueByTagName(PROB_CELL_ALIVE_TAG);
+		return getIntValueByTagName(myResources.getString("probCellAliveTag"));
 	}
 	
+	public Color getAliveColor() {
+		String colorString = getTextValueByTagName(myResources.getString("aliveColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getDeadColor() {
+		String colorString = getTextValueByTagName(myResources.getString("deadColorTag"));
+		return Color.valueOf(colorString);
+	}
 }

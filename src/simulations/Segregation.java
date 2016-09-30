@@ -40,9 +40,9 @@ public class Segregation extends Simulation{
 
 
 	protected void mapStatesToColors() {
-		stateToColorMap.put(EMPTY, Color.WHITE);
-		stateToColorMap.put(ONE, Color.BLUE);
-		stateToColorMap.put(TWO, Color.RED);
+		stateToColorMap.put(EMPTY, myParser.getEmptyColor());
+		stateToColorMap.put(ONE, myParser.getAgentOneColor());
+		stateToColorMap.put(TWO, myParser.getAgentTwoColor());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package xml;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,11 +22,9 @@ import org.xml.sax.SAXException;
  *
  */
 public class XMLParser {
-	private static final String SIM_TYPE_TAG = "type";
-	private static final String SIM_NAME_TAG = "name";
-	private static final String AUTHOR_TAG = "author";
-	private static final String GRID_WIDTH_TAG = "gridWidth";
-	private static final String GRID_HEIGHT_TAG	 = "gridHeight";
+	protected ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	protected static final String LANGUAGE = "XmlTags";
 	private static final DocumentBuilder DOCUMENT_BUILDER = getDocumentBuilder();
 	private Element ROOT;
 	
@@ -34,6 +33,7 @@ public class XMLParser {
 	}
 	
 	//creates DocumentBuilder to navigate DOM tree
+	//this method is static because it returns the value for a static constant
 	protected static DocumentBuilder getDocumentBuilder() {
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -72,7 +72,7 @@ public class XMLParser {
 		}
 		else {
 			//need to implement a more robust else case (if can't find tag name)
-			throw new NullPointerException("The tag " + tagName + " does not exist");
+			throw new XMLParserException();
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class XMLParser {
 	 * @return String - simulation type
 	 */
 	public String getSimulationType() {
-		return getTextValueByTagName(SIM_TYPE_TAG);
+		return getTextValueByTagName(myResources.getString("simTypeTag"));
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class XMLParser {
 	 * @return String - simulation name
 	 */
 	public String getSimulationName() {
-		return getTextValueByTagName(SIM_NAME_TAG);
+		return getTextValueByTagName(myResources.getString("simNameTag"));
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class XMLParser {
 	 * @return String - author
 	 */
 	public String getAuthor() {
-		return getTextValueByTagName(AUTHOR_TAG);
+		return getTextValueByTagName(myResources.getString("authorTag"));
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class XMLParser {
 	 * @return int - number of columns of cells
 	 */
 	public int getGridWidth() {
-		return getIntValueByTagName(GRID_WIDTH_TAG);
+		return getIntValueByTagName(myResources.getString("gridWidthTag"));
 	}
 	
 	/**
@@ -124,6 +124,6 @@ public class XMLParser {
 	 * @return int - number of rows of cells
 	 */
 	public int getGridHeight() {
-		return getIntValueByTagName(GRID_HEIGHT_TAG);
+		return getIntValueByTagName(myResources.getString("gridHeightTag"));
 	}
 }

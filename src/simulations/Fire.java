@@ -53,9 +53,10 @@ public class Fire extends Simulation {
 	 * Maps each possible state of a cell to an appropriate color.
 	 */
 	protected void mapStatesToColors() {
-		stateToColorMap.put(EMPTY, Color.GRAY);
-		stateToColorMap.put(BURNING, Color.RED);
-		stateToColorMap.put(TREE, Color.GREEN);
+		stateToColorMap.put(EMPTY, myParser.getEmptyColor());
+		stateToColorMap.put(BURNING, myParser.getBurningColor());
+		stateToColorMap.put(TREE, myParser.getTreeColor());
+		
 	}
 
 	/**

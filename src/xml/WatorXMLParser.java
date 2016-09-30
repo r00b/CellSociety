@@ -1,4 +1,7 @@
 package xml;
+
+import javafx.scene.paint.Color;
+
 /**
  * WatorXMLParser is an XMLParser used specifically for Wa-Tor World simulations
  * It has methods to retrieve attributes specific to Wa-Tor simulations (eg. sharkBreedTime)
@@ -7,12 +10,6 @@ package xml;
  *
  */
 public class WatorXMLParser extends XMLParser{
-	private static final String FISH_BREED_TIME_TAG = "fishBreedTime";
-	private static final String SHARK_BREED_TIME_TAG = "sharkBreedTime";
-	private static final String SHARK_STARVE_TIME_TAG = "sharkStarveTime";
-	private static final String PERCENT_SHARK_TAG = "percentShark";
-	private static final String PERCENT_FISH_TAG = "percentFish";
-
 	
 	public WatorXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -23,7 +20,7 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - number of rounds a fish must survive to breed
 	 */
 	public int getFishBreedTime() {
-		return getIntValueByTagName(FISH_BREED_TIME_TAG);
+		return getIntValueByTagName(myResources.getString("fishBreedTimeTag"));
 	}
 	
 	/**
@@ -31,7 +28,7 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - number of rounds a shark must survive to breed
 	 */
 	public int getSharkBreedTime() {
-		return getIntValueByTagName(SHARK_BREED_TIME_TAG);
+		return getIntValueByTagName(myResources.getString("sharkBreedTimeTag"));
 	}
 	
 	/**
@@ -39,7 +36,7 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int- number of rounds a shark can go without eating before dying
 	 */
 	public int getSharkStarveTime() {
-		return getIntValueByTagName(SHARK_STARVE_TIME_TAG);
+		return getIntValueByTagName(myResources.getString("sharkStarveTimeTag"));
 	}
 	
 	/**
@@ -47,7 +44,7 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) of grid populated by sharks
 	 */
 	public int getPercentShark() {
-		return getIntValueByTagName(PERCENT_SHARK_TAG);
+		return getIntValueByTagName(myResources.getString("percentSharkTag"));
 	}
 	
 	/**
@@ -55,7 +52,7 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) of grid populated by fish
 	 */
 	public int getPercentFish() {
-		return getIntValueByTagName(PERCENT_FISH_TAG);
+		return getIntValueByTagName(myResources.getString("percentFishTag"));
 	}
 	
 	/**
@@ -64,6 +61,21 @@ public class WatorXMLParser extends XMLParser{
 	 */
 	public int getPercentEmpty() {
 		return 100 - (getPercentShark() + getPercentFish());
+	}
+	
+	public Color getFishColor() {
+		String colorString = getTextValueByTagName(myResources.getString("fishColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getSharkColor() {
+		String colorString = getTextValueByTagName(myResources.getString("sharkColorTag"));
+		return Color.valueOf(colorString);
+	}
+	
+	public Color getEmptyColor() {
+		String colorString = getTextValueByTagName(myResources.getString("emptyColorTag"));
+		return Color.valueOf(colorString);
 	}
 	
 	
