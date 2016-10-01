@@ -1,4 +1,4 @@
-package simulations;
+package simulations.Wator;
 
 public class Fish extends Animal{
 	private boolean hasBeenEaten;
@@ -6,7 +6,7 @@ public class Fish extends Animal{
 	public Fish(int timeToBreed) {
 		super(timeToBreed);
 		hasBeenEaten = false;
-		myType = Wator.FISH;
+		myType = WatorCell.FISH;
 	}
 	
 	public void markAsDead() {

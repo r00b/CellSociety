@@ -43,15 +43,27 @@ public class Neighborhood implements Iterable<Cell> {
 			return;
 		}
 		else{
-			int i = currCell.getPosition().getIPos();
-			int j = currCell.getPosition().getJPos();
-			currCell.addNeighbor(grid.getCell(i-1, j));
-			currCell.addNeighbor(grid.getCell(i+1, j));
-			currCell.addNeighbor(grid.getCell(i, j-1));
-			currCell.addNeighbor(grid.getCell(i, j+1));
+			set_FourNeighbor_NoWraparound(currCell, grid);
 		}
 	}
 	
+	public void set_FourNeighbor_NoWraparound(Cell currCell, Grid grid){
+		int i = currCell.getPosition().getIPos();
+		int j = currCell.getPosition().getJPos();
+		currCell.addNeighbor(grid.getCell(i-1, j));
+		currCell.addNeighbor(grid.getCell(i+1, j));
+		currCell.addNeighbor(grid.getCell(i, j-1));
+		currCell.addNeighbor(grid.getCell(i, j+1));
+	}
+	
+	public void set_FourNeighbor_Wraparound(Cell currCell, Grid grid){
+		int i = currCell.getPosition().getIPos();
+		int j = currCell.getPosition().getJPos();
+		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, -1, grid), j));
+		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, 1,grid), j));
+		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, -1,grid)));
+		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, 1,grid)));
+	}
 	/**
 	 *
 	 * @param j - the j poisition of the current cell for which we are calculating the j position for a given neighbor
@@ -110,5 +122,4 @@ public class Neighborhood implements Iterable<Cell> {
 		List<Cell> neighbors = Collections.unmodifiableList(myNeighbors);
 		return neighbors.iterator();
 	}
-	
 }

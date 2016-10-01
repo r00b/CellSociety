@@ -1,15 +1,9 @@
 package simulations;
 
-import java.security.KeyStore.PrivateKeyEntry;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import com.sun.corba.se.impl.naming.namingutil.IIOPEndpointInfo;
-import com.sun.javafx.scene.paint.GradientUtils.Parser;
 
 import javafx.scene.paint.Color;
 

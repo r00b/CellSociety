@@ -56,7 +56,7 @@ public abstract class Simulation {
 	 * @param currCell the cell for which we would like to determine if it is an edge cell or not 
 	 * @return boolean -> true if cell is on the edge of the grid, false if it is not 
 	 */
-	protected boolean isEdgeCell(Cell currCell) {
+	public boolean isEdgeCell(Cell currCell) {
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
 		if(i == 0 || j == 0 || i == (getGridHeight() - 1) || j == (getGridWidth() - 1)){

@@ -1,14 +1,9 @@
 package simulations.GameOfLife;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.ResourceBundle;
-import javafx.scene.paint.Color;
+
 import simulations.Simulation;
 import xml.GameOfLifeXMLParser;
-import java.lang.Iterable;
+
 
 /**
  * @author samuelcurtis
@@ -23,7 +18,6 @@ import java.lang.Iterable;
 
 public class GameOfLife extends Simulation {
 	private final GameOfLifeXMLParser myParser;
-	private final int probCellAlive;
 	private final GameOfLifeGrid myGrid;
 
 	/**
@@ -32,7 +26,6 @@ public class GameOfLife extends Simulation {
 	 */
 	public GameOfLife() {
 		myParser = new GameOfLifeXMLParser(myResources.getString("DefaultGameOfLifeFile"));
-		probCellAlive = myParser.getProbOfCellAlive();
 		myGrid = new GameOfLifeGrid(myParser.getGridWidth(), myParser.getGridHeight());
 		setGrid(myGrid);
 		setInitialGridState();

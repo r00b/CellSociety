@@ -11,6 +11,7 @@ import simulations.*;
 import simulations.Fire.Fire;
 import simulations.GameOfLife.GameOfLife;
 import simulations.Segregation.Segregation;
+import simulations.Wator.Wator;
 
 /**
  * @author Robert H. Steilberg II | rhs16
