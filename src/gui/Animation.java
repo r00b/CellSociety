@@ -87,20 +87,16 @@ public class Animation {
 	 */
 	private void setSimulation(String simulation, String XMLFileName) {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
-		//	mySimulation = new GameOfLife();
 			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
-			mySimulation = new Segregation();
-			// mySimulation = new Segregation(XMLFileName);
+			 mySimulation = new Segregation(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
-			mySimulation = new Wator();
-			// mySimulation = new Wator(XMLFileName);
+			 mySimulation = new Wator(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("FireSim")))
-			mySimulation = new Fire();
-		//	mySimulation = new Fire(XMLFileName);
+			mySimulation = new Fire(XMLFileName);
 		myGrid = mySimulation.getGrid();
 	}
 
