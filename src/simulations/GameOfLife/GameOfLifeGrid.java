@@ -4,15 +4,16 @@ import simulations.Cell;
 import simulations.Grid;
 
 public class GameOfLifeGrid extends Grid {
-
-	public GameOfLifeGrid(int width, int Height) {
+	private String xmlFile;
+	
+	public GameOfLifeGrid(int width, int Height, String xmlfile) {
 		super(width, Height);
-		// TODO Auto-generated constructor stub
+		xmlFile = xmlfile;
 	}
 	
 	@Override
 	public Cell getNewCell(int i, int j){
-		return new GameOfLifeCell(i, j);
+		return new GameOfLifeCell(i, j,xmlFile);
 	}
 	
 
