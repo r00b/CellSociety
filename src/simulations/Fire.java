@@ -167,7 +167,6 @@ public class Fire extends Simulation {
 		burnTimeMap.put(currCell, burnTimeMap.get(currCell) - 1);
 	}
 
-
 	/**
 	 * @return randomly returns true or false based on value of probCatchFire
 	 * Used to see if a cell that has a tree in it catches fire if one if its neighboring cells is on fire
@@ -180,8 +179,7 @@ public class Fire extends Simulation {
 		}
 		return false;
 	}
-
-
+	
 	/**
 	 * @param currCell - the cell for which we want to see if any of its neighbors are burning
 	 * @return boolean -> true if any of currCells neighbor are in the state BURNING, false otherwise 

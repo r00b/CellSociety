@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import simulations.*;
+import simulations.GameOfLife.GameOfLife;
 
 /**
  * @author Robert H. Steilberg II | rhs16

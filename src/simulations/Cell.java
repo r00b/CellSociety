@@ -1,8 +1,14 @@
 package simulations;
 
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+
+import com.sun.corba.se.impl.naming.namingutil.IIOPEndpointInfo;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -10,12 +16,13 @@ import javafx.scene.paint.Color;
  *
  *Cells all have a position, currentState, nextState, neighbors, and stateColor. Cells used to populate grids.
  */
-public class Cell{
-	private final ArrayList<Cell> neighbors;
+public abstract class Cell {
+	private final Neighborhood myNeighbors;
 	private final Tuple myPosition;
 	private int currentState;
 	private int nextState;
 	private Color stateColor;
+	private HashMap<Integer, Color> stateToColorMap;
 	
 	/**
 	 * @param i the rom number of the row this cell is in 
@@ -23,13 +30,22 @@ public class Cell{
 	 */
 	public Cell(int i, int j){
 		myPosition = new Tuple(i,j);
-		neighbors = new ArrayList<Cell>();
+		myNeighbors = new Neighborhood();
+		stateToColorMap = new HashMap<>();
 	}
+	
+	protected Color findStateColor(int state) {
+		return stateToColorMap.get(state);
+	}
+	
+	public abstract void mapStatesToColors();
+	
+	public abstract void setRandomInitialState();
 	
 	/**
 	 * @param next - the State that this cell will be in in the next generation
 	 */
-	public void setNextState(int next){
+	protected void setNextState(int next){
 		nextState = next;
 	}
 	 
@@ -62,7 +78,7 @@ public class Cell{
 	 * neighbors, which stores all of the cells neighboring cells
 	 */
 	public void addNeighbor(Cell neighbor){
-		neighbors.add(neighbor);
+		myNeighbors.addNeighbor(neighbor);
 	}
 	/**
 	 * @param state is the state the cell will be set to next 
@@ -73,6 +89,9 @@ public class Cell{
 		stateColor = color;
 	}
 	
+	protected void updateColorMap(int state, Color color){
+		stateToColorMap.put(state,color);
+	}
 	/**
 	 * @return the state the cell will be in next generation 
 	 */
@@ -87,10 +106,14 @@ public class Cell{
 		return myPosition;
 	}
 	
+	public void setNeighborhood(Grid grid){
+		myNeighbors.setNeighborhood(this, grid);
+	}
+	
 	/**
 	 * @return an arraylist of the cells neighboring cells 
 	 */
-	public ArrayList<Cell> getNeighbors(){
-		return neighbors;
+	public Iterator<Cell> getNeighbors(){
+		 return myNeighbors.iterator();
 	}
 }
