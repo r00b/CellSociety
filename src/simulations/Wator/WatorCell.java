@@ -18,7 +18,7 @@ public class WatorCell extends Cell {
 	
 	public WatorCell(int i, int j) {
 		super(i, j);
-		myParser = new WatorXMLParser("data/Wator.xml");
+		myParser = new WatorXMLParser(myResources.getString("DefaultWatorFile"));
 		myPercentShark = myParser.getPercentShark();
 		myPercentFish = myParser.getPercentFish();
 		
