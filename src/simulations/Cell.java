@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.sun.corba.se.impl.naming.namingutil.IIOPEndpointInfo;
+import com.sun.javafx.scene.paint.GradientUtils.Parser;
 
 import javafx.scene.paint.Color;
 
@@ -23,6 +25,9 @@ public abstract class Cell {
 	private int nextState;
 	private Color stateColor;
 	private HashMap<Integer, Color> stateToColorMap;
+	protected ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	public static final String LANGUAGE = "English";
 	
 	/**
 	 * @param i the rom number of the row this cell is in 
@@ -106,10 +111,11 @@ public abstract class Cell {
 		return myPosition;
 	}
 	
-	public void setNeighborhood(Grid grid){
-		myNeighbors.setNeighborhood(this, grid);
-	}
+	public abstract void setNeighborhood(Grid grid);
 	
+	protected Neighborhood getMyNeighborhood(){
+		return myNeighbors;
+	}
 	/**
 	 * @return an arraylist of the cells neighboring cells 
 	 */

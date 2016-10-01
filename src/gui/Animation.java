@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import simulations.*;
+import simulations.Fire.Fire;
 import simulations.GameOfLife.GameOfLife;
 
 /**
