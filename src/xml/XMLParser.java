@@ -22,10 +22,14 @@ import org.xml.sax.SAXException;
  *
  */
 public class XMLParser {
-	protected ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	protected static final String LANGUAGE = "XmlTags";
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	public static final String XML_TAGS = "XmlTags";
+	public static final String DEFAULT_PARAMETERS = "DefaultParameters";
+	protected static ResourceBundle myXmlTagResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + XML_TAGS);
+	protected static ResourceBundle myDefaultValueResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_PARAMETERS);
 	private static final DocumentBuilder DOCUMENT_BUILDER = getDocumentBuilder();
+	public static final String DEFAULT_GRID_WIDTH = myDefaultValueResources.getString("defaultGridWidth");
+	public static final String DEFAULT_GRID_HEIGHT = myDefaultValueResources.getString("defaultGridHeight");
 	private Element ROOT;
 	
 	public XMLParser(String xmlFilename) {
@@ -39,7 +43,6 @@ public class XMLParser {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		} 
 		catch (ParserConfigurationException e) {
-			//print error message (pop up screen)
 			throw new XMLParserException(e);
 		}
 		
@@ -53,7 +56,7 @@ public class XMLParser {
 			return xmlDocument.getDocumentElement();
 		} 
 		catch (SAXException | IOException e) {
-			//print error message (pop up screen)
+			//print error message: Error reading file or file DNE
 			throw new XMLParserException(e);
 		}
 	}
@@ -65,14 +68,14 @@ public class XMLParser {
 	 * @param String - tagName: name of tag in XML file
 	 * @return String value of the node in XML file
 	 */
-	public String getTextValueByTagName(String tagName) {
+	public String getTextValueByTagName(String tagName, String defaultValue) {
 		NodeList nodeList = ROOT.getElementsByTagName(tagName);
 		if (nodeList != null && nodeList.getLength() > 0) {
 			return nodeList.item(0).getTextContent();
 		}
 		else {
-			//need to implement a more robust else case (if can't find tag name)
-			throw new XMLParserException();
+			//if tag name does not exist in XML file, return default value of that parameter
+			return defaultValue;
 		}
 	}
 	
@@ -83,32 +86,8 @@ public class XMLParser {
 	 * @param String - tagName
 	 * @return int value of node
 	 */
-	public int getIntValueByTagName(String tagName) {
-		return Integer.parseInt(getTextValueByTagName(tagName));
-	}
-	
-	/**
-	 * returns type of simulation
-	 * @return String - simulation type
-	 */
-	public String getSimulationType() {
-		return getTextValueByTagName(myResources.getString("simTypeTag"));
-	}
-	
-	/**
-	 * returns name of simulation
-	 * @return String - simulation name
-	 */
-	public String getSimulationName() {
-		return getTextValueByTagName(myResources.getString("simNameTag"));
-	}
-	
-	/**
-	 * returns author of simulation
-	 * @return String - author
-	 */
-	public String getAuthor() {
-		return getTextValueByTagName(myResources.getString("authorTag"));
+	public int getIntValueByTagName(String tagName, String defaultStringValue) {
+		return Integer.parseInt(getTextValueByTagName(tagName, defaultStringValue));
 	}
 	
 	/**
@@ -116,7 +95,7 @@ public class XMLParser {
 	 * @return int - number of columns of cells
 	 */
 	public int getGridWidth() {
-		return getIntValueByTagName(myResources.getString("gridWidthTag"));
+		return getIntValueByTagName(myXmlTagResources.getString("gridWidthTag"), DEFAULT_GRID_WIDTH);
 	}
 	
 	/**
@@ -124,6 +103,7 @@ public class XMLParser {
 	 * @return int - number of rows of cells
 	 */
 	public int getGridHeight() {
-		return getIntValueByTagName(myResources.getString("gridHeightTag"));
+		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), DEFAULT_GRID_HEIGHT);
 	}
+	
 }

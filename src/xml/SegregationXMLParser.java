@@ -10,7 +10,13 @@ import javafx.scene.paint.Color;
  *
  */
 public class SegregationXMLParser extends XMLParser{
-	
+	public static final String DEFAULT_SATISFACTION = myDefaultValueResources.getString("defaultSatisfaction");
+	public static final String DEFAULT_PERCENT_ONE = myDefaultValueResources.getString("defaultPercentOne");
+	public static final String DEFAULT_PERCENT_TWO = myDefaultValueResources.getString("defaultPercentTwo");
+	public static final String DEFAULT_EMPTY_COLOR = myDefaultValueResources.getString("defaultEmptyColor");
+	public static final String DEFAULT_ONE_COLOR = myDefaultValueResources.getString("defaultOneColor");
+	public static final String DEFAULT_TWO_COLOR = myDefaultValueResources.getString("defaultTwoColor");
+
 	public SegregationXMLParser(String xmlFilename) {
 		super(xmlFilename);
 	}
@@ -20,7 +26,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) required for agent to be satisfied
 	 */
 	public int getSatisfactionThreshold() {
-		return getIntValueByTagName(myResources.getString("satisfactionTag"));
+		return getIntValueByTagName(myXmlTagResources.getString("satisfactionTag"),DEFAULT_SATISFACTION);
 	}
 	
 	/**
@@ -28,7 +34,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) of agent1 types out of all cells in the grid
 	 */
 	public int getPercentOfAgentOne() {
-		return getIntValueByTagName(myResources.getString("percentOneTag"));
+		return getIntValueByTagName(myXmlTagResources.getString("percentOneTag"), DEFAULT_PERCENT_ONE);
 	}
 	
 	/**
@@ -36,7 +42,7 @@ public class SegregationXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) of agent2 types out of all cells in the grid
 	 */
 	public int getPercentOfAgentTwo() {
-		return getIntValueByTagName(myResources.getString("percentTwoTag"));
+		return getIntValueByTagName(myXmlTagResources.getString("percentTwoTag"), DEFAULT_PERCENT_TWO);
 	}
 	
 	/**
@@ -48,17 +54,17 @@ public class SegregationXMLParser extends XMLParser{
 	}
 	
 	public Color getEmptyColor() {
-		String colorString = getTextValueByTagName(myResources.getString("emptyColorTag"));
+		String colorString = getTextValueByTagName(myXmlTagResources.getString("emptyColorTag"), DEFAULT_EMPTY_COLOR);
 		return Color.valueOf(colorString);
 	}
 	
 	public Color getAgentOneColor() {
-		String colorString = getTextValueByTagName(myResources.getString("agentOneColorTag"));
+		String colorString = getTextValueByTagName(myXmlTagResources.getString("agentOneColorTag"), DEFAULT_ONE_COLOR);
 		return Color.valueOf(colorString);
 	}
 	
 	public Color getAgentTwoColor() {
-		String colorString = getTextValueByTagName(myResources.getString("agentTwoColorTag"));
+		String colorString = getTextValueByTagName(myXmlTagResources.getString("agentTwoColorTag"), DEFAULT_TWO_COLOR);
 		return Color.valueOf(colorString);
 	}
 }

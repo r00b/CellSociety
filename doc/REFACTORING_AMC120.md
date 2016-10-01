@@ -1,0 +1,4 @@
+### Aaron Chang (amc120)
+#####Refactoring Cell Society
+
+The design issue that I refactored was in the XML package.  The problem with the code was that it was not easily extendable, and adding error checking to XML files would require changing many methods.  I refactored this by modifying the primary method that reads the XML files.  Previously, this method would throw an exception if the tag was did not exist.  In this implementation, everything that calls this method would have to catch this exception. I changed it so that the primary method checks for errors and fixes them within the method. I did this in commit 7e9b1eba.
