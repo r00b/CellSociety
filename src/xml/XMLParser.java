@@ -11,6 +11,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javafx.scene.paint.Color;
+
 /**
  * An XMLParser reads an XML file and has methods to return elements of that file by their tag
  * It is used by the different simulations of CellSociety
@@ -28,8 +30,6 @@ public class XMLParser {
 	protected static ResourceBundle myXmlTagResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + XML_TAGS);
 	protected static ResourceBundle myDefaultValueResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_PARAMETERS);
 	private static final DocumentBuilder DOCUMENT_BUILDER = getDocumentBuilder();
-	public static final String DEFAULT_GRID_WIDTH = myDefaultValueResources.getString("defaultGridWidth");
-	public static final String DEFAULT_GRID_HEIGHT = myDefaultValueResources.getString("defaultGridHeight");
 	private Element ROOT;
 	
 	public XMLParser(String xmlFilename) {
@@ -87,7 +87,35 @@ public class XMLParser {
 	 * @return int value of node
 	 */
 	public int getIntValueByTagName(String tagName, String defaultStringValue) {
-		return Integer.parseInt(getTextValueByTagName(tagName, defaultStringValue));
+		try {
+			int intValue = Integer.parseInt(getTextValueByTagName(tagName, defaultStringValue));
+			return intValue;
+		}
+		catch (NumberFormatException e) {
+			int intValue = Integer.parseInt(defaultStringValue);
+			return intValue;
+		}
+	}
+	
+	public float getFloatValueByTagName(String tagName, String defaultStringValue) {
+		try {
+			float floatValue = Float.valueOf(getTextValueByTagName(tagName, defaultStringValue));
+			return floatValue;
+		}
+		catch (NumberFormatException e) {
+			float floatValue= Float.valueOf(defaultStringValue);
+			return floatValue;
+		}
+	}
+	
+	public Color getColor(String colorTag, String defaultColorString) {
+		try {
+			String colorString = getTextValueByTagName(myXmlTagResources.getString(colorTag), defaultColorString);
+			return Color.valueOf(colorString);
+		}
+		catch (IllegalArgumentException e) {
+			return Color.valueOf(defaultColorString);
+		}
 	}
 	
 	/**
@@ -95,7 +123,8 @@ public class XMLParser {
 	 * @return int - number of columns of cells
 	 */
 	public int getGridWidth() {
-		return getIntValueByTagName(myXmlTagResources.getString("gridWidthTag"), DEFAULT_GRID_WIDTH);
+		String defaultGridWidth = myDefaultValueResources.getString("defaultGridWidth");
+		return getIntValueByTagName(myXmlTagResources.getString("gridWidthTag"), defaultGridWidth);
 	}
 	
 	/**
@@ -103,7 +132,8 @@ public class XMLParser {
 	 * @return int - number of rows of cells
 	 */
 	public int getGridHeight() {
-		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), DEFAULT_GRID_HEIGHT);
+		String defaultGridHeight = myDefaultValueResources.getString("defaultGridHeight");
+		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), defaultGridHeight);
 	}
 	
 }

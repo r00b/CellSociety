@@ -1,0 +1,28 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Foraging_Ants</type>
+		<title>Foraging Ants Simulation</title>
+		<author>Group 8</author>
+	</info>
+	<parameters>
+		<gridWidth>100</gridWidth>
+		<gridHeight>100</gridHeight>
+		<nestLocationI>70</nestLocationI>
+		<nestLocationJ>70</nestLocationJ>
+		<sourceLocationI>20</sourceLocationI>
+		<sourceLocationJ>20</sourceLocationJ>
+		<maxAnts>1000</maxAnts>
+		<maxAntsPerLocation>10</maxAntsPerLocation>
+		<antLifetime>500</antLifetime>
+		<numAntsAtNest>2</numAntsAtNest>
+		<antsBornPerStep>2</antsBornPerStep>
+		<minPheremone>0.0</minPheremone>
+		<maxPheremone>1000.0</maxPheremone>
+		<evaporationRatio>0.1</evaporationRatio>
+		<diffusionRatio>0.1</diffusionRatio>
+		<percentObstacles>5</percentObstacles>
+		<k>0.001</k>
+		<n>10.0</n>
+	</parameters>
+</Simulation>
