@@ -52,11 +52,11 @@ public class Animation {
 	// simulation to run.
 	// QUESTION is this explanation okay?
 	protected ComboBox<String> myComboBox;
-	
+
 	public Animation(Stage stage) {
 		myStage = stage;
 	}
-	
+
 	/**
 	 * Get the window title for the scene
 	 * 
@@ -76,8 +76,7 @@ public class Animation {
 		animation.stop();
 		myGridParser.clearGrid();
 		String XMLFileName = myFileChooser.getXMLFileName(myComboBox.getValue());
-		// TODO pass filename down to whatever		
-		initStep(myComboBox.getValue());
+		initStep(myComboBox.getValue(), XMLFileName);
 	}
 
 	/**
@@ -86,18 +85,22 @@ public class Animation {
 	 * @param sim
 	 *            a String corresponding to the desired simulation
 	 */
-	private void setSimulation(String simulation) {
+	private void setSimulation(String simulation, String XMLFileName) {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
-			mySimulation = new GameOfLife();
+		//	mySimulation = new GameOfLife();
+			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
+			// mySimulation = new Segregation(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
 			mySimulation = new Wator();
+			// mySimulation = new Wator(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("FireSim")))
 			mySimulation = new Fire();
+		//	mySimulation = new Fire(XMLFileName);
 		myGrid = mySimulation.getGrid();
 	}
 
@@ -107,8 +110,8 @@ public class Animation {
 	 * @param simulation
 	 *            a String specifying which simulation should be loaded
 	 */
-	protected void initStep(String simulation) {
-		setSimulation(simulation);
+	protected void initStep(String simulation, String XMLFileName) {
+		setSimulation(simulation, XMLFileName);
 		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot);
 		myGridParser.drawGrid(true); // pass true because this is a new grid
 		myTimeline = new Timeline();
@@ -140,19 +143,16 @@ public class Animation {
 	 */
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		myFileChooser = new FileBrowser(myStage,myResources);
+		myFileChooser = new FileBrowser(myStage, myResources);
 		myRoot = new Pane();
 		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-		// get XML file
-		initStep(myResources.getString("DefaultSimulation"));
+		String XMLFileName = myFileChooser.getXMLFileName(myResources.getString("DefaultSimulation"));
+		initStep(myResources.getString("DefaultSimulation"), XMLFileName);
 		SimControls controllers = new SimControls(this, myTimeline, myResources);
 		controllers.addControls(myRoot);
 		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
 				Integer.parseInt(myResources.getString("WindowHeight")));
 		return simulation;
 	}
-	
-	
-	
-	
+
 }
