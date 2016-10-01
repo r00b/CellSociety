@@ -2,11 +2,12 @@ package gui;
 
 import java.io.File;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import xml.XMLParser;
+import xml.XMLParserException;
 
 /**
  * @author Robert H. Steilberg II | rhs16
@@ -25,15 +26,36 @@ public class FileBrowser {
 	}
 
 	/**
-	 * Display an error message to the user if an XML file was not specified
+	 * Display an error message to the user when there is a problem with XML
+	 * file input
 	 */
-	private void diplayMissingXMLFileAlert() {
+	private void displayXMLAlert(String title, String header, String content) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(myResources.getString("XMLMissingErrorTitle"));
-		alert.setHeaderText(myResources.getString("XMLMissingErrorHeader"));
-		alert.setContentText(myResources.getString("XMLMissingErrorText"));
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
 		alert.showAndWait();
 
+	}
+
+	/**
+	 * Test a specified XML file for validity
+	 * 
+	 * @param pathToFile
+	 *            a String representing the path to the XML file to be tested
+	 * @return true if the XML file is valid, false otherwise
+	 */
+	@SuppressWarnings("unused")
+	private boolean validXMLFile(String pathToFile) {
+		try {
+			// generically load in an XML file to see if it throws any errors
+			XMLParser testParser = new XMLParser(pathToFile);
+		} catch (XMLParserException e) {
+			displayXMLAlert(myResources.getString("XMLInvalidErrorTitle"),
+					myResources.getString("XMLInvalidErrorHeader"), myResources.getString("XMLInvalidErrorContent"));
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -75,15 +97,22 @@ public class FileBrowser {
 		fileChooser.setTitle("Choose XML file");
 		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extentionFilter);
+		// "" because we are specifying a directory, not a file
 		String path = buildPath("", simulationType);
 		File XMLPath = new File(path);
 		fileChooser.setInitialDirectory(XMLPath);
 		File chosenXMLFile = fileChooser.showOpenDialog(myStage);
 		if (chosenXMLFile == null) {
-			diplayMissingXMLFileAlert();
-			return getXMLFileName(simulationType);
+			displayXMLAlert(myResources.getString("XMLMissingErrorTitle"),
+					myResources.getString("XMLMissingErrorHeader"), myResources.getString("XMLMissingErrorContent"));
+			return getXMLFileName(simulationType); // try again
 		}
-		return buildPath(chosenXMLFile.getName(), simulationType);
+		String pathToChosenXML = buildPath(chosenXMLFile.getName(), simulationType);
+		if (validXMLFile(pathToChosenXML)) {
+			return pathToChosenXML;
+		} else { // try again
+			return getXMLFileName(simulationType); // try again
+		}
 	}
 
 }
