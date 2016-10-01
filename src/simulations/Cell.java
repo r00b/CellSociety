@@ -53,6 +53,10 @@ public abstract class Cell {
 	protected void setNextState(int next){
 		nextState = next;
 	}
+	
+	public int getNeighborhoodSize(){
+		return myNeighbors.getNeighborhoodSize();
+	}
 	 
 	/**
 	 * @param color is the color of the cells new state. This method updates the current state to the next date,
@@ -122,4 +126,5 @@ public abstract class Cell {
 	public Iterator<Cell> getNeighbors(){
 		 return myNeighbors.iterator();
 	}
+	
 }

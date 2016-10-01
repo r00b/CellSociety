@@ -79,7 +79,6 @@ public class Fire extends Simulation {
 				}
 				else if(currCell.isBurning()){
 					currCell.updateBurnTime();
-					System.out.println(currCell.getTimeLeftBurning());
 					if(currCell.isDoneBurning()){
 						currCell.setNextStateEmpty();
 					}
