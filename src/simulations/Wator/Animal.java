@@ -1,4 +1,4 @@
-package simulations;
+package simulations.Wator;
 
 public class Animal {
 	protected int myType;

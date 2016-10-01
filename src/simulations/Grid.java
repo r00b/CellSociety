@@ -5,7 +5,7 @@ package simulations;
  *
  *Used to represent a grid of cells. Used by each simulation class to provide a template for the cells interactions.
  */
-public class Grid {
+public abstract class Grid {
 	private final int gridWidth;
 	private final int gridHeight;
 	private Cell[][] grid;
@@ -27,18 +27,16 @@ public class Grid {
 		grid = new Cell[gridHeight][gridWidth];
 		for(int i = 0; i < gridHeight; i++){
 			for(int j = 0; j < gridWidth; j++){
-				Cell currCell = new Cell(i,j);
+				Cell currCell = getNewCell(i, j);
+				currCell.mapStatesToColors();
 				grid[i][j] = currCell;
 			}
 		}
-		
 	}
 	
-	/**
-	 * @param i - the row number of the cell desired
-	 * @param j - the column number of the cell desired
-	 * @return the cell at position (i,j)
-	 */
+	protected abstract Cell getNewCell(int i,int j);
+	
+	
 	public Cell getCell(int i, int j){
 		return grid[i][j];
 	}

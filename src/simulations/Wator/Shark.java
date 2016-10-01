@@ -1,4 +1,4 @@
-package simulations;
+package simulations.Wator;
 
 public class Shark extends Animal{
 	private int starveThreshold;
@@ -6,13 +6,13 @@ public class Shark extends Animal{
 	
 	public Shark(int timeUntilBreed) {
 		super(timeUntilBreed);
-		myType = Wator.SHARK;
+		myType = WatorCell.SHARK;
 	}
 	public Shark (int timeUntilBreed, int starveCapacity) {
 		super(timeUntilBreed);
 		starveThreshold = starveCapacity;
 		timeUntilStarve = starveCapacity;
-		myType = Wator.SHARK;
+		myType = WatorCell.SHARK;
 	}
 	
 	public boolean willStarve() {
