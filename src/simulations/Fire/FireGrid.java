@@ -5,13 +5,13 @@ import simulations.Grid;
 
 public class FireGrid extends Grid{
 
-	public FireGrid(int width, int Height) {
-		super(width, Height);
+	public FireGrid(int width, int Height, String XMLFileName) {
+		super(width, Height,XMLFileName);
 	}
 
 	@Override
-	protected Cell getNewCell(int i, int j) {
-		return new FireCell(i,j);
+	protected Cell getNewCell(int i, int j,String XMLFileName) {
+		return new FireCell(i,j,XMLFileName);
 	}
 
 }

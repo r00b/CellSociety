@@ -1,11 +1,7 @@
 package simulations.Wator;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Random;
-import javafx.scene.paint.Color;
 import simulations.Cell;
-import simulations.Grid;
 import simulations.Simulation;
 import xml.WatorXMLParser;
 /**
@@ -30,12 +26,12 @@ public class Wator extends Simulation{
 	private final int mySharkStarveTime;
 	private final WatorGrid myGrid;
 	
-	public Wator() {
-		myParser = new WatorXMLParser("data/Wator.xml");
+	public Wator(String XMLFileName) {
+		myParser = new WatorXMLParser(XMLFileName);
 		myFishBreedTime = myParser.getFishBreedTime();
 		mySharkBreedTime = myParser.getSharkBreedTime();
 		mySharkStarveTime = myParser.getSharkStarveTime();
-		myGrid = new WatorGrid(myParser.getGridWidth(), myParser.getGridHeight());
+		myGrid = new WatorGrid(myParser.getGridWidth(), myParser.getGridHeight(),XMLFileName);
 		setGrid(myGrid);
 		setInitialGridState();
 	}

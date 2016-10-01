@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.*;
 import simulations.Fire.Fire;
@@ -30,7 +31,7 @@ import simulations.Wator.Wator;
  *         The simulation continues until it is stopped by the user.
  * 
  *         Dependencies: SimControls.java, SimEvents.java, CellNode.java,
- *         GridParser.java
+ *         GridParser.java, FileBrowser.java
  */
 public class Animation {
 	private static final String TITLE = "CellSociety";
@@ -38,17 +39,23 @@ public class Animation {
 	private static final String LANGUAGE = "English";
 	private static final String STYLESHEET = "style.css";
 	private ResourceBundle myResources;
+	private Stage myStage;
 	private Pane myRoot;
 	private Grid myGrid;
 	private Simulation mySimulation;
 	private Timeline myTimeline;
 	private GridParser myGridParser;
+	private FileBrowser myFileChooser;
 	// myComboBox is protected because it is instantiated in the SimControls
 	// class when it is created. myComboBox must be available to Animation.java
 	// because its value must be checked each time the user chooses a new
 	// simulation to run.
 	// QUESTION is this explanation okay?
 	protected ComboBox<String> myComboBox;
+
+	public Animation(Stage stage) {
+		myStage = stage;
+	}
 
 	/**
 	 * Get the window title for the scene
@@ -68,7 +75,8 @@ public class Animation {
 	protected void resetSimulation(Timeline animation) {
 		animation.stop();
 		myGridParser.clearGrid();
-		initStep(myComboBox.getValue());
+		String XMLFileName = myFileChooser.getXMLFileName(myComboBox.getValue());
+		initStep(myComboBox.getValue(), XMLFileName);
 	}
 
 	/**
@@ -77,18 +85,18 @@ public class Animation {
 	 * @param sim
 	 *            a String corresponding to the desired simulation
 	 */
-	private void setSimulation(String simulation) {
+	private void setSimulation(String simulation, String XMLFileName) {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
-			mySimulation = new GameOfLife();
+			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
-			mySimulation = new Segregation();
+			 mySimulation = new Segregation(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
-			mySimulation = new Wator();
+			 mySimulation = new Wator(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("FireSim")))
-			mySimulation = new Fire();
+			mySimulation = new Fire(XMLFileName);
 		myGrid = mySimulation.getGrid();
 	}
 
@@ -98,8 +106,8 @@ public class Animation {
 	 * @param simulation
 	 *            a String specifying which simulation should be loaded
 	 */
-	protected void initStep(String simulation) {
-		setSimulation(simulation);
+	protected void initStep(String simulation, String XMLFileName) {
+		setSimulation(simulation, XMLFileName);
 		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot);
 		myGridParser.drawGrid(true); // pass true because this is a new grid
 		myTimeline = new Timeline();
@@ -131,13 +139,16 @@ public class Animation {
 	 */
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+		myFileChooser = new FileBrowser(myStage, myResources);
 		myRoot = new Pane();
 		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-		initStep(myResources.getString("DefaultSimulation"));
+		String XMLFileName = myFileChooser.getXMLFileName(myResources.getString("DefaultSimulation"));
+		initStep(myResources.getString("DefaultSimulation"), XMLFileName);
 		SimControls controllers = new SimControls(this, myTimeline, myResources);
 		controllers.addControls(myRoot);
 		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
 				Integer.parseInt(myResources.getString("WindowHeight")));
 		return simulation;
 	}
+
 }

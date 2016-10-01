@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		stage.setResizable(false);
-		Animation simulationGUI = new Animation();
+		Animation simulationGUI = new Animation(stage);
 		stage.setTitle(simulationGUI.getTitle());
 		Scene simulation = simulationGUI.init();
 		stage.setScene(simulation);

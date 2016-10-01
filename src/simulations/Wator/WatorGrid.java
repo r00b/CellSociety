@@ -5,15 +5,15 @@ import simulations.Grid;
 
 public class WatorGrid extends Grid{
 
-	public WatorGrid(int width, int Height) {
-		super(width, Height);
+	public WatorGrid(int width, int Height, String XMLFileName) {
+		super(width, Height,XMLFileName);
 		
 	}
 
 	@Override
-	protected Cell getNewCell(int i, int j) {
+	protected Cell getNewCell(int i, int j, String XMLFileName) {
 		
-		return new WatorCell(i, j);
+		return new WatorCell(i, j, XMLFileName);
 	}
 
 }

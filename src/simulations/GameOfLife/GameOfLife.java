@@ -24,9 +24,9 @@ public class GameOfLife extends Simulation {
 	 * Reads in the data for probCellAlive and the grid dimensions using the
 	 * GameOfLifeXMLParser object. Initializes the grid.
 	 */
-	public GameOfLife() {
-		myParser = new GameOfLifeXMLParser(myResources.getString("DefaultGameOfLifeFile"));
-		myGrid = new GameOfLifeGrid(myParser.getGridWidth(), myParser.getGridHeight());
+	public GameOfLife(String xmlFile) {
+		myParser = new GameOfLifeXMLParser(xmlFile);
+		myGrid = new GameOfLifeGrid(myParser.getGridWidth(), myParser.getGridHeight(), xmlFile);
 		setGrid(myGrid);
 		setInitialGridState();
 	}

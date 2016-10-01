@@ -9,14 +9,16 @@ public abstract class Grid {
 	private final int gridWidth;
 	private final int gridHeight;
 	private Cell[][] grid;
+	private String xmlFile;
 	
 	/**
 	 * @param width is the number of columns in the grid
 	 * @param Height is the number of rows in the grid
 	 */
-	public Grid(int width, int Height){
+	public Grid(int width, int Height,String xmlFile){
 		gridWidth = width;
 		gridHeight = Height;
+		this.xmlFile = xmlFile;
 		initializeGrid();
 	}
 
@@ -27,14 +29,14 @@ public abstract class Grid {
 		grid = new Cell[gridHeight][gridWidth];
 		for(int i = 0; i < gridHeight; i++){
 			for(int j = 0; j < gridWidth; j++){
-				Cell currCell = getNewCell(i, j);
+				Cell currCell = getNewCell(i, j,xmlFile);
 				currCell.mapStatesToColors();
 				grid[i][j] = currCell;
 			}
 		}
 	}
 	
-	protected abstract Cell getNewCell(int i,int j);
+	protected abstract Cell getNewCell(int i,int j,String xmlFile);
 	
 	
 	public Cell getCell(int i, int j){
