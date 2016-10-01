@@ -26,12 +26,12 @@ public class Wator extends Simulation{
 	private final int mySharkStarveTime;
 	private final WatorGrid myGrid;
 	
-	public Wator() {
-		myParser = new WatorXMLParser(myResources.getString("DefaultWatorFile"));
+	public Wator(String XMLFileName) {
+		myParser = new WatorXMLParser(XMLFileName);
 		myFishBreedTime = myParser.getFishBreedTime();
 		mySharkBreedTime = myParser.getSharkBreedTime();
 		mySharkStarveTime = myParser.getSharkStarveTime();
-		myGrid = new WatorGrid(myParser.getGridWidth(), myParser.getGridHeight());
+		myGrid = new WatorGrid(myParser.getGridWidth(), myParser.getGridHeight(),XMLFileName);
 		setGrid(myGrid);
 		setInitialGridState();
 	}
