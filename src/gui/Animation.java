@@ -87,8 +87,8 @@ public class Animation {
 	 */
 	private void setSimulation(String simulation, String XMLFileName) {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
-			mySimulation = new GameOfLife();
-		//	mySimulation = new GameOfLife(XMLFileName);
+		//	mySimulation = new GameOfLife();
+			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation();
@@ -146,8 +146,8 @@ public class Animation {
 		myFileChooser = new FileBrowser(myStage, myResources);
 		myRoot = new Pane();
 		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-	//	String XMLFileName = myFileChooser.getXMLFileName(myComboBox.getValue());
-		initStep(myResources.getString("DefaultSimulation"), "XMLFileName");
+		String XMLFileName = myFileChooser.getXMLFileName(myResources.getString("DefaultSimulation"));
+		initStep(myResources.getString("DefaultSimulation"), XMLFileName);
 		SimControls controllers = new SimControls(this, myTimeline, myResources);
 		controllers.addControls(myRoot);
 		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),

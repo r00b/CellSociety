@@ -22,20 +22,22 @@ public class FileBrowser {
 		myResources = resources;
 	}
 
-	private String buildPath(String directory, String simulationType) {
-		String simXMLFolder = "XMLs";
+	private String buildPath(String XMLFileName, String simulationType) {
 		if (simulationType.equals(myResources.getString("GameOfLifeSim"))) {
-			simXMLFolder = "GameOfLife" + simXMLFolder;
+			XMLFileName = "GameOfLifeXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("SegregationSim"))) {
-			simXMLFolder = "Segregation" + simXMLFolder;
+		else if (simulationType.equals(myResources.getString("SegregationSim"))) {
+			XMLFileName = "SegregationXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("PredatorPreySim"))) {
-			simXMLFolder = "Wator" + simXMLFolder;
+		else if (simulationType.equals(myResources.getString("PredatorPreySim"))) {
+			XMLFileName = "WatorXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("FireSim")))
-			simXMLFolder = "Fire" + simXMLFolder;
-		return directory + simXMLFolder;
+		else if (simulationType.equals(myResources.getString("FireSim"))) {
+			XMLFileName = "FireXMLs/" + XMLFileName;
+		} else {
+			XMLFileName = simulationType;
+		}
+		return myResources.getString("DefaultDataFolderPath") + XMLFileName;
 	}
 	
 	protected String getXMLFileName(String simulationType) {
@@ -43,10 +45,10 @@ public class FileBrowser {
 		fileChooser.setTitle("Choose XML file");
 		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extentionFilter);
-		String path = buildPath(myResources.getString("DefaultDataFolderPath"),simulationType);
+		String path = buildPath("",simulationType);
 		File XMLPath = new File(path);
 		fileChooser.setInitialDirectory(XMLPath);
 		File chosenXMLFile = fileChooser.showOpenDialog(myStage);
-		return chosenXMLFile.getPath();
+		return buildPath(chosenXMLFile.getName(),simulationType);
 	}
 }
