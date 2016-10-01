@@ -16,11 +16,13 @@ public class GameOfLifeCell extends Cell {
 	private GameOfLifeXMLParser myParser;
 	
 	
-	public GameOfLifeCell(int i, int j) {
+	public GameOfLifeCell(int i, int j, String xmlFile) {
 		super(i, j);
-		myParser = new GameOfLifeXMLParser(myResources.getString("DefaultGameOfLifeFile"));
+		myParser = new GameOfLifeXMLParser(xmlFile);
 		probCellAlive = myParser.getProbOfCellAlive();
 	}
+	
+	
 	
 	public void setNextStateDead(){
 		setNextState(DEAD);
