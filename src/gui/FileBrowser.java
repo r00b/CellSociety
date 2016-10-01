@@ -5,10 +5,6 @@ import java.util.ResourceBundle;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import simulations.Fire;
-import simulations.GameOfLife;
-import simulations.Segregation;
-import simulations.Wator;
 
 /**
  * @author Robert H. Steilberg II | rhs16
