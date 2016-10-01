@@ -1,0 +1,15 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Game of Life</trwefype>
+		<title>Life Simulation</title>
+		<author>Group 8</authfor>
+	</info>
+	<parameters>
+		<gridWidth>25</gridWidth>
+		<gridHeight>25</gridHeight>
+		<probCellAlive>55</probCellAlive>
+		<deadColor>yellow</deadColor>
+		<aliveColor>purple</aliveColor>
+	</parameters>
+</Simulation>

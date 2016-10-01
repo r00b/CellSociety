@@ -1,0 +1,18 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Segregation</type>
+		<title>Segregation Simulation</title>
+		<author>Group 8</author>
+	</info>
+	<parameters>
+		<gridWidth>30</gridWidth>
+		<gridHeight>30</gridHeight>
+		<satisfaction>40</satisfaction>
+		<percentOne>45</percentOne>
+		<percentTwo>45</percentTwo>
+		<emptyColor>white</emptyColor>
+		<agentOneColor>red</agentOneColor>
+		<agentTwoColor>blue</agentTwoColor>
+	</parameters>
+</Simulation>
