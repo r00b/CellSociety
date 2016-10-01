@@ -44,17 +44,9 @@ public class FileBrowser {
 		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extentionFilter);
 		String path = buildPath(myResources.getString("DefaultDataFolderPath"),simulationType);
-		File userDirectory = new File(path);
-	fileChooser.setInitialDirectory(userDirectory);
-
-		
-		
-		fileChooser.showOpenDialog(myStage);
-		
-		
-		
-		
-		
-		return "S";
+		File XMLPath = new File(path);
+		fileChooser.setInitialDirectory(XMLPath);
+		File chosenXMLFile = fileChooser.showOpenDialog(myStage);
+		return chosenXMLFile.getPath();
 	}
 }
