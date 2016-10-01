@@ -26,9 +26,9 @@ public class Segregation extends Simulation{
 	private List<SegregationCell> myVacantList; //updated in real time
 	private SegregationGrid myGrid;
 
-	public Segregation() {
-		myParser = new SegregationXMLParser(myResources.getString("DefaultSegregationFile"));
-		myGrid = new SegregationGrid(myParser.getGridWidth(), myParser.getGridHeight());
+	public Segregation(String XMLFileName) {
+		myParser = new SegregationXMLParser(XMLFileName);
+		myGrid = new SegregationGrid(myParser.getGridWidth(), myParser.getGridHeight(),XMLFileName);
 		myVacantList = new ArrayList<>();
 		setGrid(myGrid);
 		setInitialGridState();

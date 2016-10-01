@@ -31,9 +31,9 @@ public class Fire extends Simulation {
 	 * and the number of generations a tree burns for. Calls methods to map states to colors and initialize 
 	 * the grid properly.
 	 */
-	public Fire(){
-		myParser = new FireXMLParser(myResources.getString("DefaultFireFile"));
-		myGrid = new FireGrid(myParser.getGridWidth(),myParser.getGridHeight());
+	public Fire(String XMLFileName){
+		myParser = new FireXMLParser(XMLFileName);
+		myGrid = new FireGrid(myParser.getGridWidth(),myParser.getGridHeight(),XMLFileName);
 		setGrid(myGrid);
 		setInitialGridState();
 		

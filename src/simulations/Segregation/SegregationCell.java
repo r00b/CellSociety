@@ -17,9 +17,9 @@ public class SegregationCell extends Cell {
 	private int percentAgentTwo;
 	
 	
-	public SegregationCell(int i, int j) {
+	public SegregationCell(int i, int j,String XMLFileName) {
 		super(i, j);
-		myParser = new SegregationXMLParser(myResources.getString("DefaultSegregationFile"));
+		myParser = new SegregationXMLParser(XMLFileName);
 		satisfactionThreshold = myParser.getSatisfactionThreshold();
 		percentAgentOne = myParser.getPercentOfAgentOne();
 		percentAgentTwo = myParser.getPercentOfAgentTwo();

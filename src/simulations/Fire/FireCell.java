@@ -18,9 +18,9 @@ public class FireCell extends Cell {
 	private final int burnTime;
 	private int timeLeftToBurn;
 	
-	public FireCell(int i, int j) {
+	public FireCell(int i, int j,String XMLFileName) {
 		super(i, j);
-		myParser = new FireXMLParser(myResources.getString("DefaultFireFile"));
+		myParser = new FireXMLParser(XMLFileName);
 		probCatchFire = myParser.getProbCatchFire();
 		burnTime = myParser.getBurnDownTime();
 		timeLeftToBurn = 0;
