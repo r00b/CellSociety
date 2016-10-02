@@ -107,6 +107,9 @@ public class Animation {
 		if (simulation.equals(myResources.getString("FireSim"))){
 			mySimulation = new Fire(XMLFileName);
 		}
+		if (simulation.equals(myResources.getString("AntSim"))) {
+			mySimulation = new Ant(XMLFileName);
+		}
 		myGrid = mySimulation.getGrid();
 	}
 
