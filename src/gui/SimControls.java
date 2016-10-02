@@ -12,12 +12,12 @@ import javafx.scene.layout.Pane;
  * 
  *         The SimControls class creates each GUI element used to control the
  *         simulation. The elements are drawn to a Pane which is then returned
- *         to the superclass for adding to the overall Scene. In this class,
- *         a combo box, play button, step button, pause button, stop &
- *         reset button, and speed slider are created and added to the GUI.
- *         The SimControls class also adds event handlers to each of these
- *         objects that give them their functionality. The actions associated
- *         with these event handlers are defined in the SimEvents class.
+ *         to the superclass for adding to the overall Scene. In this class, a
+ *         combo box, play button, step button, pause button, stop & reset
+ *         button, and speed slider are created and added to the GUI. The
+ *         SimControls class also adds event handlers to each of these objects
+ *         that give them their functionality. The actions associated with these
+ *         event handlers are defined in the SimEvents class.
  * 
  *         Dependencies: Animation.java, SimEvents.java
  */
@@ -56,7 +56,8 @@ public class SimControls {
 	private ComboBox<String> createComboBox(SimEvents events) {
 		ComboBox<String> comboBox = new ComboBox<String>();
 		comboBox.getItems().addAll(myResources.getString("GameOfLifeSim"), myResources.getString("SegregationSim"),
-				myResources.getString("PredatorPreySim"), myResources.getString("FireSim"));
+				myResources.getString("PredatorPreySim"), myResources.getString("FireSim"),
+				myResources.getString("AntSim"));
 		// set default simulation as defined in properties file
 		comboBox.setValue(myResources.getString("DefaultSimulation"));
 		comboBox.setMinWidth(Integer.parseInt(myResources.getString("ComboBoxMinWidth")));
@@ -117,9 +118,10 @@ public class SimControls {
 	 * @return the control pane
 	 */
 	protected void addControls(Pane controls) {
-		SimEvents events = new SimEvents(myAnimation,myTimeline,myResources);
+		SimEvents events = new SimEvents(myAnimation, myTimeline, myResources);
 		controls.setId("pane"); // CSS connection
-		controls.getChildren().addAll(createComboBox(events), createButton("PlayButton",events), createButton("StepButton",events),
-				createButton("PauseButton",events), createButton("StopButton",events), createSlider(events));
+		controls.getChildren().addAll(createComboBox(events), createButton("PlayButton", events),
+				createButton("StepButton", events), createButton("PauseButton", events),
+				createButton("StopButton", events), createSlider(events));
 	}
 }

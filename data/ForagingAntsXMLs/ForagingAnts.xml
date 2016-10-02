@@ -22,10 +22,12 @@
 		<evaporationRatio>0.1</evaporationRatio>
 		<diffusionRatio>0.1</diffusionRatio>
 		<percentObstacles>5</percentObstacles>
-		<k>0.001</k><n>10.0</n></parameters><n>10.0</n>
+		<k>0.001</k>
+		<n>10.0</n>
 		<nestColor>brown</nestColor>
 		<foodSourceColor>green</foodSourceColor>
 		<antsColor>black</antsColor>
 		<fullCellColor>brown</fullCellColor>
 		<obstacleColor>red</obstacleColor>
-	</parameters></Simulation>
+	</parameters>
+</Simulation>
