@@ -14,7 +14,7 @@
 		<percentShark>10</percentShark>
 		<percentFish>80</percentFish>
 		<fishColor>green</fishColor>
-		<sharkColor>red</sharkColor>
+		<sharkColor>23</sharkColor>
 		<emptyColor>aquamarine</emptyColor>
 	</parameters>
 </Simulation>

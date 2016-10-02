@@ -9,9 +9,6 @@ import javafx.scene.paint.Color;
  */
 
 public class GameOfLifeXMLParser extends XMLParser{
-	public static final String DEFAULT_ALIVE_COLOR = myDefaultValueResources.getString("defaultAliveColor");
-	public static final String DEFAULT_DEAD_COLOR = myDefaultValueResources.getString("defaultDeadColor");
-	public static final String DEFAULT_PROB_CELL_ALIVE = myDefaultValueResources.getString("defaultProbCellAlive");
 	
 	public GameOfLifeXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -22,17 +19,17 @@ public class GameOfLifeXMLParser extends XMLParser{
 	 * @return int - percentage probability (out of 100) of cell being alive 
 	 */
 	public int getProbOfCellAlive() {
-		return getIntValueByTagName(myXmlTagResources.getString("probCellAliveTag"), DEFAULT_PROB_CELL_ALIVE);
+		String defaultProbAlive = myDefaultValueResources.getString("defaultProbCellAlive");
+		return getIntValueByTagName(myXmlTagResources.getString("probCellAliveTag"), defaultProbAlive);
 	}
 	
 	public Color getAliveColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("aliveColorTag"), DEFAULT_ALIVE_COLOR);
-		return Color.valueOf(colorString);
+		String defaultAliveColor = myDefaultValueResources.getString("defaultAliveColor");
+		return getColor("aliveColorTag", defaultAliveColor);
 	}
 	
 	public Color getDeadColor() {
-		String colorString;
-		colorString = getTextValueByTagName(myXmlTagResources.getString("deadColorTag"), DEFAULT_DEAD_COLOR);
-		return Color.valueOf(colorString);
+		String defaultDeadColor = myDefaultValueResources.getString("defaultDeadColor");
+		return getColor("deadColorTag", defaultDeadColor);
 	}
 }
