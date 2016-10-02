@@ -81,6 +81,9 @@ public class FileBrowser {
 		if (simulationType.equals(myResources.getString("FireSim"))) {
 			XMLFileName = "FireXMLs/" + XMLFileName;
 		}
+		if (simulationType.equals(myResources.getString("AntSim"))) {
+			XMLFileName = "ForagingAntsXMLs/" + XMLFileName;
+		}
 		return myResources.getString("DefaultDataFolderPath") + XMLFileName;
 	}
 

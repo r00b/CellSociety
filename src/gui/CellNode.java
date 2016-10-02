@@ -17,6 +17,10 @@ import simulations.Grid;
  */
 public class CellNode {
 
+	private double average(double x, double y) {
+		return (x + y) / 2;
+	}
+
 	/**
 	 * 
 	 * @param node
@@ -77,8 +81,25 @@ public class CellNode {
 	 *            the jth cell
 	 * @return the correctly positioned and shaped polygon
 	 */
-	private Polygon drawTriangle(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
-		// TODO implement triangle
+	private Polygon drawTriangle(Polygon polygon, double cellSize, int gridOffset, double x, double y, boolean invert) {
+		if (invert) {
+			polygon.getPoints().addAll(new Double[] {
+					average(gridOffset + x * cellSize, gridOffset + (x + 1) * cellSize), gridOffset + y * cellSize,
+
+					gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
+																						// right
+					gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
+																					// left
+		} else {
+			
+			polygon.getPoints()
+					.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
+																									// left
+							gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
+																						// right
+							average(gridOffset + (x + 1) * cellSize, gridOffset + x * cellSize),
+							gridOffset + (y + 1) * cellSize });
+		}
 		return polygon;
 	}
 
@@ -100,7 +121,8 @@ public class CellNode {
 	 * @return a ready-to-print Polygon with the correct position, size, and
 	 *         state
 	 */
-	protected Polygon getCellNode(Grid grid, double cellSize, int gridOffset, int i, int j, int numVertices) {
+	protected Polygon getCellNode(Grid grid, double cellSize, int gridOffset, int i, int j, int numVertices,
+			boolean invert) {
 		Polygon polygon = new Polygon();
 		// id so that the Node can be removed from the Scene later
 		String id = Integer.toString(i) + Integer.toString(j);
@@ -108,8 +130,10 @@ public class CellNode {
 		// cast i,j to double so that we can create polygon points
 		double x = (double) i;
 		double y = (double) j;
+		//numVertices = 3;
 		if (numVertices == 3) { // TODO: triangle
-			polygon = drawTriangle(polygon, cellSize, gridOffset, x, y);
+
+			polygon = drawTriangle(polygon, cellSize, gridOffset, x, y, invert);
 		}
 		if (numVertices == 4) {
 			polygon = drawSquare(polygon, cellSize, gridOffset, x, y);

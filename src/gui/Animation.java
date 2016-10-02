@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.*;
+import simulations.AntForaging.ForagingAnts;
 import simulations.Fire.Fire;
 import simulations.GameOfLife.GameOfLife;
 import simulations.Segregation.Segregation;
@@ -90,22 +91,16 @@ public class Animation {
 			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
-			//mySimulation = new Segregation(XMLFileName);
 			mySimulation = new Segregation(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
-			//mySimulation = new Wator();
 			mySimulation = new Wator(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("FireSim"))){
-			//mySimulation = new Fire();
-			 mySimulation = new Segregation(XMLFileName);
+			 mySimulation = new Fire(XMLFileName);
 		}
-		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
-			 mySimulation = new Wator(XMLFileName);
-		}
-		if (simulation.equals(myResources.getString("FireSim"))){
-			mySimulation = new Fire(XMLFileName);
+		if (simulation.equals(myResources.getString("AntSim"))) {
+			mySimulation = new ForagingAnts(XMLFileName);
 		}
 		myGrid = mySimulation.getGrid();
 	}
