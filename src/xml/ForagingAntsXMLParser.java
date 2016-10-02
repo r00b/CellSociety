@@ -1,5 +1,7 @@
 package xml;
 
+import javafx.scene.paint.Color;
+
 public class ForagingAntsXMLParser extends XMLParser{
 	
 	public ForagingAntsXMLParser(String xmlFilename) {
@@ -71,5 +73,25 @@ public class ForagingAntsXMLParser extends XMLParser{
 	public float getN() {
 		String defaultN = myDefaultValueResources.getString("defaultN");
 		return getFloatValueByTagName(myXmlTagResources.getString("nTag"), defaultN);
+	}
+	public Color getNestColor() {
+		String defaultNestColor = myDefaultValueResources.getString("defaultNestColor");
+		return getColor("nestColorTag", defaultNestColor);
+	}
+	public Color getFoodSourceColor() {
+		String defaultSourceColor = myDefaultValueResources.getString("defaultFoodSourceColor");
+		return getColor("foodSourceColorTag", defaultSourceColor);
+	}
+	public Color getAntsColor() {
+		String defaultAntsColor = myDefaultValueResources.getString("defaultAntsColor");
+		return getColor("antsColorTag", defaultAntsColor);
+	}
+	public Color getFullCellColor() {
+		String defaultFullCellColor = myDefaultValueResources.getString("defaultFullCellColor");
+		return getColor("fullCellColorTag", defaultFullCellColor);
+	}
+	public Color getObstacleColor() {
+		String defaultObstacleColor = myDefaultValueResources.getString("defaultObstacleColor");
+		return getColor("ObstacleColorTag", defaultObstacleColor);
 	}
 }
