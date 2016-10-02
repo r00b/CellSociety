@@ -9,11 +9,6 @@ import javafx.scene.paint.Color;
  *
  */
 public class FireXMLParser extends XMLParser{
-	public static final String DEFAULT_EMPTY_COLOR = myDefaultValueResources.getString("defaultBurntColor");
-	public static final String DEFAULT_BURNING_COLOR = myDefaultValueResources.getString("defaultBurningColor");
-	public static final String DEFAULT_TREE_COLOR = myDefaultValueResources.getString("defaultTreeColor");
-	public static final String DEFAULT_BURNDOWN_TIME = myDefaultValueResources.getString("defaultBurnDownTime");
-	public static final String DEFAULT_PROB_CATCH = myDefaultValueResources.getString("defaultProbCatch");
 
 	public FireXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -24,7 +19,8 @@ public class FireXMLParser extends XMLParser{
 	 * @return int - percentage (out of 100) probability
 	 */
 	public int getProbCatchFire() {
-		return getIntValueByTagName(myXmlTagResources.getString("probCatchFireTag"), DEFAULT_PROB_CATCH);
+		String defaultProbCatch = myDefaultValueResources.getString("defaultProbCatch");
+		return getIntValueByTagName(myXmlTagResources.getString("probCatchFireTag"), defaultProbCatch);
 	}
 	
 	/**
@@ -32,20 +28,21 @@ public class FireXMLParser extends XMLParser{
 	 * @return int - number of rounds after a tree catches fire for it to burn down
 	 */
 	public int getBurnDownTime() {
-		return getIntValueByTagName(myXmlTagResources.getString("burnDownTimeTag"), DEFAULT_BURNDOWN_TIME);
+		String defaultBurndownTime = myDefaultValueResources.getString("defaultBurntColor");
+		return getIntValueByTagName(myXmlTagResources.getString("burnDownTimeTag"), defaultBurndownTime);
 	}
 	
 	public Color getBurningColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("burningColorTag"), DEFAULT_BURNING_COLOR);
-		return Color.valueOf(colorString);
+		String defaultBurningColor = myDefaultValueResources.getString("defaultBurningColor");
+		return getColor("burningColorTag", defaultBurningColor);
 	}
 	
 	public Color getEmptyColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("emptyColorTag"), DEFAULT_EMPTY_COLOR);
-		return Color.valueOf(colorString);
+		String defaultEmptyColor = myDefaultValueResources.getString("defaultBurntColor");
+		return getColor("emptyColorTag", defaultEmptyColor);
 	}
 	public Color getTreeColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("treeColorTag"), DEFAULT_TREE_COLOR);
-		return Color.valueOf(colorString);
+		String defaultTreeColor = myDefaultValueResources.getString("defaultTreeColor");
+		return getColor("treeColorTag", defaultTreeColor);
 	}
 }

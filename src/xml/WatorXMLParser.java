@@ -10,14 +10,6 @@ import javafx.scene.paint.Color;
  *
  */
 public class WatorXMLParser extends XMLParser{
-	public static final String DEFAULT_SHARK_COLOR = myDefaultValueResources.getString("defaultSharkColor");
-	public static final String DEFAULT_WATER_COLOR = myDefaultValueResources.getString("defaultWaterColor");
-	public static final String DEFAULT_FISH_COLOR = myDefaultValueResources.getString("defaultFishColor");
-	public static final String DEFAULT_PERCENT_SHARK = myDefaultValueResources.getString("defaultPercentShark");
-	public static final String DEFAULT_PERCENT_FISH = myDefaultValueResources.getString("defaultPercentFish");
-	public static final String DEFAULT_FISH_BREED_TIME = myDefaultValueResources.getString("defaultFishBreedTime");
-	public static final String DEFAULT_SHARK_BREED_TIME = myDefaultValueResources.getString("defaultSharkBreedTime");
-	public static final String DEFAULT_SHARK_STARVE_TIME = myDefaultValueResources.getString("defaultSharkStarveTime");
 
 	public WatorXMLParser(String xmlFilename) {
 		super(xmlFilename);
@@ -28,7 +20,8 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - number of rounds a fish must survive to breed
 	 */
 	public int getFishBreedTime() {
-		return getIntValueByTagName(myXmlTagResources.getString("fishBreedTimeTag"), DEFAULT_FISH_BREED_TIME);
+		String defaultFishBreedTime = myDefaultValueResources.getString("defaultFishBreedTime");
+		return getIntValueByTagName(myXmlTagResources.getString("fishBreedTimeTag"), defaultFishBreedTime);
 	}
 	
 	/**
@@ -36,7 +29,8 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - number of rounds a shark must survive to breed
 	 */
 	public int getSharkBreedTime() {
-		return getIntValueByTagName(myXmlTagResources.getString("sharkBreedTimeTag"), DEFAULT_SHARK_BREED_TIME);
+		String defaultSharkBreedTime = myDefaultValueResources.getString("defaultSharkBreedTime");
+		return getIntValueByTagName(myXmlTagResources.getString("sharkBreedTimeTag"), defaultSharkBreedTime);
 	}
 	
 	/**
@@ -44,7 +38,8 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int- number of rounds a shark can go without eating before dying
 	 */
 	public int getSharkStarveTime() {
-		return getIntValueByTagName(myXmlTagResources.getString("sharkStarveTimeTag"), DEFAULT_SHARK_STARVE_TIME);
+		String defaultSharkStarveTime = myDefaultValueResources.getString("defaultSharkStarveTime");
+		return getIntValueByTagName(myXmlTagResources.getString("sharkStarveTimeTag"), defaultSharkStarveTime);
 	}
 	
 	/**
@@ -52,7 +47,8 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) of grid populated by sharks
 	 */
 	public int getPercentShark() {
-		return getIntValueByTagName(myXmlTagResources.getString("percentSharkTag"), DEFAULT_PERCENT_SHARK);
+		String defaultPercentShark = myDefaultValueResources.getString("defaultPercentShark");
+		return getIntValueByTagName(myXmlTagResources.getString("percentSharkTag"), defaultPercentShark);
 	}
 	
 	/**
@@ -60,7 +56,8 @@ public class WatorXMLParser extends XMLParser{
 	 * @return int - percent (out of 100) of grid populated by fish
 	 */
 	public int getPercentFish() {
-		return getIntValueByTagName(myXmlTagResources.getString("percentFishTag"), DEFAULT_PERCENT_FISH);
+		String defaultPercentFish = myDefaultValueResources.getString("defaultPercentFish");
+		return getIntValueByTagName(myXmlTagResources.getString("percentFishTag"), defaultPercentFish);
 	}
 	
 	/**
@@ -72,20 +69,17 @@ public class WatorXMLParser extends XMLParser{
 	}
 	
 	public Color getFishColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("fishColorTag"), DEFAULT_FISH_COLOR);
-		return Color.valueOf(colorString);
+		String defaultFishColor = myDefaultValueResources.getString("defaultFishColor");
+		return getColor("fishColorTag", defaultFishColor);
 	}
 	
 	public Color getSharkColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("sharkColorTag"), DEFAULT_SHARK_COLOR);
-		return Color.valueOf(colorString);
+		String defaultSharkColor = myDefaultValueResources.getString("defaultSharkColor");
+		return getColor("sharkColorTag", defaultSharkColor);
 	}
 	
 	public Color getEmptyColor() {
-		String colorString = getTextValueByTagName(myXmlTagResources.getString("emptyColorTag"), DEFAULT_WATER_COLOR);
-		return Color.valueOf(colorString);
+		String defaultEmptyColor = myDefaultValueResources.getString("defaultEmptyColor");
+		return getColor("emptyColorTag", defaultEmptyColor);
 	}
-	
-	
-	
 }
