@@ -23,6 +23,5 @@
 		<diffusionRatio>0.1</diffusionRatio>
 		<percentObstacles>5</percentObstacles>
 		<k>0.001</k>
-		<n>10.0</n>
-	</parameters>
+		<n>10.0</n></parameters>
 </Simulation>
