@@ -6,13 +6,13 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>30</gridWidth>
-		<gridHeight>30</gridHeight>
+		<gridWidth>50</gridWidth>
+		<gridHeight>50</gridHeight>
 		<satisfaction>40</satisfaction>
 		<percentOne>45</percentOne>
 		<percentTwo>45</percentTwo>
 		<emptyColor>white</emptyColor>
-		<agentOneColor>blue</agentOneColor>
-		<agentTwoColor>red</agentTwoColor>
+		<agentOneColor>purple</agentOneColor>
+		<agentTwoColor>brown</agentTwoColor>
 	</parameters>
 </Simulation>
