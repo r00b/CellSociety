@@ -90,13 +90,23 @@ public class Animation {
 			mySimulation = new GameOfLife(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
+			//mySimulation = new Segregation(XMLFileName);
+			mySimulation = new Segregation(XMLFileName);
+		}
+		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
+			//mySimulation = new Wator();
+			mySimulation = new Wator(XMLFileName);
+		}
+		if (simulation.equals(myResources.getString("FireSim"))){
+			//mySimulation = new Fire();
 			 mySimulation = new Segregation(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
 			 mySimulation = new Wator(XMLFileName);
 		}
-		if (simulation.equals(myResources.getString("FireSim")))
+		if (simulation.equals(myResources.getString("FireSim"))){
 			mySimulation = new Fire(XMLFileName);
+		}
 		myGrid = mySimulation.getGrid();
 	}
 
@@ -150,5 +160,4 @@ public class Animation {
 				Integer.parseInt(myResources.getString("WindowHeight")));
 		return simulation;
 	}
-
 }
