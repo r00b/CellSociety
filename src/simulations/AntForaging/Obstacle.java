@@ -2,17 +2,17 @@ package simulations.AntForaging;
 
 import xml.ForagingAntsXMLParser;
 
-public class FoodSource extends ForagingAntCell {
+public class Obstacle extends ForagingAntCell {
+	private static final int OBSTACLE = 0;
 	private ForagingAntsXMLParser myParser;
-	private static final int FOOD = 0;
 	
-	public FoodSource(int i, int j, String xmlFilename) {
+	public Obstacle(int i, int j, String xmlFilename) {
 		super(i, j, xmlFilename);
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void mapStatesToColors(){
-		updateColorMap(FOOD, myParser.getFoodSourceColor());
+		updateColorMap(OBSTACLE, myParser.getObstacleColor());
 	}
 }

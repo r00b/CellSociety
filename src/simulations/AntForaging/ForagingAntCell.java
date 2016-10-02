@@ -1,9 +1,11 @@
 package simulations.AntForaging;
 
 import java.util.List;
+import java.util.Random;
 
 import com.sun.javafx.scene.paint.GradientUtils.Parser;
 
+import javafx.scene.paint.Color;
 import simulations.Cell;
 import simulations.Grid;
 import xml.ForagingAntsXMLParser;
@@ -17,6 +19,7 @@ public class ForagingAntCell extends Cell {
 	private int foodPheromones;
 	private int homePheromones;
 	private static int maxAntsPerCell;
+	private int percentOfObstacles;
 	private List<Ant> myAnts;
 	
 	private final ForagingAntsXMLParser myParser;
@@ -29,19 +32,28 @@ public class ForagingAntCell extends Cell {
 
 	@Override
 	public void mapStatesToColors() {
-		
+		updateColorMap(EMPTY, Color.GRAY);
+		updateColorMap(OBSTACLE, myParser.getObstacleColor());
 		
 	}
 
 	@Override
 	public void setRandomInitialState() {
-		// TODO Auto-generated method stub
+		Random rand = new Random();
+		int randNum = rand.nextInt(101);
+		if(randNum < percentOfObstacles){
+			setCurrState(OBSTACLE, findStateColor(OBSTACLE));
+		}
 		
 	}
 
 	@Override
 	public void setNeighborhood(Grid grid) {
 		
+	}
+
+	public void setEmpty() {
+		setCurrState(EMPTY, findStateColor(EMPTY));
 	}
 	
 }

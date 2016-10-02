@@ -1,5 +1,7 @@
 package simulations.AntForaging;
 
+import java.util.Random;
+
 import simulations.Simulation;
 import simulations.Tuple;
 import xml.ForagingAntsXMLParser;
@@ -7,9 +9,9 @@ import xml.ForagingAntsXMLParser;
 public class ForagingAnts extends Simulation{
 	private ForagingAntsXMLParser myParser;
 	private ForagingAntGrid myGrid;
-	private int percentOfObstacles;
 	private Tuple nestLocation;
 	private Tuple foodSourceLocation;
+	private int percentOfObstacles;
 	private String XMLFileName;
 	
 	public ForagingAnts(String XMLFileName){
@@ -39,15 +41,26 @@ public class ForagingAnts extends Simulation{
 				if(isNestLocation(row,col)){
 					currCell = new Nest(row, col, XMLFileName);
 				}
-				if(isFoodSourceLocation(row, col)){
-					currCell.setFoodSource
+				else if(isFoodSourceLocation(row, col)){
+					currCell = new FoodSource(row, col, XMLFileName);
 				}
-			
+				else if(isObstacle()){
+					currCell = new Obstacle(row, col, XMLFileName);
+				}
+				else{
+					currCell.setEmpty();
+				}
 			}
 		}
 		
 	}
 	
+	private boolean isObstacle() {
+		Random rand = new Random();
+		int randNum = rand.nextInt(101);
+		return randNum <= percentOfObstacles;
+	}
+
 	private boolean isFoodSourceLocation(int row, int col){
 		return (foodSourceLocation.getIPos() == row) && (foodSourceLocation.getJPos() == col);
 	}
