@@ -89,6 +89,7 @@ public class Animation {
 			}
 		}
 		myGridParser.clearGrid();
+		myRoot.getChildren().remove(myRoot.lookup("#"+ "uniqueGraphID"));
 		initStep(myComboBox.getValue(), myXMLFilePath);
 	}
 
