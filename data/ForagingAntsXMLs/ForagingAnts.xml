@@ -31,5 +31,6 @@
 		<fullCellColor>black</fullCellColor>
 		<obstacleColor>red</obstacleColor>
 		<emptyColor>yellow</emptyColor>
+		<numCellVertices>4</numCellVertices>
 	</parameters>
 </Simulation>

@@ -68,14 +68,15 @@ public class SimControls {
 	private ComboBox<String> createComboBox(SimEvents events) {
 		ComboBox<String> comboBox = new ComboBox<String>();
 		comboBox.getItems().addAll(myResources.getString("GameOfLifeSim"), myResources.getString("SegregationSim"),
-				myResources.getString("PredatorPreySim"), myResources.getString("FireSim"),
-				myResources.getString("AntSim"));
+				myResources.getString("WatorSim"), myResources.getString("FireSim"),
+				myResources.getString("ForagingAntsSim"));
 		// set default simulation as defined in properties file
 		comboBox.setValue(myResources.getString("DefaultSimulation"));
 		comboBox.setMinWidth(Integer.parseInt(myResources.getString("ComboBoxMinWidth")));
 		comboBox.setLayoutX(Integer.parseInt(myResources.getString("ComboBoxXPos")));
 		comboBox.setLayoutY(Integer.parseInt(myResources.getString("ComboBoxYPos")));
-		comboBox.valueProperty().addListener(e -> myAnimation.resetSimulation(myTimeline));
+		// pass true because we are changing simulation and need an input file
+		comboBox.valueProperty().addListener(e -> myAnimation.resetSimulation(myTimeline, true));
 		// instantiated ComboBox in Animation.java so it can be referenced later
 		myAnimation.myComboBox = comboBox;
 		return comboBox;
@@ -102,6 +103,9 @@ public class SimControls {
 		}
 		if (buttonID.equals("StopButton")) {
 			newButton.setOnMouseClicked(e -> events.handleStop());
+		}
+		if (buttonID.equals("XMLResetButton")) {
+			newButton.setOnMouseClicked(e -> events.handleXMLFileChange());
 		}
 	}
 
@@ -134,6 +138,6 @@ public class SimControls {
 		controls.setId("pane"); // CSS connection
 		controls.getChildren().addAll(createComboBox(events), createButton("PlayButton", events),
 				createButton("StepButton", events), createButton("PauseButton", events),
-				createButton("StopButton", events), createSlider(events));
+				createButton("StopButton", events), createButton("XMLResetButton", events), createSlider(events));
 	}
 }

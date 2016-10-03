@@ -12,5 +12,6 @@
 		<probCellAlive>55</probCellAlive>
 		<deadColor>red</deadColor>
 		<aliveColor>blue</aliveColor>
+		<numCellVertices>4</numCellVertices>
 	</parameters>
 </Simulation>

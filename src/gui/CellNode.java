@@ -1,5 +1,9 @@
 package gui;
 
+import gui.CellShapes.HexagonCell;
+import gui.CellShapes.SquareCell;
+import gui.CellShapes.TriangleCell;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import simulations.Grid;
 
@@ -17,92 +21,6 @@ import simulations.Grid;
  */
 public class CellNode {
 
-	private double average(double x, double y) {
-		return (x + y) / 2;
-	}
-
-	/**
-	 * 
-	 * @param node
-	 *            the Polygon to draw as a hexagon
-	 * @param cellSize
-	 *            the height and width of each cell in pixels
-	 * @param gridOffset
-	 *            the position of the overall grid relative to the scene
-	 * @param x
-	 *            the ith cell
-	 * @param y
-	 *            the jth cell
-	 * @return the correctly positioned and shaped polygon
-	 */
-	private Polygon drawHexagon(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
-		// TODO implement hexagon
-		return polygon;
-	}
-
-	/**
-	 * 
-	 * @param node
-	 *            the Polygon to draw as a square
-	 * @param cellSize
-	 *            the height and width of each cell in pixels
-	 * @param gridOffset
-	 *            the position of the overall grid relative to the scene
-	 * @param x
-	 *            the ith cell
-	 * @param y
-	 *            the jth cell
-	 * @return the correctly positioned and shaped polygon
-	 */
-	private Polygon drawSquare(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
-		polygon.getPoints()
-				.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
-																								// left
-						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
-																					// right
-						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
-																							// right
-						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
-																						// left
-		return polygon;
-	}
-
-	/**
-	 * 
-	 * @param node
-	 *            the Polygon to draw as a triangle
-	 * @param cellSize
-	 *            the height and width of each cell in pixels
-	 * @param gridOffset
-	 *            the position of the overall grid relative to the scene
-	 * @param x
-	 *            the ith cell
-	 * @param y
-	 *            the jth cell
-	 * @return the correctly positioned and shaped polygon
-	 */
-	private Polygon drawTriangle(Polygon polygon, double cellSize, int gridOffset, double x, double y, boolean invert) {
-		if (invert) {
-			polygon.getPoints().addAll(new Double[] {
-					average(gridOffset + x * cellSize, gridOffset + (x + 1) * cellSize), gridOffset + y * cellSize,
-
-					gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
-																						// right
-					gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
-																					// left
-		} else {
-			
-			polygon.getPoints()
-					.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
-																									// left
-							gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
-																						// right
-							average(gridOffset + (x + 1) * cellSize, gridOffset + x * cellSize),
-							gridOffset + (y + 1) * cellSize });
-		}
-		return polygon;
-	}
-
 	/**
 	 * 
 	 * @param grid
@@ -112,36 +30,37 @@ public class CellNode {
 	 * @param gridOffset
 	 *            the position of the overall grid relative to the scene
 	 * @param i
-	 *            the ith cell
+	 *            the cell's column
 	 * @param j
-	 *            the jth cell
+	 *            the cell's row
 	 * @param numVertices
 	 *            the number of vertices that each Node should have (i.e. the
 	 *            shape)
 	 * @return a ready-to-print Polygon with the correct position, size, and
 	 *         state
 	 */
-	protected Polygon getCellNode(Grid grid, double cellSize, int gridOffset, int i, int j, int numVertices,
-			boolean invert) {
+	protected Polygon getCellNode(Grid grid, double cellSize, int gridOffset, int i, int j, int numVertices) {
 		Polygon polygon = new Polygon();
-		// id so that the Node can be removed from the Scene later
-		String id = Integer.toString(i) + Integer.toString(j);
-		polygon.setId(id);
 		// cast i,j to double so that we can create polygon points
 		double x = (double) i;
 		double y = (double) j;
-		//numVertices = 3;
-		if (numVertices == 3) { // TODO: triangle
-
-			polygon = drawTriangle(polygon, cellSize, gridOffset, x, y, invert);
+		if (numVertices == 3) {
+			TriangleCell triangle = new TriangleCell();
+			polygon = triangle.createShape(polygon, cellSize, gridOffset, x, y);
 		}
 		if (numVertices == 4) {
-			polygon = drawSquare(polygon, cellSize, gridOffset, x, y);
+			SquareCell square = new SquareCell();
+			polygon = square.createShape(polygon, cellSize, gridOffset, x, y);
 		}
-		if (numVertices == 6) { // TODO: hexagon
-			polygon = drawHexagon(polygon, cellSize, gridOffset, x, y);
+		if (numVertices == 6) {
+			HexagonCell hexagon = new HexagonCell();
+			polygon = hexagon.createShape(polygon, cellSize, gridOffset, x, y);
 		}
+		// id so that the Node can be removed from the Scene later
+		String id = Integer.toString(i) + Integer.toString(j);
+		polygon.setId(id);
 		polygon.setFill(grid.getCell(i, j).getStateColor());
+		polygon.setStroke(Color.LIGHTGREY);
 		return polygon;
 	}
 }

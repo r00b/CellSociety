@@ -1,0 +1,21 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Wator</type>
+		<title>Wa-Tor World Simulation</title>
+		<author>Group 8</author>
+	</info>
+	<parameters>
+		<gridWidth>30</gridWidth>
+		<gridHeight>15</gridHeight>
+		<fishBreedTime>2</fishBreedTime>
+		<sharkBreedTime>3</sharkBreedTime>
+		<sharkStarveTime>4</sharkStarveTime>
+		<percentShark>40</percentShark>
+		<percentFish>60</percentFish>
+		<fishColor>grey</fishColor>
+		<sharkColor>navy</sharkColor>
+		<emptyColor>aquamarine</emptyColor>
+		<numCellVertices>3</numCellVertices>
+	</parameters>
+</Simulation>

@@ -9,9 +9,10 @@ import javafx.util.Duration;
 /**
  * @author Robert H. Steilberg II
  * 
- * The SimEvents class contains all of the functions that are called by the event
- * handlers created in the SimControls class when each GUI element is initially
- * created. These events handle the control flow of the simulation.
+ *         The SimEvents class contains all of the functions that are called by
+ *         the event handlers created in the SimControls class when each GUI
+ *         element is initially created. These events handle the control flow of
+ *         the simulation.
  * 
  */
 public class SimEvents {
@@ -44,10 +45,19 @@ public class SimEvents {
 	}
 
 	/**
+	 * Handle click to XML file change button by prompting user for a new XML
+	 * file and resetting the simulation with the new file
+	 */
+	protected void handleXMLFileChange() {
+		myAnimation.resetSimulation(myTimeline, true);
+	}
+
+	/**
 	 * Handle click to stop button by stopping the simulation
 	 */
 	protected void handleStop() {
-		myAnimation.resetSimulation(myTimeline);
+		// pass false because only want to reset the current simulation
+		myAnimation.resetSimulation(myTimeline, false);
 	}
 
 	/**

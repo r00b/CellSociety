@@ -15,5 +15,6 @@
 		<emptyColor>white</emptyColor>
 		<agentOneColor>purple</agentOneColor>
 		<agentTwoColor>brown</agentTwoColor>
+		<numCellVertices>6</numCellVertices>
 	</parameters>
 </Simulation>
