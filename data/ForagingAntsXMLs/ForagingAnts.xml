@@ -24,10 +24,11 @@
 		<percentObstacles>5</percentObstacles>
 		<k>0.001</k>
 		<n>10.0</n>
-		<nestColor>brown</nestColor>
+		<nestColor>blue</nestColor>
 		<foodSourceColor>green</foodSourceColor>
-		<antsColor>black</antsColor>
-		<fullCellColor>brown</fullCellColor>
+		<antsColor>brown</antsColor>
+		<fullCellColor>black</fullCellColor>
 		<obstacleColor>red</obstacleColor>
+		<emptyColor>yellow</emptyColor>
 	</parameters>
 </Simulation>

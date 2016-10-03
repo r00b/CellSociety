@@ -8,6 +8,10 @@ public class ForagingAntsXMLParser extends XMLParser{
 		super(xmlFilename);
 	}
 	
+	/**
+	 * returns the row of the 
+	 * @return
+	 */
 	public int getNestILocation() {
 		String defaultLocation = myDefaultValueResources.getString("defaultNestLocationI");
 		return getIntValueByTagName(myXmlTagResources.getString("nestLocationITag"), defaultLocation);
@@ -93,5 +97,10 @@ public class ForagingAntsXMLParser extends XMLParser{
 	public Color getObstacleColor() {
 		String defaultObstacleColor = myDefaultValueResources.getString("defaultObstacleColor");
 		return getColor("obstacleColorTag", defaultObstacleColor);
+
+	}
+	public Color getEmptyColor() {
+		String defaultEmptyColor = myDefaultValueResources.getString("defaultEmptyColor");
+		return getColor("emptyColorTag", defaultEmptyColor);
 	}
 }
