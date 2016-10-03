@@ -142,6 +142,7 @@ public class ForagingAntsXMLParser extends XMLParser{
 	public Color getObstacleColor() {
 		String defaultObstacleColor = myDefaultValueResources.getString("defaultObstacleColor");
 		return getColor("obstacleColorTag", defaultObstacleColor);
+
 	}
 	public Color getEmptyColor() {
 		String defaultEmptyColor = myDefaultValueResources.getString("defaultEmptyColor");

@@ -2,13 +2,17 @@ package simulations.GameOfLife;
 
 import java.util.Iterator;
 import java.util.Random;
-import java.util.ResourceBundle;
-
-import javafx.scene.paint.Color;
 import simulations.Cell;
 import simulations.Grid;
 import xml.GameOfLifeXMLParser;
 
+/**
+ * @author samuelcurtis
+ *The GameOfLifeCell class is a subclass of the Cell class. These cells represent
+ *cells used in the Game of Life simulation. They can be either dead or alive, and
+ *their initial state is determined randomly by the probability read in from an 
+ *xml file. 
+ */
 public class GameOfLifeCell extends Cell {
 	public static final int DEAD = 0;
 	public static final int ALIVE = 1;
@@ -22,10 +26,18 @@ public class GameOfLifeCell extends Cell {
 		probCellAlive = myParser.getProbOfCellAlive();
 	}
 	
-	
-	
+	/**
+	 * Set the next state of the cell to DEAD
+	 */
 	public void setNextStateDead(){
 		setNextState(DEAD);
+	}
+	
+	/**
+	 * Set the next state of the cell to ALIVE
+	 */
+	public void setNextStateAlive(){
+		this.setNextState(ALIVE);
 	}
 	
 	/**
@@ -53,10 +65,9 @@ public class GameOfLifeCell extends Cell {
 	}
 	
 	
-	public void setNextStateAlive(){
-		this.setNextState(ALIVE);
-	}
-	
+	/**
+	 * @return True if the current state of the cell is DEAD, false otherwise
+	 */
 	public boolean isDead(){
 		return this.getCurrState() == DEAD;
 	}
@@ -66,6 +77,9 @@ public class GameOfLifeCell extends Cell {
 		setRandomState(probCellAlive);
 	}
 	
+	/**
+	 * @return the number of neighbors that have state ALIVE
+	 */
 	public int getNumNeighborsAlive(){
 		int numAlive = 0;
 		for (Iterator i = getNeighbors(); i.hasNext();) {
@@ -79,7 +93,7 @@ public class GameOfLifeCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		getMyNeighborhood().set_EightNeighbor_Wraparound_Neighborhood(this, grid);
+		getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
 	}
 	
 }
