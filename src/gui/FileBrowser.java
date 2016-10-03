@@ -35,7 +35,6 @@ public class FileBrowser {
 		alert.setHeaderText(header);
 		alert.setContentText(content);
 		alert.showAndWait();
-
 	}
 
 	/**
@@ -75,13 +74,13 @@ public class FileBrowser {
 		if (simulationType.equals(myResources.getString("SegregationSim"))) {
 			XMLFileName = "SegregationXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("PredatorPreySim"))) {
+		if (simulationType.equals(myResources.getString("WatorSim"))) {
 			XMLFileName = "WatorXMLs/" + XMLFileName;
 		}
 		if (simulationType.equals(myResources.getString("FireSim"))) {
 			XMLFileName = "FireXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("AntSim"))) {
+		if (simulationType.equals(myResources.getString("ForagingAntsSim"))) {
 			XMLFileName = "ForagingAntsXMLs/" + XMLFileName;
 		}
 		return myResources.getString("DefaultDataFolderPath") + XMLFileName;
@@ -105,17 +104,15 @@ public class FileBrowser {
 		File XMLPath = new File(path);
 		fileChooser.setInitialDirectory(XMLPath);
 		File chosenXMLFile = fileChooser.showOpenDialog(myStage);
+		// user clicked cancel, return to simulation
 		if (chosenXMLFile == null) {
-			displayXMLAlert(myResources.getString("XMLMissingErrorTitle"),
-					myResources.getString("XMLMissingErrorHeader"), myResources.getString("XMLMissingErrorContent"));
-			return getXMLFileName(simulationType); // try again
+			return null;
 		}
 		String pathToChosenXML = buildPath(chosenXMLFile.getName(), simulationType);
 		if (validXMLFile(pathToChosenXML)) {
 			return pathToChosenXML;
 		} else { // try again
-			return getXMLFileName(simulationType); // try again
+			return getXMLFileName(simulationType);
 		}
 	}
-
 }

@@ -14,21 +14,23 @@ import simulations.*;
  *         Simulation instance is running. This class handles printing the grid
  *         for the first time and updating the grid through each step of the
  *         simulation. This class also accounts for different cell shapes, such
- *         as drawing the grid with traingles or hexagons.
+ *         as drawing the grid with triangles or hexagons.
  *
- *         Dependencies: CellNode.java
+ *         Dependencies: CellNode.java, Graph.java
  */
 public class GridParser {
 	private Simulation mySimulation;
 	private Grid myGrid;
 	private ResourceBundle myResources;
 	private Pane myRoot;
+	private int myNumCellVertices;
 
-	GridParser(Simulation sim, Grid grid, ResourceBundle resources, Pane root) {
+	GridParser(Simulation sim, Grid grid, ResourceBundle resources, Pane root, int numCellVertices) {
 		mySimulation = sim;
 		myGrid = grid;
 		myResources = resources;
 		myRoot = root;
+		myNumCellVertices = numCellVertices;
 	}
 
 	/**
@@ -57,14 +59,11 @@ public class GridParser {
 			clearGrid();
 		}
 		double cellSize = Integer.parseInt(myResources.getString("GridSize")) / mySimulation.getGridHeight();
-		boolean invert = true;
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
-			invert = !invert;
-			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				int numVertices = 4;
+			for (int j = 0; j < mySimulation.getGridHeight(); j++) {
 				CellNode node = new CellNode();
 				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
-						i, j, numVertices, invert);
+						i, j, myNumCellVertices);
 				if (newGrid) {
 					String id = Integer.toString(i) + Integer.toString(j);
 					// set a CSS id so we can get this cell later to remove it

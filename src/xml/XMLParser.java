@@ -20,6 +20,8 @@ import javafx.scene.paint.Color;
  * 
  * The XMLParser class depends on the XMLParserException class for exception handling
  * It assumes that all simulation XML files have tags type, name, author, gridWidth, and gridHeight
+ * It uses XmlTags.properties to get the tags that it uses for searching through the XML files
+ * It also uses DefaultParameters.properties to retrieve default values if the xml files contain bad/nonexistent data
  * @author Aaron Chang
  *
  */
@@ -136,4 +138,12 @@ public class XMLParser {
 		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), defaultGridHeight);
 	}
 	
+	/**
+	 * returns number of vertices for grid cell
+	 * @return int the number of vertices
+	 */
+	public int getNumCellVertices() {
+		String defaultNumCellVertices = myDefaultValueResources.getString("defaultNumCellVertices");
+		return getIntValueByTagName(myXmlTagResources.getString("numCellVerticesTag"), defaultNumCellVertices);
+	}
 }

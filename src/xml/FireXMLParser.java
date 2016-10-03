@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
  * FireXMLParser is an XMLParser used specifically for Fire Spreading simulations
  * It has methods to retrieve attributes specific to Fire simulations (eg. burnDownTime)
  * It assumes that the Fire files have tags called probCatchfire and burnDownTime
+ * If these tags do not exist, or if the values are bad, it replaces them with default values
  * @author Aaron Chang
  *
  */
@@ -15,18 +16,14 @@ public class FireXMLParser extends XMLParser{
 	}
 	
 	/**
-	 * gets probability of a live tree to catch fire (if an adjacent tree is on fire?)
+	 * gets probability of a live tree to catch fire 
+	 * If the value is not present, or if it does not exist, it is replaced by a default value
 	 * @return int - percentage (out of 100) probability
 	 */
 	public int getProbCatchFire() {
 		String defaultProbCatch = myDefaultValueResources.getString("defaultProbCatch");
 		return getIntValueByTagName(myXmlTagResources.getString("probCatchFireTag"), defaultProbCatch);
 	}
-	
-	/**
-	 * gets time taken after a tree catches fire for it to burn down completely
-	 * @return int - number of rounds after a tree catches fire for it to burn down
-	 */
 	public int getBurnDownTime() {
 		String defaultBurndownTime = myDefaultValueResources.getString("defaultBurntColor");
 		return getIntValueByTagName(myXmlTagResources.getString("burnDownTimeTag"), defaultBurndownTime);

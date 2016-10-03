@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
  * WatorXMLParser is an XMLParser used specifically for Wa-Tor World simulations
  * It has methods to retrieve attributes specific to Wa-Tor simulations (eg. sharkBreedTime)
  * It assumes that the Wa-Tor xml files have tags called fishBreedTime, sharkBreedTime, etc.
+ * If these tags do not exist, or if the data value is bad, it will use default values
  * @author Aaron Chang
  *
  */

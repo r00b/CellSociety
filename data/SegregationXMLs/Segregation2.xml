@@ -8,11 +8,13 @@
 	<parameters>
 		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight>
+		<numVertices>3</numVertices>
 		<satisfaction>40</satisfaction>
 		<percentOne>45</percentOne>
 		<percentTwo>45</percentTwo>
 		<emptyColor>white</emptyColor>
 		<agentOneColor>purple</agentOneColor>
 		<agentTwoColor>brown</agentTwoColor>
+		<numCellVertices>6</numCellVertices>
 	</parameters>
 </Simulation>

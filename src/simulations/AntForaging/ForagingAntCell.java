@@ -5,9 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.javafx.scene.paint.GradientUtils.Parser;
-import com.sun.javafx.sg.prism.web.NGWebView;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import javafx.scene.paint.Color;
 import simulations.Cell;
@@ -16,9 +13,9 @@ import xml.ForagingAntsXMLParser;
 import xml.XMLParser;
 
 public class ForagingAntCell extends Cell {
-	private static final int EMPTY = 0;
-	private static final int ANTS = 2;
-	private static final int FULL = 3;
+	public static final int EMPTY = 0;
+	public static final int ANTS = 2;
+	public static final int FULL = 3;
 	private float foodPheromones;
 	private float homePheromones;
 	private float maxPheromones;

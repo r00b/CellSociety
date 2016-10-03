@@ -1,5 +1,6 @@
 package simulations;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ public abstract class Simulation {
 	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	protected static final String LANGUAGE = "English";
 	protected Grid myGrid;
+	protected Map<Integer, String> myStateMap;
+
 	public String title;
 
 	/**
@@ -32,12 +35,24 @@ public abstract class Simulation {
 	 * It is constantly being called by Animation.java to update the view of the simulation
 	 * It depends on the updateNextStates() method and commitStates() method
 	 */
+	
+	public Simulation(String XMLFileName) {
+		myStateMap = new HashMap<Integer, String>();
+		setStateMap();
+	}
+	
+	
 	public void updateGrid() {
 		updateNextStates();
 		commitStates();
 	}
 
-
+	/**
+	 * Initializes the state map
+	 * The keys are the int values of states, the value is the string values of states
+	 */
+	protected abstract void setStateMap();
+	
 	/**
 	 * @param grid is the grid in use by a simulation.
 	 * This method ensures that myGrid is initialized so that there is not 
@@ -105,5 +120,9 @@ public abstract class Simulation {
 	protected boolean isCenterCell(Cell currCell){
 		return currCell.getPosition().getIPos() == myGrid.getHeight()/2 && 
 				currCell.getPosition().getJPos() == myGrid.getWidth()/2;
+	}
+	
+	public Map<Integer, String> getStateMap() {
+		return myStateMap;
 	}
 }

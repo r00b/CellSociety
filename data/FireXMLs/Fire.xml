@@ -8,10 +8,12 @@
 	<parameters>
 		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight>
+		<numVertices>4</numVertices>
 		<burnDownTime>2</burnDownTime>
 		<probCatchFire>30</probCatchFire>
 		<burningColor>red</burningColor>
 		<emptyColor>gray</emptyColor>
 		<treeColor>green</treeColor>
+		<numCellVertices>4</numCellVertices>
 	</parameters>
 </Simulation>

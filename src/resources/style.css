@@ -1,3 +1,22 @@
 #pane {
-  -fx-background-color: #98a2c5
+  -fx-background-image: url("background.png");
+  -fx-background-size: cover;
+}
+
+.simControl {
+  -fx-background-color: linear-gradient(#ff5400, #be1d00);
+  -fx-background-radius: 30;
+  -fx-background-insets: 0;
+  -fx-text-fill: white;
+}
+
+.simControl:hover {
+  -fx-background-color: linear-gradient(#ef5400, #ee1d00);
+}
+
+#slider {
+  -fx-background-color:null;  /* Hide the track */
+  -fx-background-insets: 1 0 -1 0, 0, 1;
+  -fx-background-radius: 2.5, 2.5, 1.5;
+  -fx-padding: 0.208333em; /* 2.5 */
 }

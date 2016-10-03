@@ -18,9 +18,9 @@ import xml.FireXMLParser;
  *on fire given that a neighbor is on fire is given by the XML file as well. 
  */
 public class FireCell extends Cell {
-	private final int EMPTY = 0;
-	private final int BURNING = 1;
-	private final int TREE = 2;
+	public static final int EMPTY = 0;
+	public static final int BURNING = 1;
+	public static final int TREE = 2;
 	private final FireXMLParser myParser;
 	private final int probCatchFire;
 	private final int burnTime;
