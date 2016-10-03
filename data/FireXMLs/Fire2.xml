@@ -1,0 +1,20 @@
+<?xml version ="1.0" encoding="UTF8"?>
+<Simulation>
+	<info>
+		<type>Fire</type>
+		<title>Fire Spreading Simulation</title>
+		<author>Group 8</author>
+		<isToroidal>true</isToroidal>
+	</info>
+	<parameters>
+		<gridWidth>25</gridWidth>
+		<gridHeight>25</gridHeight>
+		<numVertices>4</numVertices>
+		<burnDownTime>2</burnDownTime>
+		<probCatchFire>60</probCatchFire>
+		<burningColor>orange</burningColor>
+		<emptyColor>gray</emptyColor>
+		<treeColor>green</treeColor>
+		<numCellVertices>6</numCellVertices>
+	</parameters>
+</Simulation>
