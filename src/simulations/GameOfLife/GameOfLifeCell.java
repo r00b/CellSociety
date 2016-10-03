@@ -10,8 +10,8 @@ import simulations.Grid;
 import xml.GameOfLifeXMLParser;
 
 public class GameOfLifeCell extends Cell {
-	private final int DEAD = 0;
-	private final int ALIVE = 1;
+	public static final int DEAD = 0;
+	public static final int ALIVE = 1;
 	private final int probCellAlive;
 	private GameOfLifeXMLParser myParser;
 	

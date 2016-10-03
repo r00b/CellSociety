@@ -8,6 +8,7 @@
 	<parameters>
 		<gridWidth>100</gridWidth>
 		<gridHeight>100</gridHeight>
+		<numVertices>4</numVertices>
 		<nestLocationI>70</nestLocationI>
 		<nestLocationJ>70</nestLocationJ>
 		<sourceLocationI>20</sourceLocationI>

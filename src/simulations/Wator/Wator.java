@@ -10,8 +10,6 @@ import xml.WatorXMLParser;
  * They also depend on WatorXMLParser objects to provide the specific information given in wator xml files
  * Wator objects are instantiated by Animation.java, which uses these them to visualize the CA simulation
  * 
- * NOTE: this class needs a lot of refactoring
- * I will continue to refactor the code and fix the logic of this simulation
  * @author Aaron Chang
  *
  */
@@ -27,6 +25,7 @@ public class Wator extends Simulation{
 	private final WatorGrid myGrid;
 	
 	public Wator(String XMLFileName) {
+		super(XMLFileName);
 		myParser = new WatorXMLParser(XMLFileName);
 		myFishBreedTime = myParser.getFishBreedTime();
 		mySharkBreedTime = myParser.getSharkBreedTime();
@@ -219,5 +218,13 @@ public class Wator extends Simulation{
 		sharkCell.setNextStateShark();
 		currShark.markAsFull();
 		tempSharkMap.put(sharkCell, currShark);
+	}
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(WatorCell.EMPTY, "Empty");
+		myStateMap.put(WatorCell.FISH, "Prey");
+		myStateMap.put(WatorCell.SHARK, "Predator");
+		
 	}
 }

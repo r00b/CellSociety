@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
  * SegregationXMLParser is an XMLParser used specifically for Segregation simulations
  * It has methods to retrieve attributes specific to Segregation simulations (eg. satisfaction)
  * It assumes that the Segregation xml files have tags called satisfaction, percentOne, and percentTwo
+ * If these tags do not exist, or if the data value is bad, it will use default values
  * @author Aaron Chang
  *
  */

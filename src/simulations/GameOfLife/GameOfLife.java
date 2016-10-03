@@ -25,6 +25,7 @@ public class GameOfLife extends Simulation {
 	 * GameOfLifeXMLParser object. Initializes the grid.
 	 */
 	public GameOfLife(String xmlFile) {
+		super(xmlFile);
 		myParser = new GameOfLifeXMLParser(xmlFile);
 		myGrid = new GameOfLifeGrid(myParser.getGridWidth(), myParser.getGridHeight(), xmlFile);
 		setGrid(myGrid);
@@ -73,6 +74,12 @@ public class GameOfLife extends Simulation {
 				}
 			}
 		}
+	}
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(GameOfLifeCell.ALIVE, "Alive");
+		myStateMap.put(GameOfLifeCell.DEAD, "Dead");
 	}
 	
 }

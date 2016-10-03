@@ -27,6 +27,7 @@ public class Segregation extends Simulation{
 	private SegregationGrid myGrid;
 
 	public Segregation(String XMLFileName) {
+		super(XMLFileName);
 		myParser = new SegregationXMLParser(XMLFileName);
 		myGrid = new SegregationGrid(myParser.getGridWidth(), myParser.getGridHeight(),XMLFileName);
 		myVacantList = new ArrayList<>();
@@ -102,5 +103,14 @@ public class Segregation extends Simulation{
 		Random myRandom = new Random();
 		return myRandom.nextInt(myVacantList.size());
 
+	}
+
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(SegregationCell.EMPTY, "Empty");
+		myStateMap.put(SegregationCell.ONE, "Agent One");
+		myStateMap.put(SegregationCell.TWO, "Agent Two");
+		
 	}
 }

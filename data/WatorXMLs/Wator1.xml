@@ -8,6 +8,7 @@
 	<parameters>
 		<gridWidth>40</gridWidth>
 		<gridHeight>40</gridHeight>
+		<numVertices>6</numVertices>
 		<fishBreedTime>5</fishBreedTime>
 		<sharkBreedTime>5</sharkBreedTime>
 		<sharkStarveTime>8</sharkStarveTime>

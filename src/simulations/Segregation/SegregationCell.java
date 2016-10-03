@@ -8,9 +8,9 @@ import simulations.Grid;
 import xml.SegregationXMLParser;
 
 public class SegregationCell extends Cell {
-	private final int EMPTY = 0;
-	private final int ONE = 1;
-	private final int TWO = 2;
+	public static final int EMPTY = 0;
+	public static final int ONE = 1;
+	public static final int TWO = 2;
 	private final SegregationXMLParser myParser;
 	private int satisfactionThreshold;
 	private int percentAgentOne;

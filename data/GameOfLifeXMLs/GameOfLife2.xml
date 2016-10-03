@@ -8,6 +8,7 @@
 	<parameters>
 		<gridWidth>25</gridWidth>
 		<gridHeight>25</gridHeight>
+		<numVertices>6</numVertices>
 		<probCellAlive>55</probCellAlive>
 		<deadColor>yellow</deadColor>
 		<aliveColor>purple</aliveColor>
