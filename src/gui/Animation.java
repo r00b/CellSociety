@@ -14,6 +14,7 @@ import simulations.Fire.Fire;
 import simulations.GameOfLife.GameOfLife;
 import simulations.Segregation.Segregation;
 import simulations.Wator.Wator;
+import xml.XMLParser;
 
 /**
  * @author Robert H. Steilberg II | rhs16
@@ -47,11 +48,13 @@ public class Animation {
 	private Timeline myTimeline;
 	private GridParser myGridParser;
 	private FileBrowser myFileChooser;
+	private String myXMLFilePath;
 	// myComboBox is protected because it is instantiated in the SimControls
 	// class when it is created. myComboBox must be available to Animation.java
 	// because its value must be checked each time the user chooses a new
-	// simulation to run.
-	// QUESTION is this explanation okay?
+	// simulation to run. The only way to pass this object back up to the
+	// Animation class is to set it as protected and have the subclass
+	// instantiate it.
 	protected ComboBox<String> myComboBox;
 
 	public Animation(Stage stage) {
@@ -73,11 +76,19 @@ public class Animation {
 	 * @param animation
 	 *            the current Timeline
 	 */
-	protected void resetSimulation(Timeline animation) {
+	protected void resetSimulation(Timeline animation, boolean changeXML) {
 		animation.stop();
+		if (changeXML) {
+			String newXMLFilePath = myFileChooser.getXMLFileName(myComboBox.getValue());
+			if (newXMLFilePath == null) {
+				animation.play();
+				return;
+			} else {
+				myXMLFilePath = newXMLFilePath;
+			}
+		}
 		myGridParser.clearGrid();
-		String XMLFileName = myFileChooser.getXMLFileName(myComboBox.getValue());
-		initStep(myComboBox.getValue(), XMLFileName);
+		initStep(myComboBox.getValue(), myXMLFilePath);
 	}
 
 	/**
@@ -96,10 +107,9 @@ public class Animation {
 		if (simulation.equals(myResources.getString("WatorSim"))) {
 			mySimulation = new Wator(XMLFileName);
 		}
-		if (simulation.equals(myResources.getString("FireSim"))){
-			 mySimulation = new Fire(XMLFileName);
+		if (simulation.equals(myResources.getString("FireSim"))) {
+			mySimulation = new Fire(XMLFileName);
 		}
-
 		if (simulation.equals(myResources.getString("ForagingAntsSim"))) {
 			mySimulation = new ForagingAnts(XMLFileName);
 		}
@@ -114,7 +124,9 @@ public class Animation {
 	 */
 	protected void initStep(String simulation, String XMLFileName) {
 		setSimulation(simulation, XMLFileName);
-		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot);
+		// allows us to get the shape of the cell (i.e. hexagon)
+		XMLParser myParser = new XMLParser(XMLFileName);
+		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, myParser.getNumCellVertices());
 		myGridParser.drawGrid(true); // pass true because this is a new grid
 		myTimeline = new Timeline();
 		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
@@ -148,8 +160,8 @@ public class Animation {
 		myFileChooser = new FileBrowser(myStage, myResources);
 		myRoot = new Pane();
 		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-		String XMLFileName = myFileChooser.getXMLFileName(myResources.getString("DefaultSimulation"));
-		initStep(myResources.getString("DefaultSimulation"), XMLFileName);
+		myXMLFilePath = myResources.getString("DefaultSimulationPath");
+		initStep(myResources.getString("DefaultSimulation"), myXMLFilePath);
 		SimControls controllers = new SimControls(this, myTimeline, myResources);
 		controllers.addControls(myRoot);
 		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
