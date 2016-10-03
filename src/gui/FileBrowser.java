@@ -75,13 +75,13 @@ public class FileBrowser {
 		if (simulationType.equals(myResources.getString("SegregationSim"))) {
 			XMLFileName = "SegregationXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("PredatorPreySim"))) {
+		if (simulationType.equals(myResources.getString("WatorSim"))) {
 			XMLFileName = "WatorXMLs/" + XMLFileName;
 		}
 		if (simulationType.equals(myResources.getString("FireSim"))) {
 			XMLFileName = "FireXMLs/" + XMLFileName;
 		}
-		if (simulationType.equals(myResources.getString("AntSim"))) {
+		if (simulationType.equals(myResources.getString("ForagingAntsSim"))) {
 			XMLFileName = "ForagingAntsXMLs/" + XMLFileName;
 		}
 		return myResources.getString("DefaultDataFolderPath") + XMLFileName;

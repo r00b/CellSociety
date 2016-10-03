@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import simulations.Grid;
 
@@ -35,8 +36,48 @@ public class CellNode {
 	 *            the jth cell
 	 * @return the correctly positioned and shaped polygon
 	 */
-	private Polygon drawHexagon(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
-		// TODO implement hexagon
+	private Polygon drawHexagon(Polygon polygon, double cellSize, int gridOffset, double x, double y, boolean offset) {
+	//	cellSize *= 2;
+		double radius = cellSize / 2;
+		double spacing = (radius/2) * x;
+		double ySub = radius;//(Math.sqrt(3)/2) * radius;
+		if (offset) {
+			polygon.getPoints()
+					.addAll(new Double[] {
+							// top left (3*radius)+ ((2 * radius * x) +
+							((gridOffset + x * cellSize) + radius / 2) - spacing, (gridOffset + y * cellSize) - ySub,
+							// top right
+							((gridOffset + (x + 1) * cellSize) - radius / 2) - spacing, (gridOffset + y * cellSize) - ySub,
+							// rightmost
+							(gridOffset + (x + 1) * cellSize) - spacing,
+							average(gridOffset + y * cellSize, gridOffset + (y + 1) * cellSize) - ySub,
+							// bottom right
+							((gridOffset + (x + 1) * cellSize) - radius / 2) - spacing, (gridOffset + (y + 1) * cellSize) - ySub,
+							// bottom left
+							((gridOffset + x * cellSize) + radius / 2) - spacing, (gridOffset + (y + 1) * cellSize) - ySub,
+							// leftmost
+							(gridOffset + x * cellSize) - spacing,
+							average(gridOffset + y * cellSize, gridOffset + (y + 1) * cellSize) - ySub,
+							});
+		} else {
+			polygon.getPoints()
+					.addAll(new Double[] {
+							// top left (2 * radius * x)
+							((gridOffset + x * cellSize) + radius / 2) - spacing, (gridOffset + y * cellSize),
+							// top right
+							((gridOffset + (x + 1) * cellSize) - radius / 2) - spacing, (gridOffset + y * cellSize),
+							// rightmost
+							(gridOffset + (x + 1) * cellSize) - spacing,
+							average(gridOffset + y * cellSize, gridOffset + (y + 1) * cellSize),
+							// bottom right
+							((gridOffset + (x + 1) * cellSize) - radius / 2) - spacing, (gridOffset + (y + 1) * cellSize),
+							// bottom left
+							((gridOffset + x * cellSize) + radius / 2) - spacing, (gridOffset + (y + 1) * cellSize),
+							// leftmost
+							(gridOffset + x * cellSize) - spacing,
+							average(gridOffset + y * cellSize, gridOffset + (y + 1) * cellSize), });
+		}
+		polygon.setStroke(Color.LIGHTGREY);
 		return polygon;
 	}
 
@@ -56,14 +97,15 @@ public class CellNode {
 	 */
 	private Polygon drawSquare(Polygon polygon, double cellSize, int gridOffset, double x, double y) {
 		polygon.getPoints()
-				.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
-																								// left
-						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
-																					// right
-						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
-																							// right
-						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
-																						// left
+				.addAll(new Double[] {
+						// top left
+						gridOffset + x * cellSize, gridOffset + y * cellSize,
+						// top right
+						gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize,
+						// bottom right
+						gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize,
+						// bottom left
+						gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize });
 		return polygon;
 	}
 
@@ -83,22 +125,23 @@ public class CellNode {
 	 */
 	private Polygon drawTriangle(Polygon polygon, double cellSize, int gridOffset, double x, double y, boolean invert) {
 		if (invert) {
-			polygon.getPoints().addAll(new Double[] {
-					average(gridOffset + x * cellSize, gridOffset + (x + 1) * cellSize), gridOffset + y * cellSize,
-
-					gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize, // bottom
-																						// right
-					gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // bottom
-																					// left
-		} else {
-			
 			polygon.getPoints()
-					.addAll(new Double[] { gridOffset + x * cellSize, gridOffset + y * cellSize, // top
-																									// left
-							gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize, // top
-																						// right
+					.addAll(new Double[] {
+							// top left
+							gridOffset + x * cellSize, gridOffset + y * cellSize,
+							// top right
+							gridOffset + (x + 1) * cellSize, gridOffset + y * cellSize,
+							// bottom point
 							average(gridOffset + (x + 1) * cellSize, gridOffset + x * cellSize),
 							gridOffset + (y + 1) * cellSize });
+		} else {
+			polygon.getPoints().addAll(new Double[] {
+					// top point
+					average(gridOffset + x * cellSize, gridOffset + (x + 1) * cellSize), gridOffset + y * cellSize,
+					// bottom right
+					gridOffset + (x + 1) * cellSize, gridOffset + (y + 1) * cellSize,
+					// bottom left
+					gridOffset + x * cellSize, gridOffset + (y + 1) * cellSize }); // left
 		}
 		return polygon;
 	}
@@ -122,7 +165,7 @@ public class CellNode {
 	 *         state
 	 */
 	protected Polygon getCellNode(Grid grid, double cellSize, int gridOffset, int i, int j, int numVertices,
-			boolean invert) {
+			boolean invert, boolean offset) {
 		Polygon polygon = new Polygon();
 		// id so that the Node can be removed from the Scene later
 		String id = Integer.toString(i) + Integer.toString(j);
@@ -130,16 +173,15 @@ public class CellNode {
 		// cast i,j to double so that we can create polygon points
 		double x = (double) i;
 		double y = (double) j;
-		//numVertices = 3;
 		if (numVertices == 3) { // TODO: triangle
 
-			polygon = drawTriangle(polygon, cellSize, gridOffset, x, y, invert);
+			polygon = drawTriangle(polygon, cellSize, gridOffset, (x / 2), y, invert);
 		}
 		if (numVertices == 4) {
 			polygon = drawSquare(polygon, cellSize, gridOffset, x, y);
 		}
 		if (numVertices == 6) { // TODO: hexagon
-			polygon = drawHexagon(polygon, cellSize, gridOffset, x, y);
+			polygon = drawHexagon(polygon, cellSize, gridOffset, x, y, offset);
 		}
 		polygon.setFill(grid.getCell(i, j).getStateColor());
 		return polygon;

@@ -56,8 +56,8 @@ public class SimControls {
 	private ComboBox<String> createComboBox(SimEvents events) {
 		ComboBox<String> comboBox = new ComboBox<String>();
 		comboBox.getItems().addAll(myResources.getString("GameOfLifeSim"), myResources.getString("SegregationSim"),
-				myResources.getString("PredatorPreySim"), myResources.getString("FireSim"),
-				myResources.getString("AntSim"));
+				myResources.getString("WatorSim"), myResources.getString("FireSim"),
+				myResources.getString("ForagingAntsSim"));
 		// set default simulation as defined in properties file
 		comboBox.setValue(myResources.getString("DefaultSimulation"));
 		comboBox.setMinWidth(Integer.parseInt(myResources.getString("ComboBoxMinWidth")));
