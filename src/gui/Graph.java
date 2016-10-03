@@ -27,11 +27,13 @@ public class Graph {
 	private void init() {
 		//create axes and graph
 		final NumberAxis xAxis = new NumberAxis();
-		final NumberAxis yAxis = new NumberAxis();
+		double maxY = mySimulation.getGridHeight()*mySimulation.getGridWidth();
+		final NumberAxis yAxis = new NumberAxis(0,maxY,maxY / 10);
 		xAxis.setLabel("Time");
 		yAxis.setLabel("Number of Cells");
 		final LineChart<Number, Number> graph = new LineChart<Number, Number>(xAxis, yAxis);
 		graph.setTitle("Cell State Populations");
+		graph.setId("uniqueGraphID");
 		//create objects to hold data
 		for (int stateInt : mySimulation.getStateMap().keySet()) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
@@ -57,7 +59,6 @@ public class Graph {
 		}
 		for (int state = 0; state < stateCount.size(); state++) {
 			mySeriesMap.get(state).getData().add(new XYChart.Data<Number, Number>(xSeriesData, stateCount.get(state)));
-			System.out.println(stateCount.get(state));
 		}
 		xSeriesData += 1;
 		
