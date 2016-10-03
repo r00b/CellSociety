@@ -105,10 +105,9 @@ public class FileBrowser {
 		File XMLPath = new File(path);
 		fileChooser.setInitialDirectory(XMLPath);
 		File chosenXMLFile = fileChooser.showOpenDialog(myStage);
+		// user clicked cancel, return to simulation
 		if (chosenXMLFile == null) {
-			displayXMLAlert(myResources.getString("XMLMissingErrorTitle"),
-					myResources.getString("XMLMissingErrorHeader"), myResources.getString("XMLMissingErrorContent"));
-			return getXMLFileName(simulationType); // try again
+			return null;
 		}
 		String pathToChosenXML = buildPath(chosenXMLFile.getName(), simulationType);
 		if (validXMLFile(pathToChosenXML)) {

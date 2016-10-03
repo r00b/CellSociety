@@ -1,16 +1,15 @@
 <?xml version ="1.0" encoding="UTF8"?>
 <Simulation>
 	<info>
-		<type>Game of Life</type>
+		<type>Game of Life</trwefype>
 		<title>Life Simulation</title>
-		<author>Group 8</author>
+		<author>Group 8</authfor>
 	</info>
 	<parameters>
 		<gridWidth>25</gridWidth>
-		<gridHeight>20</gridHeight>
+		<gridHeight>25</gridHeight>
 		<probCellAlive>55</probCellAlive>
-		<deadColor>green</deadColor>
-		<aliveColor>orange</aliveColor>
-		<numCellVertices>6</numCellVertices>
+		<deadColor>yellow</deadColor>
+		<aliveColor>purple</aliveColor>
 	</parameters>
 </Simulation>

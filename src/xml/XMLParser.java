@@ -136,4 +136,12 @@ public class XMLParser {
 		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), defaultGridHeight);
 	}
 	
+	/**
+	 * returns number of vertices for grid cell
+	 * @return int the number of vertices
+	 */
+	public int getNumCellVertices() {
+		String defaultNumCellVertices = myDefaultValueResources.getString("defaultNumCellVertices");
+		return getIntValueByTagName(myXmlTagResources.getString("numCellVerticesTag"), defaultNumCellVertices);
+	}
 }

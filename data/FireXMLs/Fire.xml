@@ -13,5 +13,6 @@
 		<burningColor>red</burningColor>
 		<emptyColor>gray</emptyColor>
 		<treeColor>green</treeColor>
+		<numCellVertices>4</numCellVertices>
 	</parameters>
 </Simulation>
