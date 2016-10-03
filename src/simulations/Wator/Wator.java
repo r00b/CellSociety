@@ -10,8 +10,6 @@ import xml.WatorXMLParser;
  * They also depend on WatorXMLParser objects to provide the specific information given in wator xml files
  * Wator objects are instantiated by Animation.java, which uses these them to visualize the CA simulation
  * 
- * NOTE: this class needs a lot of refactoring
- * I will continue to refactor the code and fix the logic of this simulation
  * @author Aaron Chang
  *
  */

@@ -20,6 +20,8 @@ import javafx.scene.paint.Color;
  * 
  * The XMLParser class depends on the XMLParserException class for exception handling
  * It assumes that all simulation XML files have tags type, name, author, gridWidth, and gridHeight
+ * It uses XmlTags.properties to get the tags that it uses for searching through the XML files
+ * It also uses DefaultParameters.properties to retrieve default values if the xml files contain bad/nonexistent data
  * @author Aaron Chang
  *
  */
