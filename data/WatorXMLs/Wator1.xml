@@ -4,6 +4,7 @@
 		<type>Wator</type>
 		<title>Wa-Tor World Simulation</title>
 		<author>Group 8</author>
+		<isToroidal>false</isToroidal>
 	</info>
 	<parameters>
 		<gridWidth>40</gridWidth>

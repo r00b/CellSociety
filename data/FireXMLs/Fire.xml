@@ -4,6 +4,7 @@
 		<type>Fire</type>
 		<title>Fire Spreading Simulation</title>
 		<author>Group 8</author>
+		<isToroidal>true</isToroidal>
 	</info>
 	<parameters>
 		<gridWidth>50</gridWidth>
