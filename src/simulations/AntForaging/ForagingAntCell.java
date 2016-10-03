@@ -78,7 +78,13 @@ public class ForagingAntCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);;
+		int numVertices = myParser.getNumCellVertices();
+		if(numVertices == 3 || numVertices == 8){
+			getMyNeighborhood().set_EightNeighbor_NoWraparound(this,grid);
+		}
+		else{
+			getMyNeighborhood().set_Six_Neighbor_NoWraparound(this, grid);
+		}
 	}
 
 	public void setEmpty() {

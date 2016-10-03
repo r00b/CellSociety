@@ -4,7 +4,7 @@ import xml.ForagingAntsXMLParser;
 
 public class FoodSource extends ForagingAntCell {
 	private ForagingAntsXMLParser myParser;
-	public static final int FOOD = 7;
+	public static final int FOOD = 4;
 	
 	public FoodSource(int i, int j, String xmlFilename) {
 		super(i, j, xmlFilename);

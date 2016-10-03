@@ -89,5 +89,7 @@ public class ForagingAnts extends Simulation{
 		myStateMap.put(ForagingAntCell.EMPTY, "Empty");
 		myStateMap.put(ForagingAntCell.FULL, "Full");
 		myStateMap.put(Obstacle.OBSTACLE, "Obstacle");
+		myStateMap.put(Nest.NEST,"Nest");
+		myStateMap.put(FoodSource.FOOD, "Food");
 	}
 }
