@@ -46,11 +46,12 @@ public class SimControls {
 	 */
 	private VBox createSlider(SimEvents events) {
 		Slider speedSlider = new Slider();
+		speedSlider.setId("slider");
 		speedSlider.setShowTickMarks(true);
 		speedSlider.setValue(Integer.parseInt(myResources.getString("SliderDefaultValue")));
 		speedSlider.setOnMouseDragged(e -> events.handleSlider(speedSlider));
 		speedSlider.setOnKeyPressed(e -> events.handleSlider(speedSlider));
-		Text sliderText = new Text("Speed Slider");
+		Text sliderText = new Text(myResources.getString("SpeedSliderText"));
 		VBox sliderBox = new VBox(8);
 		sliderBox.setLayoutX(Integer.parseInt(myResources.getString("SliderXPos")));
 		sliderBox.setLayoutY(Integer.parseInt(myResources.getString("SliderYPos")));
@@ -67,6 +68,7 @@ public class SimControls {
 	 */
 	private ComboBox<String> createComboBox(SimEvents events) {
 		ComboBox<String> comboBox = new ComboBox<String>();
+		comboBox.getStyleClass().add("simControl");
 		comboBox.getItems().addAll(myResources.getString("GameOfLifeSim"), myResources.getString("SegregationSim"),
 				myResources.getString("WatorSim"), myResources.getString("FireSim"),
 				myResources.getString("ForagingAntsSim"));
@@ -118,6 +120,7 @@ public class SimControls {
 	 */
 	private Button createButton(String text, SimEvents events) {
 		Button newButton = new Button(myResources.getString(text));
+		newButton.getStyleClass().add("simControl");
 		newButton.setMinWidth(Integer.parseInt(myResources.getString("ButtonMinWidth")));
 		newButton.setLayoutX(Integer.parseInt(myResources.getString("ButtonXPos")));
 		newButton.setLayoutY(Integer.parseInt(myResources.getString(text + "YPos")));
