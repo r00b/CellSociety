@@ -93,13 +93,14 @@ public class Animation {
 		if (simulation.equals(myResources.getString("SegregationSim"))) {
 			mySimulation = new Segregation(XMLFileName);
 		}
-		if (simulation.equals(myResources.getString("PredatorPreySim"))) {
+		if (simulation.equals(myResources.getString("WatorSim"))) {
 			mySimulation = new Wator(XMLFileName);
 		}
 		if (simulation.equals(myResources.getString("FireSim"))){
 			 mySimulation = new Fire(XMLFileName);
 		}
-		if (simulation.equals(myResources.getString("AntSim"))) {
+
+		if (simulation.equals(myResources.getString("ForagingAntsSim"))) {
 			mySimulation = new ForagingAnts(XMLFileName);
 		}
 		myGrid = mySimulation.getGrid();

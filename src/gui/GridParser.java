@@ -57,14 +57,12 @@ public class GridParser {
 			clearGrid();
 		}
 		double cellSize = Integer.parseInt(myResources.getString("GridSize")) / mySimulation.getGridHeight();
-		boolean invert = true;
 		for (int i = 0; i < mySimulation.getGridHeight(); i++) {
-			invert = !invert;
-			for (int j = 0; j < mySimulation.getGridWidth(); j++) {
-				int numVertices = 4;
+			for (int j = 0; j < mySimulation.getGridHeight(); j++) {
+				int numVertices = 6;
 				CellNode node = new CellNode();
 				Polygon cell = node.getCellNode(myGrid, cellSize, Integer.parseInt(myResources.getString("GridOffset")),
-						i, j, numVertices, invert);
+						i, j, numVertices);
 				if (newGrid) {
 					String id = Integer.toString(i) + Integer.toString(j);
 					// set a CSS id so we can get this cell later to remove it
