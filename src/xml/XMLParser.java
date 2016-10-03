@@ -99,6 +99,13 @@ public class XMLParser {
 		}
 	}
 	
+	/**
+	 * searches the xml file for the tag name and returns a float value
+	 * if no tag exists, it will use the default value
+	 * @param string - name of xml file tag
+	 * @param string - default value 
+	 * @return
+	 */
 	public float getFloatValueByTagName(String tagName, String defaultStringValue) {
 		try {
 			float floatValue = Float.valueOf(getTextValueByTagName(tagName, defaultStringValue));
@@ -110,6 +117,30 @@ public class XMLParser {
 		}
 	}
 	
+	/**
+	 * searches the xml file for the tag name and returns a boolean value
+	 * if no tag exists, it will use the default value
+	 * @param string - name of xml file tag
+	 * @param string - default value 
+	 * @return
+	 */
+	public boolean getBooleanValueByTagName(String tagName, String defaultStringValue) {
+		try {
+			boolean boolVal= Boolean.parseBoolean(getTextValueByTagName(tagName, defaultStringValue));
+			return boolVal;
+		}
+		catch (IllegalArgumentException e) {
+			boolean boolVal= Boolean.parseBoolean(defaultStringValue);
+			return boolVal;
+		}
+	}
+	/**
+	 * searches the xml file for the tag name and returns a color value
+	 * if no tag exists, it will use the default value
+	 * @param colorTag
+	 * @param defaultColorString
+	 * @return
+	 */
 	public Color getColor(String colorTag, String defaultColorString) {
 		try {
 			String colorString = getTextValueByTagName(myXmlTagResources.getString(colorTag), defaultColorString);
@@ -145,5 +176,9 @@ public class XMLParser {
 	public int getNumCellVertices() {
 		String defaultNumCellVertices = myDefaultValueResources.getString("defaultNumCellVertices");
 		return getIntValueByTagName(myXmlTagResources.getString("numCellVerticesTag"), defaultNumCellVertices);
+	}
+	public boolean isToroidal() {
+		String defaultToroidal = myDefaultValueResources.getString("defaultToroidal");
+		return getBooleanValueByTagName(myXmlTagResources.getString("toroidalTag"), defaultToroidal);
 	}
 }

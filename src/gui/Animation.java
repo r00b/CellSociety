@@ -91,7 +91,7 @@ public class Animation {
 			}
 		}
 		myGridParser.clearGrid();
-		myRoot.getChildren().remove(myRoot.lookup("#"+ "uniqueGraphID"));
+		myGraph.clearGraph();
 		initStep(myComboBox.getValue(), myXMLFilePath);
 	}
 
@@ -130,9 +130,9 @@ public class Animation {
 		setSimulation(simulation, XMLFileName);
 		// allows us to get the shape of the cell (i.e. hexagon)
 		XMLParser myParser = new XMLParser(XMLFileName);
+		myGraph = new Graph(mySimulation, myRoot);
 		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, myParser.getNumCellVertices());
 		myGridParser.drawGrid(true); // pass true because this is a new grid
-		myGraph = new Graph(mySimulation, myRoot);
 		myTimeline = new Timeline();
 		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
 		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
