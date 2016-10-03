@@ -4,6 +4,7 @@
 		<type>Game of Life</type>
 		<title>Life Simulation</title>
 		<author>Group 8</author>
+		<isToroidal>false</isToroidal>
 	</info>
 	<parameters>
 		<gridWidth>25</gridWidth>

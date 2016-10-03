@@ -4,6 +4,7 @@
 		<type>Segregation</type>
 		<title>Segregation Simulation</title>
 		<author>Group 8</author>
+		<isToroidal>false</isToroidal>
 	</info>
 	<parameters>
 		<gridWidth>50</gridWidth>

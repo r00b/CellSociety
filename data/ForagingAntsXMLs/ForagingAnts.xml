@@ -4,6 +4,7 @@
 		<type>Foraging_Ants</type>
 		<title>Foraging Ants Simulation</title>
 		<author>Group 8</author>
+		<isToroidal>true</isToroidal>
 	</info>
 	<parameters><gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight><sourceLocationI>34</sourceLocationI>
