@@ -3,6 +3,7 @@ package simulations.AntForaging;
 import java.util.HashMap;
 import java.util.Random;
 
+import simulations.Cell;
 import simulations.Simulation;
 import simulations.Tuple;
 import xml.ForagingAntsXMLParser;
@@ -10,9 +11,9 @@ import xml.ForagingAntsXMLParser;
 public class ForagingAnts extends Simulation{
 	private ForagingAntsXMLParser myParser;
 	private ForagingAntGrid myGrid;
-	private Tuple nestLocation;
+	/*private Tuple nestLocation;
 	private Tuple foodSourceLocation;
-	private int percentOfObstacles;
+	private int percentOfObstacles;*/
 	private String XMLFileName;
 	
 	public ForagingAnts(String XMLFileName){
@@ -20,12 +21,12 @@ public class ForagingAnts extends Simulation{
 		myParser = new ForagingAntsXMLParser(XMLFileName);
 		myGrid = new ForagingAntGrid(myParser.getGridHeight(), myParser.getGridWidth(), XMLFileName);
 		this.XMLFileName = XMLFileName;
-		setInitialParameters();
+		//setInitialParameters();
 		setGrid(myGrid);
 		setInitialGridState();
 	}
 	
-	private void setInitialParameters() {
+	/*private void setInitialParameters() {
 		percentOfObstacles = myParser.getPercentObstacles();
 		int nestILocation = myParser.getNestILocation();
 		int nestJLocation = myParser.getNestJLocation();
@@ -34,55 +35,59 @@ public class ForagingAnts extends Simulation{
 		int foodSourceJLocation = myParser.getSourceJLocation();
 		foodSourceLocation = new Tuple(foodSourceILocation, foodSourceJLocation);
 	}
-
+*/
 	@Override
 	protected void setInitialGridState() {
 		for (int row = 0; row < myGrid.getHeight(); row++){
 			for (int col = 0; col < myGrid.getWidth(); col++){
 				ForagingAntCell currCell = (ForagingAntCell) myGrid.getCell(row, col);
-				if(isNestLocation(row,col)){
-					currCell = new Nest(row, col, XMLFileName);
+				currCell.setNeighborhood(myGrid);
+			}
+		}
+	}
+	
+	@Override
+	protected void updateNextStates() {
+		for (int row = 0; row < myGrid.getHeight(); row++){
+			for (int col = 0; col < myGrid.getWidth(); col++){
+				ForagingAntCell currCell = (ForagingAntCell) myGrid.getCell(row, col);
+				if(currCell.getCurrState() == Obstacle.OBSTACLE){
+					continue;
 				}
-				else if(isFoodSourceLocation(row, col)){
-					currCell = new FoodSource(row, col, XMLFileName);
+				else if(currCell.getCurrState() == FoodSource.FOOD){
+					currCell.forageAnts();;
 				}
-				else if(isObstacle()){
-					currCell = new Obstacle(row, col, XMLFileName);
+				else if(currCell.isEmpty()){
+					continue;
 				}
-				else{
-					currCell.setEmpty();
+				else if(currCell.getCurrState() == Nest.NEST){
+					Nest nest = (Nest) currCell;
+					nest.birthAnts();
+					nest.forageAnts();
 				}
+				else if(currCell.isFull() || currCell.hasAnts()){
+					currCell.forageAnts();
+				}
+				currCell.resetsAnt();
+				currCell.diffuse();
+				currCell.evaporate();
+				currCell.updateProbability();
+				
 			}
 		}
 		
 	}
 	
-	private boolean isObstacle() {
-		Random rand = new Random();
-		int randNum = rand.nextInt(101);
-		return randNum <= percentOfObstacles;
-	}
-
-	private boolean isFoodSourceLocation(int row, int col){
-		return (foodSourceLocation.getIPos() == row) && (foodSourceLocation.getJPos() == col);
-	}
-
-	private boolean isNestLocation(int row, int col) {
-		return (nestLocation.getIPos() == row) && (nestLocation.getJPos() == col);
-	}
-
 	@Override
-	protected void updateNextStates() {
-		// TODO Auto-generated method stub
-		
+	public void updateGrid() {
+		updateNextStates();
 	}
-
+	
 	@Override
 	protected void setStateMap() {
 		myStateMap.put(ForagingAntCell.ANTS, "Ants");
 		myStateMap.put(ForagingAntCell.EMPTY, "Empty");
 		myStateMap.put(ForagingAntCell.FULL, "Full");
-		myStateMap.put(ForagingAntCell.OBSTACLE, "Obstacle");
+		myStateMap.put(Obstacle.OBSTACLE, "Obstacle");
 	}
-
 }

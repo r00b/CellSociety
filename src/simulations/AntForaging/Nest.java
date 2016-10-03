@@ -1,18 +1,43 @@
 package simulations.AntForaging;
 
+import java.security.KeyStore.PrivateKeyEntry;
+
 import simulations.Cell;
 import simulations.Grid;
 import xml.ForagingAntsXMLParser;
 
 public class Nest extends ForagingAntCell {
-	private static final int NEST = 0;
+	public static final int NEST = 6;
 	private ForagingAntsXMLParser myParser;
+	private int antsLeftToBirth;
+	private int antsBornPerStep;
+	private int numBirthed;
+	private int lifetime;
 	
 	public Nest(int i, int j, String XMLFileName) {
 		super(i, j, XMLFileName);
-		// TODO Auto-generated constructor stub
+		myParser = new ForagingAntsXMLParser(XMLFileName);
+		setCurrState(NEST, myParser.getNestColor());
+		antsLeftToBirth = myParser.getMaxAnts();
+		antsBornPerStep = myParser.getNumAntsBornPerStep();
+		lifetime = myParser.getAntLifetime();
+		numBirthed = 0;
+		birthAnts();
 	}
-
+	
+	public void birthAnts (){
+		numBirthed ++;
+		if(numBirthed/ (float) lifetime > 1){
+			antsLeftToBirth += antsBornPerStep;
+		}
+		for(int i = 0; i < antsBornPerStep; i++){
+			if(antsLeftToBirth > 0){
+				addAnt(new Ant(this,myParser.getAntLifetime()));
+				antsLeftToBirth --;
+			}
+		}
+	}
+	
 	@Override
 	public void mapStatesToColors() {
 		updateColorMap(NEST, myParser.getNestColor());
@@ -25,8 +50,7 @@ public class Nest extends ForagingAntCell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		// TODO Auto-generated method stub
-		
+		getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
 	}
 
 }

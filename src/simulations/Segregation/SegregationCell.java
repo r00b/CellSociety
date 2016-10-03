@@ -7,6 +7,14 @@ import simulations.Cell;
 import simulations.Grid;
 import xml.SegregationXMLParser;
 
+/**
+ * @author samuelcurtis
+ *The SegregationCell class is a subcass of the Cell class. It is used to represent 
+ *cells in the Segregation simulation type. These cells can be either empty, in state
+ *ONE, or in state TWO. What these states represent is irrelevant, the cells only 
+ *care about finding cells that are the same state as they are. The initial state
+ *of a cell is determined randomly based on the percentages given in an XML file.
+ */
 public class SegregationCell extends Cell {
 	public static final int EMPTY = 0;
 	public static final int ONE = 1;
@@ -50,22 +58,50 @@ public class SegregationCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		getMyNeighborhood().set_EightNeighbor_Wraparound_Neighborhood(this,grid);
+		getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
 	}
 	
 	
+	/**
+	 * @return true if the current state of the cell is EMPTY, false otherwise
+	 */
 	public boolean isEmpty() {
 		return getCurrState() == EMPTY;
 	}
 
+	/**
+	 * Set the next state of the cell to EMPTY
+	 */
 	public void setNextStateEmpty() {
 		setNextState(EMPTY);
 	}
 	
+	/**
+	 * The cells next state is the same as its current state. 
+	 */
+	public void stateDoesntChange() {
+		setNextState(getCurrState());
+	}
+	
+	/**
+	 * @param otherCell is the cell whose state we want this cell's state to match
+	 * Set the next state of this cell to whatever the state of otherCell is
+	 */
 	public void setNextStateToOtherCellState(SegregationCell otherCell){
 		setNextState(otherCell.getCurrState());
 	}
 	
+	/**
+	 * @param newSpot represents the spot for which we want to determine if a 
+	 * cell is satisfied in. If the newSpot cell is equivalent to the cell 
+	 * calling the method, we are determining whether a cell is satisfied where it is.
+	 * If newSpot is a different cell, then this method determines if a given cell 
+	 * would be satisfied in a different location. 
+	 * @return true if the cell is satisfied where it is or would be satisfied 
+	 * in a given location. false otherwise
+	 * a cell is satisfied if at least a certain percentage of its neighbors
+	 * are in the same state as it is.
+	 */
 	public boolean isSatisfied(Cell newSpot) {
 		int numAlike = 0;
 		int numEmpty = 0;
@@ -92,10 +128,5 @@ public class SegregationCell extends Cell {
 		else {
 			return true;
 		}
-	}
-
-	public void stateDoesntChange() {
-		setNextState(getCurrState());
-		
 	}
 }

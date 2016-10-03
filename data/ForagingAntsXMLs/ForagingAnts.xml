@@ -5,17 +5,21 @@
 		<title>Foraging Ants Simulation</title>
 		<author>Group 8</author>
 	</info>
-	<parameters>
-		<gridWidth>100</gridWidth>
+	<parameters><gridWidth>50</gridWidth>
+		<gridHeight>50</gridHeight><sourceLocationI>34</sourceLocationI>
+		<nestLocationI>0</nestLocationI>
+		<nestLocationJ>0</nestLocationJ>
+		
+		<sourceLocationJ>29</sourceLocationJ>
+		<maxAnts>200</maxAnts><gridWidth>100</gridWidth>
 		<gridHeight>100</gridHeight>
 		<numVertices>4</numVertices>
 		<nestLocationI>70</nestLocationI>
 		<nestLocationJ>70</nestLocationJ>
 		<sourceLocationI>20</sourceLocationI>
 		<sourceLocationJ>20</sourceLocationJ>
-		<maxAnts>1000</maxAnts>
-		<maxAntsPerLocation>10</maxAntsPerLocation>
-		<antLifetime>500</antLifetime>
+		<maxAnts>1000</maxAnts><maxAntsPerLocation>10</maxAntsPerLocation>
+		<antLifetime>100</antLifetime>
 		<numAntsAtNest>2</numAntsAtNest>
 		<antsBornPerStep>2</antsBornPerStep>
 		<minPheremone>0.0</minPheremone>
