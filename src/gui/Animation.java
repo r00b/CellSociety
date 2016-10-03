@@ -33,7 +33,7 @@ import xml.XMLParser;
  *         The simulation continues until it is stopped by the user.
  * 
  *         Dependencies: SimControls.java, SimEvents.java, CellNode.java,
- *         GridParser.java, FileBrowser.java
+ *         GridParser.java, FileBrowser.java, Graph.java
  */
 public class Animation {
 	private static final String TITLE = "CellSociety";

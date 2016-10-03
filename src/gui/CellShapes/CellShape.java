@@ -11,5 +11,4 @@ import javafx.scene.shape.Polygon;
 public interface CellShape {
 
 	public Polygon createShape(Polygon cell, double cellSize, int gridOffset, double x, double y);
-
 }

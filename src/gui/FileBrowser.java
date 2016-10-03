@@ -35,7 +35,6 @@ public class FileBrowser {
 		alert.setHeaderText(header);
 		alert.setContentText(content);
 		alert.showAndWait();
-
 	}
 
 	/**
@@ -113,8 +112,7 @@ public class FileBrowser {
 		if (validXMLFile(pathToChosenXML)) {
 			return pathToChosenXML;
 		} else { // try again
-			return getXMLFileName(simulationType); // try again
+			return getXMLFileName(simulationType);
 		}
 	}
-
 }

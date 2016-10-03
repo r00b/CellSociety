@@ -11,6 +11,11 @@ import simulations.Cell;
 import simulations.Grid;
 import simulations.Simulation;
 
+/**
+ * 
+ * @author Aaron Chang
+ *
+ */
 public class Graph {
 	private Simulation mySimulation;
 	private Pane myRoot;
@@ -42,7 +47,7 @@ public class Graph {
 			graph.getData().add(series);
 		}
 		graph.setLayoutX(750);
-		graph.setLayoutY(150);
+		graph.setLayoutY(130);
 		myRoot.getChildren().add(graph);
 	}
 	public void updateGraph(Grid grid) {
