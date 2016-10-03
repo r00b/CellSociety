@@ -38,33 +38,46 @@ public class ForagingAnts extends Simulation{
 	protected void setInitialGridState() {
 		for (int row = 0; row < myGrid.getHeight(); row++){
 			for (int col = 0; col < myGrid.getWidth(); col++){
-				/*ForagingAntCell currCell = (ForagingAntCell) myGrid.getCell(row, col);
-				ForagingAntCell temp = new ForagingAntCell(row, col, XMLFileName);
-				if(isNestLocation(row,col)){
-					System.out.println("NEST");
-					 temp = new Nest(row, col, XMLFileName);
-				}
-				else if(isFoodSourceLocation(row, col)){
-					System.out.println("FOODSOURCE");
-					 temp = new FoodSource(row, col, XMLFileName);
-				}
-				else if(isObstacle()){
-					System.out.println("OBSTACLE");
-					 temp = new Obstacle(row, col, XMLFileName);
-				}
-				else{
-					System.out.println("EMPTY");
-					currCell.setEmpty();
-				}
-				currCell = temp;
-				System.out.println(currCell.getCurrState());*/
+				ForagingAntCell currCell = (ForagingAntCell) myGrid.getCell(row, col);
+				currCell.setNeighborhood(myGrid);
 			}
 		}
 	}
+	
 	@Override
 	protected void updateNextStates() {
-		// TODO Auto-generated method stub
+		for (int row = 0; row < myGrid.getHeight(); row++){
+			for (int col = 0; col < myGrid.getWidth(); col++){
+				ForagingAntCell currCell = (ForagingAntCell) myGrid.getCell(row, col);
+				if(currCell.getCurrState() == Obstacle.OBSTACLE){
+					continue;
+				}
+				else if(currCell.getCurrState() == FoodSource.FOOD){
+					currCell.forageAnts();;
+				}
+				else if(currCell.isEmpty()){
+					continue;
+				}
+				else if(currCell.getCurrState() == Nest.NEST){
+					Nest nest = (Nest) currCell;
+					nest.birthAnts();
+					nest.forageAnts();
+				}
+				else if(currCell.isFull() || currCell.hasAnts()){
+					currCell.forageAnts();
+				}
+				currCell.resetsAnt();
+				currCell.diffuse();
+				currCell.evaporate();
+				currCell.updateProbability();
+				
+			}
+		}
 		
 	}
-
+	
+	@Override
+	public void updateGrid() {
+		updateNextStates();
+	}
 }

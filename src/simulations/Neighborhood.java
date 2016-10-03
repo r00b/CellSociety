@@ -36,18 +36,35 @@ public class Neighborhood implements Iterable<Cell> {
 	 * This method calls two helper methods, getNeighborIPosition and getNeighborJposition,
 	 * which assist in the logic of calculating the neighbors of edge cells. 
 	 */
-	public void set_EightNeighbor_Wraparound_Neighborhood(Cell currCell, Grid grid) {
+	public void set_EightNeighbor_Wraparound(Cell currCell, Grid grid) {
 		Tuple position = currCell.getPosition();
 		for(int k = -1; k<2; k++){
 			for(int g = -1; g<2; g++){
-				int i = getNeighborIPosition(position.getIPos(), k,grid);
-				int j = getNeighborJPosition(position.getJPos(), g, grid);
+				int i = getNeighborIPosition(position.getIPos(), k,grid,true);
+				int j = getNeighborJPosition(position.getJPos(), g, grid,true);
 				if (!(i == position.getIPos() && j == position.getJPos())) {
 					currCell.addNeighbor(grid.getCell(i, j));
 				}
 			}
 		}
 	}
+	
+	public void set_EightNeighbor_NoWraparound(Cell currCell, Grid grid) {
+		Tuple position = currCell.getPosition();
+		for(int k = -1; k<2; k++){
+			for(int g = -1; g<2; g++){
+				int i = getNeighborIPosition(position.getIPos(), k,grid,false);
+				int j = getNeighborJPosition(position.getJPos(), g, grid,false);
+				if(i == -1 || j == -1){
+					continue;
+				}
+				if (!(i == position.getIPos() && j == position.getJPos())) {
+					currCell.addNeighbor(grid.getCell(i, j));
+				}
+			}
+		}
+	}
+	
 	
 	/**
 	 * @param currCell is the cell which we are calculating a neighborhood for
@@ -89,10 +106,10 @@ public class Neighborhood implements Iterable<Cell> {
 	public void set_FourNeighbor_Wraparound(Cell currCell, Grid grid){
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
-		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, -1, grid), j));
-		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, 1,grid), j));
-		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, -1,grid)));
-		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, 1,grid)));
+		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, -1, grid, true), j));
+		currCell.addNeighbor(grid.getCell(getNeighborIPosition(i, 1,grid, true), j));
+		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, -1,grid, true)));
+		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, 1,grid,true)));
 	}
 	
 	/**
@@ -118,14 +135,24 @@ public class Neighborhood implements Iterable<Cell> {
 	 * @param g - an int between -1 and 1 that represents a relative J position to the current cell of a given neighbor
 	 * @return the position of the current neighbor, with edge cell case accounted for
 	 */
-	protected int getNeighborJPosition(int j, int g, Grid grid) {
+	protected int getNeighborJPosition(int j, int g, Grid grid, boolean wrapAround) {
 		int jPos = j + g;
 		if(jPos < 0){
-			jPos = grid.getWidth()-1;
+			if(wrapAround){
+				jPos = grid.getWidth()-1;
+			}
+			else{
+				jPos = -1;
+			}
 		}
 		
 		if(jPos > grid.getWidth() -1){
-			jPos = 0;
+			if(wrapAround){
+				jPos = 0;
+			}
+			else{
+				jPos = -1;
+			}
 		}
 		return jPos;
 	}
@@ -136,14 +163,24 @@ public class Neighborhood implements Iterable<Cell> {
 	 * @param k - an int between -1 and 1 that represents a relative I position to the current cell of a given neighbor
 	 * @return the position of the current neighbor, with edge cell case accounted for
 	 */
-	protected int getNeighborIPosition(int i, int k,Grid grid){
+	protected int getNeighborIPosition(int i, int k,Grid grid, boolean wrapAround){
 		int iPos = i + k;
 		if(iPos < 0){
-			iPos = grid.getHeight()-1;
+			if(wrapAround){
+				iPos = grid.getHeight()-1;
+			}
+			else{
+				iPos = -1;
+			}
 		}
 		
 		if(iPos > grid.getHeight()-1){
-			iPos = 0;
+			if(wrapAround){
+				iPos = 0;
+			}
+			else{
+				iPos = -1;
+			}
 		}
 		return iPos;
 	}

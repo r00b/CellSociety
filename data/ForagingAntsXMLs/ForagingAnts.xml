@@ -6,15 +6,15 @@
 		<author>Group 8</author>
 	</info>
 	<parameters>
-		<gridWidth>25</gridWidth>
-		<gridHeight>25</gridHeight>
-		<nestLocationI>14</nestLocationI>
-		<nestLocationJ>16</nestLocationJ>
-		<sourceLocationI>8</sourceLocationI>
-		<sourceLocationJ>2</sourceLocationJ>
-		<maxAnts>1000</maxAnts>
+		<gridWidth>50</gridWidth>
+		<gridHeight>50</gridHeight><sourceLocationI>34</sourceLocationI>
+		<nestLocationI>0</nestLocationI>
+		<nestLocationJ>0</nestLocationJ>
+		
+		<sourceLocationJ>29</sourceLocationJ>
+		<maxAnts>200</maxAnts>
 		<maxAntsPerLocation>10</maxAntsPerLocation>
-		<antLifetime>500</antLifetime>
+		<antLifetime>100</antLifetime>
 		<numAntsAtNest>2</numAntsAtNest>
 		<antsBornPerStep>2</antsBornPerStep>
 		<minPheremone>0.0</minPheremone>

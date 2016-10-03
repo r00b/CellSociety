@@ -2,7 +2,6 @@ package simulations.AntForaging;
 
 import java.util.Random;
 
-import org.omg.CORBA.INITIALIZE;
 
 import simulations.Cell;
 import simulations.Grid;
@@ -25,6 +24,7 @@ public class ForagingAntGrid extends Grid {
 		initializeParameters(xmlFileName);
 		return getCell(i, j, xmlFileName);
 	}
+	
 	
 	private void initializeParameters(String xmlFileName) {
 		myParser = new ForagingAntsXMLParser(xmlFileName);

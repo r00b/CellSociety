@@ -93,7 +93,7 @@ public class GameOfLifeCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		getMyNeighborhood().set_EightNeighbor_Wraparound_Neighborhood(this, grid);
+		getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
 	}
 	
 }
