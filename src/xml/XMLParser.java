@@ -138,4 +138,9 @@ public class XMLParser {
 		return getIntValueByTagName(myXmlTagResources.getString("gridHeightTag"), defaultGridHeight);
 	}
 	
+	public int getNumVertices() {
+		String defaultNumVertices = myDefaultValueResources.getString("defaultNumVerticies");
+		return getIntValueByTagName(myXmlTagResources.getString("numVerticesTag"), defaultNumVertices);
+	}
+	
 }

@@ -32,11 +32,11 @@ public class Fire extends Simulation {
 	 * the grid properly.
 	 */
 	public Fire(String XMLFileName){
+		super(XMLFileName);
 		myParser = new FireXMLParser(XMLFileName);
 		myGrid = new FireGrid(myParser.getGridWidth(),myParser.getGridHeight(),XMLFileName);
 		setGrid(myGrid);
 		setInitialGridState();
-		
 	}
 
 	/**
@@ -97,5 +97,13 @@ public class Fire extends Simulation {
 			}
 			
 		}
+	}
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(FireCell.BURNING, "Burning");
+		myStateMap.put(FireCell.EMPTY, "Empty");
+		myStateMap.put(FireCell.TREE, "Tree");
+		
 	}
 }

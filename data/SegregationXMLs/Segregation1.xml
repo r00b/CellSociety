@@ -8,6 +8,7 @@
 	<parameters>
 		<gridWidth>30</gridWidth>
 		<gridHeight>30</gridHeight>
+		<numVertices>4</numVertices>
 		<satisfaction>40</satisfaction>
 		<percentOne>45</percentOne>
 		<percentTwo>45</percentTwo>

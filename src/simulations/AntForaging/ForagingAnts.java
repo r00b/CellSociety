@@ -1,5 +1,6 @@
 package simulations.AntForaging;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import simulations.Simulation;
@@ -15,6 +16,7 @@ public class ForagingAnts extends Simulation{
 	private String XMLFileName;
 	
 	public ForagingAnts(String XMLFileName){
+		super(XMLFileName);
 		myParser = new ForagingAntsXMLParser(XMLFileName);
 		myGrid = new ForagingAntGrid(myParser.getGridHeight(), myParser.getGridWidth(), XMLFileName);
 		this.XMLFileName = XMLFileName;
@@ -73,6 +75,14 @@ public class ForagingAnts extends Simulation{
 	protected void updateNextStates() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(ForagingAntCell.ANTS, "Ants");
+		myStateMap.put(ForagingAntCell.EMPTY, "Empty");
+		myStateMap.put(ForagingAntCell.FULL, "Full");
+		myStateMap.put(ForagingAntCell.OBSTACLE, "Obstacle");
 	}
 
 }

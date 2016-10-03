@@ -46,6 +46,7 @@ public class Animation {
 	private Simulation mySimulation;
 	private Timeline myTimeline;
 	private GridParser myGridParser;
+	private Graph myGraph;
 	private FileBrowser myFileChooser;
 	// myComboBox is protected because it is instantiated in the SimControls
 	// class when it is created. myComboBox must be available to Animation.java
@@ -115,6 +116,7 @@ public class Animation {
 		setSimulation(simulation, XMLFileName);
 		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot);
 		myGridParser.drawGrid(true); // pass true because this is a new grid
+		myGraph = new Graph(mySimulation, myRoot);
 		myTimeline = new Timeline();
 		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
 		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
@@ -131,6 +133,7 @@ public class Animation {
 		mySimulation.updateGrid(); // calculate new grid
 		// pass false because we are updating an old grid
 		myGridParser.drawGrid(false);
+		myGraph.updateGraph(myGrid);
 	}
 
 	/**

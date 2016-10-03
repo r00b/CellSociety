@@ -25,6 +25,7 @@ public class Wator extends Simulation{
 	private final WatorGrid myGrid;
 	
 	public Wator(String XMLFileName) {
+		super(XMLFileName);
 		myParser = new WatorXMLParser(XMLFileName);
 		myFishBreedTime = myParser.getFishBreedTime();
 		mySharkBreedTime = myParser.getSharkBreedTime();
@@ -217,5 +218,13 @@ public class Wator extends Simulation{
 		sharkCell.setNextStateShark();
 		currShark.markAsFull();
 		tempSharkMap.put(sharkCell, currShark);
+	}
+
+	@Override
+	protected void setStateMap() {
+		myStateMap.put(WatorCell.EMPTY, "Empty");
+		myStateMap.put(WatorCell.FISH, "Prey");
+		myStateMap.put(WatorCell.SHARK, "Predator");
+		
 	}
 }

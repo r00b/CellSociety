@@ -2,10 +2,17 @@ package gui;
 
 import java.util.ResourceBundle;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Robert H. Steilberg II | rhs16
@@ -37,15 +44,20 @@ public class SimControls {
 	 * 
 	 * @return the slider
 	 */
-	private Slider createSlider(SimEvents events) {
+	private VBox createSlider(SimEvents events) {
 		Slider speedSlider = new Slider();
 		speedSlider.setShowTickMarks(true);
-		speedSlider.setLayoutX(Integer.parseInt(myResources.getString("SliderXPos")));
-		speedSlider.setLayoutY(Integer.parseInt(myResources.getString("SliderYPos")));
 		speedSlider.setValue(Integer.parseInt(myResources.getString("SliderDefaultValue")));
 		speedSlider.setOnMouseDragged(e -> events.handleSlider(speedSlider));
 		speedSlider.setOnKeyPressed(e -> events.handleSlider(speedSlider));
-		return speedSlider;
+		Text sliderText = new Text("Speed Slider");
+		VBox sliderBox = new VBox(8);
+		sliderBox.setLayoutX(Integer.parseInt(myResources.getString("SliderXPos")));
+		sliderBox.setLayoutY(Integer.parseInt(myResources.getString("SliderYPos")));
+		sliderBox.getChildren().add(sliderText);
+		sliderBox.getChildren().add(speedSlider);
+		sliderBox.setAlignment(Pos.CENTER);
+		return sliderBox;
 	}
 
 	/**

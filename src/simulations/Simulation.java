@@ -1,5 +1,6 @@
 package simulations;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ public abstract class Simulation {
 	protected static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	protected static final String LANGUAGE = "English";
 	protected Grid myGrid;
+	protected Map<Integer, String> myStateMap;
+
 	public String title;
 	/**
 	 * calculates the next state for each cell and updates the current state
@@ -19,6 +22,10 @@ public abstract class Simulation {
 	 * It depends on the updateNextStates() method and commitStates() method
 	 */
 	
+	public Simulation(String XMLFileName) {
+		myStateMap = new HashMap<Integer, String>();
+		setStateMap();
+	}
 	public void setGrid(Grid grid){
 		myGrid = grid;
 	}
@@ -29,7 +36,12 @@ public abstract class Simulation {
 		commitStates();
 	}
 
-
+	/**
+	 * Initializes the state map
+	 * The keys are the int values of states, the value is the string values of states
+	 */
+	protected abstract void setStateMap();
+	
 	/**
 	 * Initializes the state of cells in the Grid
 	 * The state of the cells is determined by Simulation parameters
@@ -90,5 +102,9 @@ public abstract class Simulation {
 
 	public int getGridHeight(){
 		return myGrid.getHeight();
+	}
+	
+	public Map<Integer, String> getStateMap() {
+		return myStateMap;
 	}
 }
