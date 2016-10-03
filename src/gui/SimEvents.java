@@ -34,7 +34,8 @@ public class SimEvents {
 	 *            is the slider object containing the speed value
 	 */
 	protected void handleSlider(Slider speedSlider) {
-		double framesPerSecond = speedSlider.getValue() / 5;
+		// set MaxSpeed in resource file lower for higher allowed max speed
+		double framesPerSecond = speedSlider.getValue() / Integer.parseInt(myResources.getString("MaxSpeed"));
 		double millisecondDelay = 1000 / framesPerSecond;
 		double secondDelay = 1.0 / framesPerSecond;
 		myTimeline.stop(); // stop the current run

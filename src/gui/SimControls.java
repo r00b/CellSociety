@@ -3,16 +3,12 @@ package gui;
 import java.util.ResourceBundle;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  * @author Robert H. Steilberg II | rhs16
@@ -40,9 +36,9 @@ public class SimControls {
 	}
 
 	/**
-	 * Create a slider to specify the speed of the simulation step
+	 * Create a slider with a label to specify the speed of the simulation step
 	 * 
-	 * @return the slider
+	 * @return a VBox containing the slider along with its label
 	 */
 	private VBox createSlider(SimEvents events) {
 		Slider speedSlider = new Slider();
@@ -52,7 +48,7 @@ public class SimControls {
 		speedSlider.setOnMouseDragged(e -> events.handleSlider(speedSlider));
 		speedSlider.setOnKeyPressed(e -> events.handleSlider(speedSlider));
 		Text sliderText = new Text(myResources.getString("SpeedSliderText"));
-		VBox sliderBox = new VBox(8);
+		VBox sliderBox = new VBox(Integer.parseInt(myResources.getString("SpeedSliderSpacing")));
 		sliderBox.setLayoutX(Integer.parseInt(myResources.getString("SliderXPos")));
 		sliderBox.setLayoutY(Integer.parseInt(myResources.getString("SliderYPos")));
 		sliderBox.getChildren().add(sliderText);
