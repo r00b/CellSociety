@@ -6,11 +6,11 @@
 		<author>Group 8</author>
 		<isToroidal>true</isToroidal>
 	</info>
-	<parameters><gridWidth>50</gridWidth>
+	<parameters>
+		<gridWidth>50</gridWidth>
 		<gridHeight>50</gridHeight><sourceLocationI>34</sourceLocationI>
 		<nestLocationI>0</nestLocationI>
 		<nestLocationJ>0</nestLocationJ>
-		
 		<sourceLocationJ>29</sourceLocationJ>
 		<maxAnts>200</maxAnts><gridWidth>100</gridWidth>
 		<gridHeight>100</gridHeight>
