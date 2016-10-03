@@ -33,32 +33,14 @@ public abstract class Cell {
 		stateToColorMap = new HashMap<>();
 	}
 	
-	protected Color findStateColor(int state) {
-		return stateToColorMap.get(state);
-	}
+	public abstract void setNeighborhood(Grid grid);
 	
 	public abstract void mapStatesToColors();
 	
 	public abstract void setRandomInitialState();
 	
-	/**
-	 * @param next - the State that this cell will be in in the next generation
-	 */
-	protected void setNextState(int next){
-		nextState = next;
-	}
-	
 	public int getNeighborhoodSize(){
 		return myNeighbors.getNeighborhoodSize();
-	}
-	 
-	/**
-	 * @param color is the color of the cells new state. This method updates the current state to the next date,
-	 * should be called once all cells have their next generation state calculated 
-	 */
-	public void commitState(Color color){
-		currentState = nextState;
-		stateColor = color;
 	}
 	
 	/**
@@ -91,10 +73,16 @@ public abstract class Cell {
 		currentState = state;
 		stateColor = color;
 	}
-	
-	protected void updateColorMap(int state, Color color){
-		stateToColorMap.put(state,color);
+	 
+	/**
+	 * @param color is the color of the cells new state. This method updates the current state to the next date,
+	 * should be called once all cells have their next generation state calculated 
+	 */
+	public void commitState(Color color){
+		currentState = nextState;
+		stateColor = color;
 	}
+	
 	/**
 	 * @return the state the cell will be in next generation 
 	 */
@@ -109,11 +97,6 @@ public abstract class Cell {
 		return myPosition;
 	}
 	
-	public abstract void setNeighborhood(Grid grid);
-	
-	protected Neighborhood getMyNeighborhood(){
-		return myNeighbors;
-	}
 	/**
 	 * @return an arraylist of the cells neighboring cells 
 	 */
@@ -121,4 +104,29 @@ public abstract class Cell {
 		 return myNeighbors.iterator();
 	}
 	
+	protected Color findStateColor(int state) {
+		return stateToColorMap.get(state);
+	}
+	
+	/**
+	 * @param next - the State that this cell will be in in the next generation
+	 */
+	protected void setNextState(int next){
+		nextState = next;
+	}
+	
+	/**
+	 * @param state - the state we want to map a color to
+	 * @param color - the color corresponding to the state
+	 */
+	protected void updateColorMap(int state, Color color){
+		stateToColorMap.put(state,color);
+	}
+	
+	/**
+	 * @return the Neighborhood instance variable associated with a given cell 
+	 */
+	protected Neighborhood getMyNeighborhood(){
+		return myNeighbors;
+	}
 }

@@ -5,12 +5,13 @@ import simulations.Grid;
 import xml.ForagingAntsXMLParser;
 
 public class Nest extends ForagingAntCell {
-	private static final int NEST = 0;
+	private static final int NEST = 6;
 	private ForagingAntsXMLParser myParser;
 	
 	public Nest(int i, int j, String XMLFileName) {
 		super(i, j, XMLFileName);
-		// TODO Auto-generated constructor stub
+		myParser = new ForagingAntsXMLParser(XMLFileName);
+		setCurrState(NEST, myParser.getNestColor());
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package simulations;
 
+/**
+ * @author samuelcurtis
+ * This class used to hold a cells location in a grid.
+ *
+ */
 public class Tuple {
 	private final int I;
 	private final int J;

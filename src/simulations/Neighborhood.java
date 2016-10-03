@@ -7,6 +7,14 @@ import java.util.List;
 
 
 
+/**
+ * @author samuelcurtis
+ * 
+ * The neighborhood class is used to store the neighbors of cells. It also contains
+ * all implemented methods for defining neighborhoods, so that cells can simply
+ * call the appropriate method to set their neighbors. 
+ *
+ */
 public class Neighborhood implements Iterable<Cell> {
 	private List<Cell> myNeighbors;
 	
@@ -14,6 +22,9 @@ public class Neighborhood implements Iterable<Cell> {
 		myNeighbors = new ArrayList<Cell>();
 	}
 	
+	/**
+	 * @param neighboringCell is a cell that neighbors the cell calling this method
+	 */
 	public void addNeighbor(Cell neighboringCell){
 		myNeighbors.add(neighboringCell);
 	}
@@ -38,6 +49,13 @@ public class Neighborhood implements Iterable<Cell> {
 		}
 	}
 	
+	/**
+	 * @param currCell is the cell which we are calculating a neighborhood for
+	 * @param grid is the grid on which the cell is located
+	 * The default fire neighborhood definition is that edge cells 
+	 * have no neighbors (since they can never catch on fire) and that 
+	 * each cell has one neighbor to the north, south, east, and west.
+	 */
 	public void setDefaultFireNeighborhood(Cell currCell, Grid grid){
 		if(isEdgeCell(currCell,grid)){
 			return;
@@ -47,6 +65,12 @@ public class Neighborhood implements Iterable<Cell> {
 		}
 	}
 	
+	/**
+	 * @param currCell is the cell which we are calculating a neighborhood for
+	 * @param grid is the grid on which the cell is located
+	 * Defines a neighborhood for a cell in which its neighbors are 
+	 * to the north, east, south, and west. Edge cells have fewer neighbors.
+	 */
 	public void set_FourNeighbor_NoWraparound(Cell currCell, Grid grid){
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
@@ -56,6 +80,12 @@ public class Neighborhood implements Iterable<Cell> {
 		currCell.addNeighbor(grid.getCell(i, j+1));
 	}
 	
+	 /**
+	 * @param currCell is the cell which we are calculating a neighborhood for
+	 * @param grid is the grid on which the cell is located
+	 * Defines a four member neighborhood but edge cells also have four neighbors
+	 * as the grid "wraps around" and connects to itself.
+	 */
 	public void set_FourNeighbor_Wraparound(Cell currCell, Grid grid){
 		int i = currCell.getPosition().getIPos();
 		int j = currCell.getPosition().getJPos();
@@ -64,6 +94,24 @@ public class Neighborhood implements Iterable<Cell> {
 		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, -1,grid)));
 		currCell.addNeighbor(grid.getCell(i, getNeighborJPosition(j, 1,grid)));
 	}
+	
+	/**
+	 * @return the number of neighbors that a cell has
+	 */
+	public int getNeighborhoodSize(){
+		return myNeighbors.size();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 * returns an iterator view of the neighbors collection 
+	 */
+	@Override
+	public Iterator<Cell> iterator() {
+		List<Cell> neighbors = Collections.unmodifiableList(myNeighbors);
+		return neighbors.iterator();
+	}
+	
 	/**
 	 *
 	 * @param j - the j poisition of the current cell for which we are calculating the j position for a given neighbor
@@ -111,15 +159,5 @@ public class Neighborhood implements Iterable<Cell> {
 			return true;
 		}
 		return false;
-	}
-	
-	public int getNeighborhoodSize(){
-		return myNeighbors.size();
-	}
-	
-	@Override
-	public Iterator<Cell> iterator() {
-		List<Cell> neighbors = Collections.unmodifiableList(myNeighbors);
-		return neighbors.iterator();
 	}
 }

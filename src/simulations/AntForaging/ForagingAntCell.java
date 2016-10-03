@@ -53,7 +53,7 @@ public class ForagingAntCell extends Cell {
 	}
 
 	public void setEmpty() {
-		setCurrState(EMPTY, findStateColor(EMPTY));
+		setCurrState(EMPTY, Color.GRAY);
 	}
 	
 }

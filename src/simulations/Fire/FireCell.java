@@ -9,6 +9,14 @@ import simulations.Grid;
 import simulations.GameOfLife.GameOfLifeCell;
 import xml.FireXMLParser;
 
+/**
+ * @author samuelcurtis
+ *Subclass of cell used in the Fire.java simulation. Populates the FireGrid.
+ *FireCells can either be empty, burning, or contain a tree. 
+ *FireCells take a certain number of time steps to burn down depending
+ *on the value given in the XML file. Also, the probability of a tree catching
+ *on fire given that a neighbor is on fire is given by the XML file as well. 
+ */
 public class FireCell extends Cell {
 	private final int EMPTY = 0;
 	private final int BURNING = 1;
@@ -26,9 +34,18 @@ public class FireCell extends Cell {
 		timeLeftToBurn = 0;
 	}
 	
+	/**
+	 * Set the next state of the cell to be empty
+	 */
 	public void setNextStateEmpty(){
 		setNextState(EMPTY);
 	}
+	
+	/**
+	 * Set the next state of the cell to burning. If this is the first time 
+	 * the cell is catching fire, set its timeLeftToBurn to however long 
+	 * the time it takes to burn down is.
+	 */
 	public void setNextStateBurning(){
 		setNextState(BURNING);
 		if(timeLeftToBurn == 0){
@@ -36,27 +53,45 @@ public class FireCell extends Cell {
 		}
 	}
 	
+	/**
+	 * Set the next state of the cell to TREE
+	 */
 	public void setNextStateTree(){
 		setNextState(TREE);
 	}
 	
+	/**
+	 * Set the current state of the cell to EMPTY
+	 */
 	public void setEmpty(){
 		setCurrState(EMPTY, findStateColor(EMPTY));
 	}
 	
+	/**
+	 * Set the current state of the cell to TREE
+	 */
 	public void setTree(){
 		setCurrState(TREE, findStateColor(TREE));
 	}
 	
+	/**
+	 * Set the current state of the cell to BURNING
+	 */
 	public void setBurning(){
 		setCurrState(BURNING, findStateColor(BURNING));
 		timeLeftToBurn = burnTime;
 	}
 	
+	/**
+	 * @return true if the current state of the cell is BURNING, false otherwise 
+	 */
 	public boolean isBurning(){
 		return getCurrState() == BURNING;
 	}
 	
+	/**
+	 * @return true if the current state of the cell is EMPTY, false otherwise 
+	 */
 	public boolean isEmpty(){
 		return getCurrState() == EMPTY;
 	}
@@ -74,6 +109,7 @@ public class FireCell extends Cell {
 		// TODO Auto-generated method stub
 
 	}
+	
 	/**
 	 * @param currCell the cell for which we want to check if it is done burning
 	 * @return A boolean value representing whether or not the cell has finished burning down
@@ -125,6 +161,10 @@ public class FireCell extends Cell {
 		
 	}
 
+	/**
+	 * @return the number of generations that a burning tree still needs to completely
+	 * burn down
+	 */
 	public int getTimeLeftBurning() {
 		return timeLeftToBurn;
 	}
