@@ -3,10 +3,11 @@ package gui.CellShapes;
 import javafx.scene.shape.Polygon;
 
 /**
- * Creates a square out of a new polygon.
+ * @author Robert H. Steilberg II
  * 
- * @author Robert H. Steilberg II | rhs16
- *
+ *         The TriangleCell class creates a triangle out of a JavaFX Polygon for
+ *         drawing into a grid.
+ * 
  */
 public class TriangleCell implements CellShape {
 
@@ -41,7 +42,8 @@ public class TriangleCell implements CellShape {
 	 */
 	public Polygon createShape(Polygon cell, double cellSize, int gridOffset, double x, double y) {
 		double xOffset = (cellSize / 2) * x; // make triangles interleave
-		// corresponds to the left, right, and top/bottom vertices, respectively per x,y pair
+		// corresponds to the left, right, and top/bottom vertices, respectively
+		// per x,y pair
 		double x1, y1, x2, y2, x3, y3;
 		if (x % 2 == 0) {
 			x1 = gridOffset + x * cellSize - xOffset;

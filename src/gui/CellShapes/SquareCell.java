@@ -3,10 +3,11 @@ package gui.CellShapes;
 import javafx.scene.shape.Polygon;
 
 /**
- * Creates a square out of a new polygon.
+ * @author Robert H. Steilberg II
  * 
- * @author Robert H. Steilberg II | rhs16
- *
+ *         The SquareCell class creates a square out of a JavaFX Polygon for
+ *         drawing into a grid.
+ * 
  */
 public class SquareCell implements CellShape {
 
@@ -27,7 +28,8 @@ public class SquareCell implements CellShape {
 	 * @return the correctly positioned and shaped polygon
 	 */
 	public Polygon createShape(Polygon cell, double cellSize, int gridOffset, double x, double y) {
-		// corresponds to top left, top right, bottom right, bottom left
+		// corresponds to top left, top right, bottom right, bottom left,
+		// respectively per x,y pair
 		double x1, y1, x2, y2, x3, y3, x4, y4;
 		x1 = gridOffset + x * cellSize;
 		y1 = gridOffset + y * cellSize;

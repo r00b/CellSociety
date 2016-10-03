@@ -3,10 +3,11 @@ package gui.CellShapes;
 import javafx.scene.shape.Polygon;
 
 /**
- * Creates a hexagon out of a new polygon.
+ * @author Robert H. Steilberg II
  * 
- * @author Robert H. Steilberg II | rhs16
- *
+ *         The HexagonCell class creates a hexagon out of a JavaFX Polygon for
+ *         drawing into a grid.
+ * 
  */
 public class HexagonCell implements CellShape {
 

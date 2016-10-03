@@ -14,9 +14,9 @@ import simulations.*;
  *         Simulation instance is running. This class handles printing the grid
  *         for the first time and updating the grid through each step of the
  *         simulation. This class also accounts for different cell shapes, such
- *         as drawing the grid with traingles or hexagons.
+ *         as drawing the grid with triangles or hexagons.
  *
- *         Dependencies: CellNode.java
+ *         Dependencies: CellNode.java, Graph.java
  */
 public class GridParser {
 	private Simulation mySimulation;

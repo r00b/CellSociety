@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import simulations.Cell;
 import simulations.Grid;
 import simulations.Simulation;
+
 /**
  * The Graph object is used to visualize the populations of each kind of cell over time
  * It is used by the Animation class and adds itself to the root of the Animation object
@@ -54,7 +55,7 @@ public class Graph {
 			graph.getData().add(series);
 		}
 		graph.setLayoutX(750);
-		graph.setLayoutY(150);
+		graph.setLayoutY(130);
 		myRoot.getChildren().add(graph);
 	}
 	
