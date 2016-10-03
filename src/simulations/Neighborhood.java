@@ -36,7 +36,7 @@ public class Neighborhood implements Iterable<Cell> {
 	 * This method calls two helper methods, getNeighborIPosition and getNeighborJposition,
 	 * which assist in the logic of calculating the neighbors of edge cells. 
 	 */
-	public void set_EightNeighbor_Wraparound(Cell currCell, Grid grid) {
+	public void set_EightNeighbor_Wraparound(Cell currCell, Grid grid, boolean wrapAround) {
 		Tuple position = currCell.getPosition();
 		for(int k = -1; k<2; k++){
 			for(int g = -1; g<2; g++){
@@ -96,6 +96,7 @@ public class Neighborhood implements Iterable<Cell> {
 		currCell.addNeighbor(grid.getCell(i, j-1));
 		currCell.addNeighbor(grid.getCell(i, j+1));
 	}
+	
 	
 	 /**
 	 * @param currCell is the cell which we are calculating a neighborhood for

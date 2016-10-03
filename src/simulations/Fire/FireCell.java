@@ -157,6 +157,8 @@ public class FireCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
+		int numVertices = myParser.getNumCellVertices();
+		//if(numVertices == 3 )
 		getMyNeighborhood().setDefaultFireNeighborhood(this, grid);
 		
 	}

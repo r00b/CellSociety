@@ -7,7 +7,7 @@ import simulations.Grid;
 import xml.ForagingAntsXMLParser;
 
 public class Nest extends ForagingAntCell {
-	public static final int NEST = 6;
+	public static final int NEST = 5;
 	private ForagingAntsXMLParser myParser;
 	private int antsLeftToBirth;
 	private int antsBornPerStep;
@@ -52,5 +52,7 @@ public class Nest extends ForagingAntCell {
 	public void setNeighborhood(Grid grid) {
 		getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
 	}
+	
+	
 
 }
