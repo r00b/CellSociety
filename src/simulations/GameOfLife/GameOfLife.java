@@ -1,3 +1,13 @@
+//This entire file is part of my masterpiece.
+//Sam Curtis
+
+//I believe that this class represents good design because it does one job and 
+//does it simply. It sets up an initial grid for the game of life simulation using
+//the methods of the myGrid variable and using methods associated with each cell within
+//the grid. Then, it defines a function for updating the grid, that can be called
+//when necessary. Both methods are well named, simple to understand, and readable.
+//Finally it has a method that maps the states to strings, which are taken from a resource file
+//instead of being hard-coded in. 
 package simulations.GameOfLife;
 
 
@@ -56,20 +66,20 @@ public class GameOfLife extends Simulation {
 				GameOfLifeCell currCell =(GameOfLifeCell) myGrid.getCell(i, j);
 				int numNeighborsAlive = currCell.getNumNeighborsAlive();
 				if (currCell.isDead()) {
-					if (numNeighborsAlive == 3) {
+					if (numNeighborsAlive == 3) { //new cell born
 						currCell.setNextStateAlive();
 
 					}
 					else {
-						currCell.setNextStateDead();
+						currCell.setNextStateDead(); //stays dead
 					}
 				} 
-				else {
-					if (numNeighborsAlive == 2 || numNeighborsAlive == 3) {
+				else { //cell is currently alive
+					if (numNeighborsAlive == 2 || numNeighborsAlive == 3) {//stays alive
 						currCell.setNextStateAlive();
 					} 
 					else {
-						currCell.setNextStateDead();
+						currCell.setNextStateDead(); //dies 
 					}
 				}
 			}
@@ -78,8 +88,8 @@ public class GameOfLife extends Simulation {
 
 	@Override
 	protected void setStateMap() {
-		myStateMap.put(GameOfLifeCell.ALIVE, "Alive");
-		myStateMap.put(GameOfLifeCell.DEAD, "Dead");
+		myStateMap.put(GameOfLifeCell.ALIVE, myResources.getString("AliveState"));
+		myStateMap.put(GameOfLifeCell.DEAD, myResources.getString("DeadState"));
 	}
 	
 }
