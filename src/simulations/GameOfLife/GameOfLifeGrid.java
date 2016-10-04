@@ -1,3 +1,12 @@
+//This entire file is part of my masterpiece.
+//Sam Curtis 
+
+//I believe this code is well designed because it makes smart use of a superclass.
+//This class is a subclass of Grid. The only thing that it needs to do differently 
+//is override the getNewCell method that is called when a grid is created.
+//It needs to do this because getNewCell is an abstract method. Here, since 
+//a game of life grid is composed of Game of Life cells, this method simpy returns
+//a new GameOfLifeCell at the specified (i,j) location within the grid.
 package simulations.GameOfLife;
 
 import simulations.Cell;
