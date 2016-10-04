@@ -73,24 +73,25 @@ public class WatorCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		int numVertices = myParser.getNumCellVertices();
-		boolean isToroidal = myParser.isToroidal();
-		if(numVertices == 3 || numVertices == 8){
-			if(isToroidal){
-				getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
-			}
-			else{
-				getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
-			}
-		}
-		else{
-			if(isToroidal){
-				getMyNeighborhood().set_Six_Neighbor_Wraparound(this, grid);
-			}
-			else{
-				getMyNeighborhood().set_Six_Neighbor_NoWraparound(this, grid);
-			}
-		}
+		getMyNeighborhood().set_FourNeighbor_Wraparound(this, grid);
+//		int numVertices = myParser.getNumCellVertices();
+//		boolean isToroidal = myParser.isToroidal();
+//		if(numVertices == 3 || numVertices == 8){
+//			if(isToroidal){
+//				getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
+//			}
+//			else{
+//				getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
+//			}
+//		}
+//		else{
+//			if(isToroidal){
+//				getMyNeighborhood().set_Six_Neighbor_Wraparound(this, grid);
+//			}
+//			else{
+//				getMyNeighborhood().set_Six_Neighbor_NoWraparound(this, grid);
+//			}
+//		}
 	}
 	
 	
