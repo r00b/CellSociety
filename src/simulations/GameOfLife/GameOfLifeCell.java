@@ -1,3 +1,15 @@
+//This entire file is part of my masterpiece. 
+//Sam Curtis 
+
+//I believe this class is well designed because it is a good usage of inheritance
+//This class is a sub-class of the cell superclass. It overrides the appropriate abstract
+//methods. It also handles logic that is specifically related to a Game of Life cell.
+//For example, these cells can only be in two states, DEAD or ALIVE, so these two 
+//instance variables are included here, but are not included in the superclass,
+//since not all cells will have those as possible states. 
+//This class is also an example of good design because it has a clear purpose 
+//and it sticks to it. This class only contains methods that relate 
+//to the behavior of an individual cell within the Game of Life simulation. 
 package simulations.GameOfLife;
 
 import java.util.Iterator;
@@ -37,7 +49,7 @@ public class GameOfLifeCell extends Cell {
 	 * Set the next state of the cell to ALIVE
 	 */
 	public void setNextStateAlive(){
-		this.setNextState(ALIVE);
+		setNextState(ALIVE);
 	}
 	
 	/**
@@ -49,15 +61,14 @@ public class GameOfLifeCell extends Cell {
 	 *            chosen
 	 */
 	public void setRandomState(int prob_Cell_Alive) {
-		Random random = new Random();
-		int randNum = random.nextInt(101);
+		int randNum = getRandInt_FromZero_ToOneHundred();
 		if (randNum > prob_Cell_Alive) {
 			setCurrState(DEAD, findStateColor(DEAD));
 		} else {
 			setCurrState(ALIVE, findStateColor(ALIVE));;
 		}
 	}
-	
+
 	@Override
 	public void mapStatesToColors() {
 		updateColorMap(DEAD,myParser.getDeadColor());
@@ -93,25 +104,31 @@ public class GameOfLifeCell extends Cell {
 
 	@Override
 	public void setNeighborhood(Grid grid) {
-		int numVertices = myParser.getNumCellVertices();
-		boolean isToroidal = myParser.isToroidal();
-		if(numVertices == 3 || numVertices == 8){
-			if(isToroidal){
-				getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
-			}
-			else{
-				getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
-			}
-		}
-		else{
-			if(isToroidal){
-				getMyNeighborhood().set_Six_Neighbor_Wraparound(this, grid);
-			}
-			else{
-				getMyNeighborhood().set_Six_Neighbor_NoWraparound(this, grid);
-			}
-		}
+		getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
+//		int numVertices = myParser.getNumCellVertices();
+//		boolean isToroidal = myParser.isToroidal();
+//		if(numVertices == 3 || numVertices == 8){
+//			if(isToroidal){
+//				getMyNeighborhood().set_EightNeighbor_Wraparound(this,grid);
+//			}
+//			else{
+//				getMyNeighborhood().set_EightNeighbor_NoWraparound(this, grid);
+//			}
+//		}
+//		else{
+//			if(isToroidal){
+//				getMyNeighborhood().set_Six_Neighbor_Wraparound(this, grid);
+//			}
+//			else{
+//				getMyNeighborhood().set_Six_Neighbor_NoWraparound(this, grid);
+//			}
+//		}
 		
+	}
+	
+	private int getRandInt_FromZero_ToOneHundred() {
+		Random random = new Random();
+		return random.nextInt(101);
 	}
 	
 }
