@@ -18,6 +18,7 @@ import xml.SegregationXMLParser;
  * This class also depends on Grid and Cell to help model the simulation.
  * It assumes that the SegregationXMLParser has specific methods to return
  * @author Aaron Chang
+ * @author Sam Curtis
  *
  */
 public class Segregation extends Simulation{
