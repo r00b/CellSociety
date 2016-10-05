@@ -25,6 +25,11 @@
  * concise and easy to follow, and they make it easy for a future programmer to
  * understand how the program works and then go forward and make changes to the
  * application.
+ * 
+ * This class is a superclass, and it is most clearly extended through the GridParser
+ * and CelLShape classes that add functionality for parsing and rendering the simulation
+ * grid along with its shapes.
+ * 
  */
 
 package gui;
@@ -59,7 +64,8 @@ import xml.XMLParser;
  *         GridParser class. Each grid iteration is drawn via the CellNode class
  *         that creates each cell according to a specified shape and then
  *         returns the cell with the correct state according to the simulation.
- *         The simulation continues until it is stopped by the user.
+ *         The simulation continues until it is stopped by the user. The GUI
+ *         cell state graph is implemented via the Graph subclass.
  * 
  *         Dependencies: SimControls.java, SimEvents.java, CellNode.java,
  *         CellShape.java, GridParser.java, FileBrowser.java, Graph.java
@@ -113,8 +119,7 @@ public class Animation {
 		animation.stop();
 		if (changeXML) {
 			String newXMLFilePath = myFileChooser.getXMLFileName(myComboBox.getValue());
-			if (newXMLFilePath == null) { // user clicked cancel, resume
-											// simulation
+			if (newXMLFilePath == null) { // clicked cancel, resume simulation
 				animation.play();
 				return;
 			} else {
