@@ -13,8 +13,8 @@
    * This was my primary role throughout the entire project. I was responsible for writing the code in the simulations package corresponding  to the Game Of Life Simulation, the Fire simulation,  and the Foraging Ants simulation. I also wrote the code for the superclasses that all simulations inherited or used. I also refactored the code for the Segregation and Wator simulations (originally written by Aaron Chang), to conform with the inheritance hierarchy I had created for the other simulations. I also was responsible for communicating with Robert and Aaron about how the GUI and XML reading components of the program would interact with the simulations logic. 
 2. Robert Steilberg: Implement frontend GUI
 	* My primary role for the project was the entire GUI implementation and how the GUI would interface with the backend (with the exception of the graph, implemented by Aaron). I made design choices regarding the look and feel of the GUI along with the different grid cell shape types, simulation controls, XML error checking, CSS implementations, and interface with the backend. Additionally, I managed all of the event handlers associated with GUI elements that controlled the flow of the program (i.e. through changing simulations, selecting XML files to read in, et cetera) I also implemented the front-end for different cell shapes. Importantly, I wrote the GUI such that it could easily interface with any of the CellSociety simulations through simple method calls carried out in each "step" of the program.
-3. Aarong Chang:
-	* 
+3. Aaron Chang: Implement XML package, some simulations, and graph
+	* My primary role on this project was implementing the XML package, although I took on some other roles as well. For the XML package, I communicated closely with Robert and Sam to determine what information (and in what form) they needed from the XML files. I was responsible for writing all the XML files and XMLParsers. I also implemented Segregation.java (which Sam debugged) and Wator.java. In the last sprint, I added error checking to the XML package and implemented the graph. 
 
 
 ##### Resources Used 
@@ -30,6 +30,8 @@ We use the following resources in the completion of this assignment:
 8. [JavaFX Filechooser](http://docs.oracle.com/javafx/2/ui_controls/file-chooser.htm)
 9. [JavaFX Slider](http://docs.oracle.com/javafx/2/ui_controls/slider.htm)
 10. [Properties and Binding](http://docs.oracle.com/javafx/2/binding/jfxpub-binding.htm)
+11. [JavaFX LineChart](https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI)
+12. [JavaFX XMLParser](https://git.cs.duke.edu/CompSci308_2016Fall/example_xml)
 
 ##### Files Used to Start the Project
 * For the GUI, we used the foundational JavaFX code given at the beginning of the Game assignment as a guide, but didn't copy any of it directly.
@@ -56,13 +58,15 @@ The simulation initializes with the default simulation defined in the English.pr
 	* The Foraging Ants simulation seems to fail at simulating the ants developing an efficient path from the food source back to their nest. It appears that as the simulation progresses, the ants do find the food more efficiently, but they do not seem to find their way back to their nest any more efficiently. However, I did not have enough time to test to what degree this is the case (Sam Curtis). 
 3. Lag
 	* Rendering the graph in the simulation *sometimes* causes for the simulation to increasingly lag as time progresses. This lag, we think, is a product of both large grid dimensions and the JavaFX Graph object. The lag is not present when the graph is not being drawn. We weren't exactly sure how to fix the lag issue without removing the graph.
+4. Percentage of cells in XML files
+	* The XML package implements error checking for bad input values, however, it does not account for the case in which the percentages of cells in the XML files adds up to more than 100.  This will have a minimal effect in most cases, but can sometimes result in a lack of empty cells.
   
 
 ##### Extra features
 * We implemented different grid cell shapes, specified in the XML file. Grids can be made up of squares, triangles, or hexagons, each of which is associated with different neighbor settings (i.e. square and triangle have 8 neighbors, hexagon has 6)
 * We allow for a variety of grid edge types, specified in the XML file. Possible grid edge types include finite and toroidal grid edges.
 * We implemented an additional simulation, Foraging Ants.
-* We implemented error checking with the XML in two forms. A corrupted XML that cannot be read at all throws a GUI error to the user that prompts the user to load in a different XML. An XML with incorrect specifications (i.e. percentages that don't add up to 100, invalid cell states, et cetera) are changed to default values to allow the simulation to initialize.
+* We implemented error checking with the XML in two forms. A corrupted XML that cannot be read at all throws a GUI error to the user that prompts the user to load in a different XML. An XML with incorrect specifications (i.e. invalid cell states, data in wrong format, missing tags, et cetera) are changed to default values to allow the simulation to initialize.
 * We implemented a graph that displays the populations of each cell state. The graph updates in real-time as the simulation progresses.
 * We added a button that allows the user to change the XML file.
 * We added a file browser that allows the user to easily view and choose a desired XML file. The file browser automatically opens up to the directory containing the relevant XML files (i.e. when the current simulation is Game of Life, the file browser will only show Game of Life XML files).
@@ -74,3 +78,5 @@ The simulation initializes with the default simulation defined in the English.pr
 	* I really enjoyed working on the project. In future years, I would stress from the beginning the amount of flexibility that groups are allowed in deciding how to implement any sort of simulations.
 2. Robert Steilberg
 	* I found this project to be more challenging than I expected. It was certainly the most complex and involved Java project that I have ever worked on. Ideally, initial planning before the project began could have been better, so that our code base would be better designed. However, I think our lack in initial planning is more due to our prior inexperience with Java projects as complex as this.
+3. Aaron Chang
+	* I thought the idea for this project was really interesting. It is cool that we could model physical reality using these models.  I also really liked the idea of completing the project in sprints, which gave me a sense of how it is to work in a more professional setting. This is the first time I've collaborated on a project like this, so it was at first a little difficult getting used to working in a group. My biggest issue was that I wanted to work on as much as possible, but I was also afraid of working on something that might break someone else's code. I agree with Sam and Robert's assessment that we could have made a more detailed initial plan.
