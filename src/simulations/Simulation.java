@@ -4,7 +4,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
-
+/**
+ * Superclass for all Simulation objects
+ * This represents the logic of each simulation
+ * The main task of Simulation objects is to calculate the states of each cell in the grid and update the grid accordingly
+ * The Animation class calls getGrid() to retrieve the grid and display it on the screen.
+ * @author Aaron Chang
+ * @author Sam Curtis
+ */
 public abstract class Simulation {
 
 
@@ -121,7 +128,13 @@ public abstract class Simulation {
 		return currCell.getPosition().getIPos() == myGrid.getHeight()/2 && 
 				currCell.getPosition().getJPos() == myGrid.getWidth()/2;
 	}
-	
+	/**
+	 * returns the stateMap of the object
+	 * The stateMap is used to map integer values of states, to string values of states
+	 * It is also helpful in that it holds all state values of a simulation in one object
+	 * This method is called by Graph.java so it can retrieve data about the different states of a simulation
+	 * @return Map<Integer, String> - Map of integer states to string states
+	 */
 	public Map<Integer, String> getStateMap() {
 		return myStateMap;
 	}
