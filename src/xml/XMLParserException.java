@@ -1,17 +1,18 @@
 package xml;
+
 /**
  * The XMLParserException class extends RuntimeExceptions
  * It is used by XMLParser objects
- * @author Aaron Chang
  *
+ * @author Aaron Chang
  */
-public class XMLParserException extends RuntimeException{
+public class XMLParserException extends RuntimeException {
 
-	public XMLParserException(Throwable cause) {
-		super(cause);
-	}
-	
-	public XMLParserException() {
-		super();
-	}
+    public XMLParserException(Throwable cause) {
+        super(cause);
+    }
+
+    public XMLParserException() {
+        super();
+    }
 }

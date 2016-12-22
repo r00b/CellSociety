@@ -8,25 +8,25 @@ import javafx.stage.Stage;
  * Dependencies: Animation.java
  */
 public class Main extends Application {
-	
-	/**  
-	 * Open the window and initiate simulation screen
-	 */
-	@Override
-	public void start(Stage stage) {
-		stage.setResizable(false);
-		Animation simulationGUI = new Animation(stage);
-		stage.setTitle(simulationGUI.getTitle());
-		Scene simulation = simulationGUI.init();
-		stage.setScene(simulation);
-		stage.show();
-	}
-	
-	/**
-	 * Launch the game
-	 */
-	public static void main(String[] args) {
-		launch(args);
-	}
+
+    /**
+     * Open the window and initiate simulation screen
+     */
+    @Override
+    public void start(Stage stage) {
+        stage.setResizable(false);
+        Animation simulationGUI = new Animation(stage);
+        stage.setTitle(simulationGUI.getTitle());
+        Scene simulation = simulationGUI.init();
+        stage.setScene(simulation);
+        stage.show();
+    }
+
+    /**
+     * Launch the game
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }

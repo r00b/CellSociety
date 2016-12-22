@@ -1,40 +1,7 @@
-// This entire file is part of my masterpiece.
-// ROBERT STEILBERG
-
-/**
- * The following commit shows where this code was refactored to become a
- * masterpiece:
- * https://git.cs.duke.edu/CompSci308_2016Fall/cellsociety_team08/commit/4b951896166d498ee277c2465d2cdc4cc6cd05b3
- * 
- * In addition, I have since made a few smaller changes to clean up this class
- * more.
- * 
- * I believe that this code represents my masterpiece because it is clearly
- * organized, concise, abstracts complicated implementation into subclasses, and
- * most importantly maximizes the ease with which the frontend can be interfaced
- * with the backend. See the below docstring for the description of what this
- * class does; in summary, this class handles the creation of the GUI and
- * stepping through the simulation frames. I tried to minimize instance
- * variables, although I was restricted in this sense because I occasionally
- * decided that it was better style to use an instance variable rather than pass
- * a value through 3+ methods. I did use a protected instance variable, but I
- * provide justification for doing so in an in-line comment. I managed to place
- * most constants in the properties file, with the exception of constants needed
- * before the resources package is initialized, or constants needed to actually
- * initialize the resources package. In summation, the methods in this class are
- * concise and easy to follow, and they make it easy for a future programmer to
- * understand how the program works and then go forward and make changes to the
- * application.
- * 
- * This class is a superclass, and it is most clearly extended through the GridParser
- * and CelLShape classes that add functionality for parsing and rendering the simulation
- * grid along with its shapes.
- * 
- */
-
 package gui;
 
 import java.util.ResourceBundle;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -52,7 +19,7 @@ import xml.XMLParser;
 
 /**
  * @author Robert H. Steilberg II | rhs16
- * 
+ *
  *         The Animation class handles the GUI for the program. After creating
  *         the general Scene, the SimControls class is used to populate the
  *         scene with control elements. The SimEvents class adds functionality
@@ -66,153 +33,147 @@ import xml.XMLParser;
  *         returns the cell with the correct state according to the simulation.
  *         The simulation continues until it is stopped by the user. The GUI
  *         cell state graph is implemented via the Graph subclass.
- * 
+ *
  *         Dependencies: SimControls.java, SimEvents.java, CellNode.java,
  *         CellShape.java, GridParser.java, FileBrowser.java, Graph.java
  */
 
 public class Animation {
-	private static final String TITLE = "CellSociety";
-	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private static final String LANGUAGE = "English";
-	private ResourceBundle myResources;
-	private Stage myStage;
-	private Pane myRoot;
-	private Grid myGrid;
-	private Simulation mySimulation;
-	private Timeline myTimeline;
-	private GridParser myGridParser;
-	private Graph myGraph;
-	private FileBrowser myFileChooser;
-	private String myXMLFilePath;
-	// myComboBox is protected because it is instantiated in the SimControls
-	// class when it is created. myComboBox must be available to Animation.java
-	// because its value must be checked each time the user chooses a new
-	// simulation to run. The only way to pass this object back up to the
-	// Animation class is to set it as protected and have the subclass
-	// instantiate it.
-	protected ComboBox<String> myComboBox;
+    private static final String TITLE = "CellSociety";
+    private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+    private static final String LANGUAGE = "English";
+    private ResourceBundle myResources;
+    private Stage myStage;
+    private Pane myRoot;
+    private Grid myGrid;
+    private Simulation mySimulation;
+    private Timeline myTimeline;
+    private GridParser myGridParser;
+    private Graph myGraph;
+    private FileBrowser myFileChooser;
+    private String myXMLFilePath;
+    protected ComboBox<String> myComboBox;
 
-	public Animation(Stage stage) {
-		myStage = stage;
-	}
+    public Animation(Stage stage) {
+        myStage = stage;
+    }
 
-	/**
-	 * Get the window title for the scene
-	 * 
-	 * @return the title as a String
-	 */
-	public String getTitle() {
-		return TITLE;
-	}
+    /**
+     * Get the window title for the scene
+     *
+     * @return the title as a String
+     */
+    public String getTitle() {
+        return TITLE;
+    }
 
-	/**
-	 * Stop the step function, clear the grid, and prepare for a new simulation
-	 * 
-	 * @param animation
-	 *            the current Timeline
-	 * 
-	 * @param changeXML
-	 *            true if there is a new XML file to parse, false otherwise
-	 */
-	protected void resetSimulation(Timeline animation, boolean changeXML) {
-		animation.stop();
-		if (changeXML) {
-			String newXMLFilePath = myFileChooser.getXMLFileName(myComboBox.getValue());
-			if (newXMLFilePath == null) { // clicked cancel, resume simulation
-				animation.play();
-				return;
-			} else {
-				myXMLFilePath = newXMLFilePath;
-			}
-		}
-		myGridParser.clearGrid();
-		myGraph.clearGraph();
-		initStep(myComboBox.getValue(), myXMLFilePath);
-	}
+    /**
+     * Stop the step function, clear the grid, and prepare for a new simulation
+     *
+     * @param animation
+     *            the current Timeline
+     *
+     * @param changeXML
+     *            true if there is a new XML file to parse, false otherwise
+     */
+    protected void resetSimulation(Timeline animation, boolean changeXML) {
+        animation.stop();
+        if (changeXML) {
+            String newXMLFilePath = myFileChooser.getXMLFileName(myComboBox.getValue());
+            if (newXMLFilePath == null) { // clicked cancel, resume simulation
+                animation.play();
+                return;
+            } else {
+                myXMLFilePath = newXMLFilePath;
+            }
+        }
+        myGridParser.clearGrid();
+        myGraph.clearGraph();
+        initStep(myComboBox.getValue(), myXMLFilePath);
+    }
 
-	/**
-	 * Set the simulation to a specified choice
-	 * 
-	 * @param simulation
-	 *            a String corresponding to the desired simulation
-	 * @param XMLFileName
-	 *            a String representing the path to an XML file to initialize
-	 *            the simulation parameters with
-	 */
-	private void setSimulation(String simulation, String XMLFileName) {
-		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
-			mySimulation = new GameOfLife(XMLFileName);
-		}
-		if (simulation.equals(myResources.getString("SegregationSim"))) {
-			mySimulation = new Segregation(XMLFileName);
-		}
-		if (simulation.equals(myResources.getString("WatorSim"))) {
-			mySimulation = new Wator(XMLFileName);
-		}
-		if (simulation.equals(myResources.getString("FireSim"))) {
-			mySimulation = new Fire(XMLFileName);
-		}
-		if (simulation.equals(myResources.getString("ForagingAntsSim"))) {
-			mySimulation = new ForagingAnts(XMLFileName);
-		}
-		myGrid = mySimulation.getGrid();
-	}
+    /**
+     * Set the simulation to a specified choice
+     *
+     * @param simulation
+     *            a String corresponding to the desired simulation
+     * @param XMLFileName
+     *            a String representing the path to an XML file to initialize
+     *            the simulation parameters with
+     */
+    private void setSimulation(String simulation, String XMLFileName) {
+        if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
+            mySimulation = new GameOfLife(XMLFileName);
+        }
+        if (simulation.equals(myResources.getString("SegregationSim"))) {
+            mySimulation = new Segregation(XMLFileName);
+        }
+        if (simulation.equals(myResources.getString("WatorSim"))) {
+            mySimulation = new Wator(XMLFileName);
+        }
+        if (simulation.equals(myResources.getString("FireSim"))) {
+            mySimulation = new Fire(XMLFileName);
+        }
+        if (simulation.equals(myResources.getString("ForagingAntsSim"))) {
+            mySimulation = new ForagingAnts(XMLFileName);
+        }
+        myGrid = mySimulation.getGrid();
+    }
 
-	/**
-	 * Set up variables for the step function and then call the step function
-	 * 
-	 * @param simulation
-	 *            a String specifying which simulation should be loaded
-	 * @param XMLFileName
-	 *            a String representing the path to an XML file to initialize
-	 *            the simulation parameters with
-	 */
-	protected void initStep(String simulation, String XMLFileName) {
-		setSimulation(simulation, XMLFileName);
-		// allows us to get the shape of the cell (i.e. hexagon)
-		XMLParser parser = new XMLParser(XMLFileName);
-		myGraph = new Graph(mySimulation, myRoot);
-		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, parser.getNumCellVertices());
-		myGridParser.drawGrid(true); // pass true because this is a new grid
-		myTimeline = new Timeline();
-		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
-		// pass in millisecond delay and second delay, respectively
-		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
-		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myTimeline.getKeyFrames().add(frame);
-	}
+    /**
+     * Set up variables for the step function and then call the step function
+     *
+     * @param simulation
+     *            a String specifying which simulation should be loaded
+     * @param XMLFileName
+     *            a String representing the path to an XML file to initialize
+     *            the simulation parameters with
+     */
+    protected void initStep(String simulation, String XMLFileName) {
+        setSimulation(simulation, XMLFileName);
+        // allows us to get the shape of the cell (i.e. hexagon)
+        XMLParser parser = new XMLParser(XMLFileName);
+        myGraph = new Graph(mySimulation, myRoot);
+        myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, parser.getNumCellVertices());
+        myGridParser.drawGrid(true); // pass true because this is a new grid
+        myTimeline = new Timeline();
+        int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
+        // pass in millisecond delay and second delay, respectively
+        KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
+        myTimeline.setCycleCount(Timeline.INDEFINITE);
+        myTimeline.getKeyFrames().add(frame);
+    }
 
-	/**
-	 * Step through the simulation and update the grid when necessary
-	 * 
-	 * @param elapsedTime
-	 *            a number corresponding to the second delay for each frame
-	 */
-	protected void step(double elapsedTime) {
-		mySimulation.updateGrid(); // calculate new grid
-		// pass false because we are updating an old grid
-		myGridParser.drawGrid(false);
-		myGraph.updateGraph(myGrid);
-	}
+    /**
+     * Step through the simulation and update the grid when necessary
+     *
+     * @param elapsedTime
+     *            a number corresponding to the second delay for each frame
+     */
+    protected void step(double elapsedTime) {
+        mySimulation.updateGrid(); // calculate new grid
+        // pass false because we are updating an old grid
+        myGridParser.drawGrid(false);
+        myGraph.updateGraph(myGrid);
+    }
 
-	/**
-	 * Initialize the simulation stage by creating GUI elements and ultimately
-	 * calling the actual simulation functions
-	 * 
-	 * @return the scene to be displayed in the window
-	 */
-	public Scene init() {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-		myFileChooser = new FileBrowser(myStage, myResources);
-		myRoot = new Pane();
-		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + myResources.getString("CSS"));
-		myXMLFilePath = myResources.getString("DefaultSimulationPath");
-		initStep(myResources.getString("DefaultSimulation"), myXMLFilePath);
-		SimControls controllers = new SimControls(this, myTimeline, myResources);
-		controllers.addControls(myRoot);
-		Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
-				Integer.parseInt(myResources.getString("WindowHeight")));
-		return simulation;
-	}
+    /**
+     * Initialize the simulation stage by creating GUI elements and ultimately
+     * calling the actual simulation functions
+     *
+     * @return the scene to be displayed in the window
+     */
+    public Scene init() {
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+        myFileChooser = new FileBrowser(myStage, myResources);
+        myRoot = new Pane();
+        myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + myResources.getString("CSS"));
+        myXMLFilePath = myResources.getString("DefaultSimulationPath");
+        initStep(myResources.getString("DefaultSimulation"), myXMLFilePath);
+        SimControls controllers = new SimControls(this, myTimeline, myResources);
+        controllers.addControls(myRoot);
+        Scene simulation = new Scene(myRoot, Integer.parseInt(myResources.getString("WindowWidth")),
+                Integer.parseInt(myResources.getString("WindowHeight")));
+        return simulation;
+    }
 }
