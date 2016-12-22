@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.scene.chart.LineChart;

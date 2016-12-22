@@ -1,8 +1,40 @@
+// This entire file is part of my masterpiece.
+// ROBERT STEILBERG
+
+/**
+ * The following commit shows where this code was refactored to become a
+ * masterpiece:
+ * https://git.cs.duke.edu/CompSci308_2016Fall/cellsociety_team08/commit/4b951896166d498ee277c2465d2cdc4cc6cd05b3
+ * 
+ * In addition, I have since made a few smaller changes to clean up this class
+ * more.
+ * 
+ * I believe that this code represents my masterpiece because it is clearly
+ * organized, concise, abstracts complicated implementation into subclasses, and
+ * most importantly maximizes the ease with which the frontend can be interfaced
+ * with the backend. See the below docstring for the description of what this
+ * class does; in summary, this class handles the creation of the GUI and
+ * stepping through the simulation frames. I tried to minimize instance
+ * variables, although I was restricted in this sense because I occasionally
+ * decided that it was better style to use an instance variable rather than pass
+ * a value through 3+ methods. I did use a protected instance variable, but I
+ * provide justification for doing so in an in-line comment. I managed to place
+ * most constants in the properties file, with the exception of constants needed
+ * before the resources package is initialized, or constants needed to actually
+ * initialize the resources package. In summation, the methods in this class are
+ * concise and easy to follow, and they make it easy for a future programmer to
+ * understand how the program works and then go forward and make changes to the
+ * application.
+ * 
+ * This class is a superclass, and it is most clearly extended through the GridParser
+ * and CelLShape classes that add functionality for parsing and rendering the simulation
+ * grid along with its shapes.
+ * 
+ */
+
 package gui;
 
 import java.util.ResourceBundle;
-
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -32,16 +64,17 @@ import xml.XMLParser;
  *         GridParser class. Each grid iteration is drawn via the CellNode class
  *         that creates each cell according to a specified shape and then
  *         returns the cell with the correct state according to the simulation.
- *         The simulation continues until it is stopped by the user.
+ *         The simulation continues until it is stopped by the user. The GUI
+ *         cell state graph is implemented via the Graph subclass.
  * 
  *         Dependencies: SimControls.java, SimEvents.java, CellNode.java,
- *         GridParser.java, FileBrowser.java, Graph.java
+ *         CellShape.java, GridParser.java, FileBrowser.java, Graph.java
  */
+
 public class Animation {
 	private static final String TITLE = "CellSociety";
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String LANGUAGE = "English";
-	private static final String STYLESHEET = "style.css";
 	private ResourceBundle myResources;
 	private Stage myStage;
 	private Pane myRoot;
@@ -78,12 +111,15 @@ public class Animation {
 	 * 
 	 * @param animation
 	 *            the current Timeline
+	 * 
+	 * @param changeXML
+	 *            true if there is a new XML file to parse, false otherwise
 	 */
 	protected void resetSimulation(Timeline animation, boolean changeXML) {
 		animation.stop();
 		if (changeXML) {
 			String newXMLFilePath = myFileChooser.getXMLFileName(myComboBox.getValue());
-			if (newXMLFilePath == null) {
+			if (newXMLFilePath == null) { // clicked cancel, resume simulation
 				animation.play();
 				return;
 			} else {
@@ -98,8 +134,11 @@ public class Animation {
 	/**
 	 * Set the simulation to a specified choice
 	 * 
-	 * @param sim
+	 * @param simulation
 	 *            a String corresponding to the desired simulation
+	 * @param XMLFileName
+	 *            a String representing the path to an XML file to initialize
+	 *            the simulation parameters with
 	 */
 	private void setSimulation(String simulation, String XMLFileName) {
 		if (simulation.equals(myResources.getString("GameOfLifeSim"))) {
@@ -121,29 +160,34 @@ public class Animation {
 	}
 
 	/**
-	 * Set up variables for the step function
+	 * Set up variables for the step function and then call the step function
 	 * 
 	 * @param simulation
 	 *            a String specifying which simulation should be loaded
+	 * @param XMLFileName
+	 *            a String representing the path to an XML file to initialize
+	 *            the simulation parameters with
 	 */
 	protected void initStep(String simulation, String XMLFileName) {
 		setSimulation(simulation, XMLFileName);
 		// allows us to get the shape of the cell (i.e. hexagon)
-		XMLParser myParser = new XMLParser(XMLFileName);
+		XMLParser parser = new XMLParser(XMLFileName);
 		myGraph = new Graph(mySimulation, myRoot);
-		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, myParser.getNumCellVertices());
+		myGridParser = new GridParser(mySimulation, myGrid, myResources, myRoot, parser.getNumCellVertices());
 		myGridParser.drawGrid(true); // pass true because this is a new grid
 		myTimeline = new Timeline();
 		int framesPerSecond = Integer.parseInt(myResources.getString("DefaultFPS"));
+		// pass in millisecond delay and second delay, respectively
 		KeyFrame frame = new KeyFrame(Duration.millis(1000 / framesPerSecond), e -> step(1.0 / framesPerSecond));
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 	}
 
 	/**
-	 * Step through the simulation
+	 * Step through the simulation and update the grid when necessary
 	 * 
 	 * @param elapsedTime
+	 *            a number corresponding to the second delay for each frame
 	 */
 	protected void step(double elapsedTime) {
 		mySimulation.updateGrid(); // calculate new grid
@@ -153,19 +197,16 @@ public class Animation {
 	}
 
 	/**
-	 * Initialize simulation stage
+	 * Initialize the simulation stage by creating GUI elements and ultimately
+	 * calling the actual simulation functions
 	 * 
-	 * @param width
-	 *            the width of the window
-	 * @param height
-	 *            the height of the window
-	 * @return the scene
+	 * @return the scene to be displayed in the window
 	 */
 	public Scene init() {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 		myFileChooser = new FileBrowser(myStage, myResources);
 		myRoot = new Pane();
-		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+		myRoot.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + myResources.getString("CSS"));
 		myXMLFilePath = myResources.getString("DefaultSimulationPath");
 		initStep(myResources.getString("DefaultSimulation"), myXMLFilePath);
 		SimControls controllers = new SimControls(this, myTimeline, myResources);
